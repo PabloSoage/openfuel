@@ -1,0 +1,70 @@
+name: archive
+
+# Phase 3: one compact snapshot per day of every station's prices, committed to
+# the orphan branch `archive`. See tools/archive/snapshot.py.
+#
+# Open risk: GitHub-hosted runners are outside Spain. If the Ministry's service
+# refuses them, change `runs-on` to a self-hosted runner (e.g. on the home swarm).
+
+on:
+  schedule:
+    - cron: '17 5 * * *'   # about 07:17 in Spain; archives yesterday
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Day to archive, dd-mm-yyyy (default: yesterday, Europe/Madrid)'
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: archive
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check out the archive branch
+        run: |
+          git config --global user.name "PabloSoage"
+          git config --global user.email "p.soage@udc.es"
+          if git ls-remote --exit-code --heads origin archive >/dev/null; then
+            git fetch origin archive:archive
+            git worktree add archive-wt archive
+          else
+            git worktree add --detach archive-wt
+            cd archive-wt
+            git checkout --orphan archive
+            git rm -rf --quiet . || true
+          fi
+
+      - name: Snapshot
+        env:
+          DAY: ${{ github.event.inputs.date }}
+        run: |
+          if [ -n "$DAY" ]; then
+            python tools/archive/snapshot.py --out archive-wt --date "$DAY"
+          else
+            python tools/archive/snapshot.py --out archive-wt
+          fi
+
+      - name: Commit and push
+        working-directory: archive-wt
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing new."
+            exit 0
+          fi
+          git commit --quiet -m "Prices of $(ls -t prices/*/*/*.json.gz | head -1 | xargs basename | cut -d. -f1)"
+          git push origin archive
