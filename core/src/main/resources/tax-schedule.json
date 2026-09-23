@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "updated": "2026-09-23",
+  "territory": "PENINSULA_BALEARES",
+  "unit": "EUR per 1000 litres",
+  "notes": "Excise (Impuesto sobre Hidrocarburos) = tipo general + tipo especial. Categories are epígrafes of Ley 38/1992, art. 50, Tarifa 1.a. Every period cites its legal source. confirmed=false means the rate could not be verified and the app says so.",
+  "periods": [
+    {
+      "from": "2026-01-01",
+      "to": "2026-03-21",
+      "vat": 0.21,
+      "confirmed": false,
+      "source": "Ley 38/1992, art. 50 (BOE-A-1992-28741), consolidated text of 2026-06-30",
+      "note": "Base-law rates. Not verified that nothing changed between 2026-01-01 and RDL 7/2026.",
+      "rates": {
+        "1.2.1": { "general": 431.92, "especial": 72.00 },
+        "1.2.2": { "general": 400.69, "especial": 72.00 },
+        "1.3":   { "general": 307.00, "especial": 72.00 },
+        "1.14":  { "general": 307.00, "especial": 72.00 }
+      }
+    },
+    {
+      "from": "2026-03-22",
+      "to": "2026-05-31",
+      "vat": 0.10,
+      "confirmed": true,
+      "source": "Real Decreto-ley 7/2026, arts. 38 and 42.c (BOE-A-2026-6544), in force 2026-03-22",
+      "note": null,
+      "rates": {
+        "1.2.1": { "general": 307.71, "especial": 51.29 },
+        "1.2.2": { "general": 304.32, "especial": 54.68 },
+        "1.3":   { "general": 267.31, "especial": 62.69 },
+        "1.14":  { "general": 267.31, "especial": 62.69 }
+      }
+    },
+    {
+      "from": "2026-06-01",
+      "to": "2026-06-30",
+      "vat": 0.10,
+      "confirmed": false,
+      "source": "Real Decreto-ley 7/2026, arts. 38.Dos and 42.c (BOE-A-2026-6544)",
+      "note": "June keeps these reduced rates only if the April 2026 CPI of 'carburantes' rose more than 15% year on year; otherwise base-law rates and 21% VAT applied. The INE aggregate was not retrieved.",
+      "rates": {
+        "1.2.1": { "general": 307.71, "especial": 51.29 },
+        "1.2.2": { "general": 304.32, "especial": 54.68 },
+        "1.3":   { "general": 267.31, "especial": 62.69 },
+        "1.14":  { "general": 267.31, "especial": 62.69 }
+      }
+    },
+    {
+      "from": "2026-07-01",
+      "to": "2026-07-31",
+      "vat": 0.21,
+      "confirmed": true,
+      "source": "Real Decreto-ley 18/2026, art. 5 (BOE-A-2026-14112)",
+      "note": null,
+      "rates": {
+        "1.2.1": { "general": 303.35, "especial": 50.57 },
+        "1.2.2": { "general": 273.54, "especial": 49.15 },
+        "1.3":   { "general": 185.50, "especial": 43.50 },
+        "1.14":  { "general": 185.50, "especial": 43.50 }
+      }
+    },
+    {
+      "from": "2026-08-01",
+      "to": "2026-08-31",
+      "vat": 0.21,
+      "confirmed": true,
+      "source": "Real Decreto-ley 18/2026, art. 6 (BOE-A-2026-14112); INE June 2026 annual CPI: diesel 14.1% (IPC291534), petrol 1.3% (IPC291538), both under the 15% threshold",
+      "note": null,
+      "rates": {
+        "1.2.1": { "general": 346.21, "especial": 57.71 },
+        "1.2.2": { "general": 315.92, "especial": 56.77 },
+        "1.3":   { "general": 226.00, "especial": 53.00 },
+        "1.14":  { "general": 226.00, "especial": 53.00 }
+      }
+    },
+    {
+      "from": "2026-09-01",
+      "to": "2026-09-30",
+      "vat": 0.21,
+      "confirmed": true,
+      "source": "Real Decreto-ley 18/2026, art. 7 (BOE-A-2026-14112); INE July 2026 annual CPI: diesel 15.7% (IPC291534, over 15% -> reduced diesel branch), petrol 7.3% and June 1.3% (IPC291538, base branch)",
+      "note": null,
+      "rates": {
+        "1.2.1": { "general": 389.06, "especial": 64.86 },
+        "1.2.2": { "general": 358.31, "especial": 64.38 },
+        "1.3":   { "general": 144.99, "especial": 34.01 },
+        "1.14":  { "general": 144.99, "especial": 34.01 }
+      }
+    },
+    {
+      "from": "2026-10-01",
+      "to": null,
+      "vat": 0.21,
+      "confirmed": false,
+      "source": "Ley 38/1992, art. 50 (BOE-A-1992-28741)",
+      "note": "Base-law rates. No extension of the 2026 temporary regime was known on 2026-09-23.",
+      "rates": {
+        "1.2.1": { "general": 431.92, "especial": 72.00 },
+        "1.2.2": { "general": 400.69, "especial": 72.00 },
+        "1.3":   { "general": 307.00, "especial": 72.00 },
+        "1.14":  { "general": 307.00, "especial": 72.00 }
+      }
+    }
+  ]
+}
