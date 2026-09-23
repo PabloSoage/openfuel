@@ -1,5 +1,16 @@
 # Data
 
+Three data files live in `core/src/main/resources/`, embedded in the app and published
+with the web:
+
+| File | What |
+|---|---|
+| `tax-schedule.json` | Excise and VAT per period, with the legal source of each |
+| `brands.json` | Sign patterns → brand, colours, and a Wikimedia logo where the geoportal has none |
+| `fuel-products.json` | Per brand and fuel: commercial name and additive claims, with source and date |
+
+## Tax schedule
+
 The tax schedule the app uses lives in one place:
 
 ```
@@ -20,3 +31,10 @@ Rules the app enforces before accepting a new copy (`TaxSchedule.parse`):
 `confirmed: false` makes the app say *"the tax rate for this date could not be
 confirmed"* next to the breakdown. Use it whenever a rate depends on something that
 has not been checked.
+
+## Fuel products
+
+Every entry cites the brand page it summarises and the day it was checked. Claims are the
+brand's, in short; keep the wording neutral ("per the brand") and never add a product
+whose page could not be read. `FuelProductsTest` rejects a brand/fuel listed twice, an
+unknown fuel, a non-https source or missing English claims.

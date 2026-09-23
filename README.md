@@ -15,6 +15,10 @@ history of the last days. Offline-first, no keys, no accounts, no trackers.
   all of Spain (12 MB). Brand logos, prices coloured cheap / middle / dear, and where
   labels collide the cheaper station wins.
 - **Station sheet** — every fuel sold, address, opening hours, *Open in Maps*, share.
+- **What the brand says about each fuel** — commercial name (e.g. *Repsol Diesel e+* vs
+  *e+10*, *bp Ultimate*, *Moeve MAX*) and the additive claims the brand makes, each with
+  its source page and the date it was checked. Marketing statements, labelled as such
+  ([`fuel-products.json`](core/src/main/resources/fuel-products.json)).
 - **Tax breakdown** — VAT, *Impuesto sobre Hidrocarburos* and the rest, per litre, with
   the legal source of the rates. 2026 has a temporary, month-by-month regime whose rates
   sometimes depend on CPI thresholds; the schedule is data
@@ -25,21 +29,29 @@ history of the last days. Offline-first, no keys, no accounts, no trackers.
 - **History** — the last 7 / 30 / 90 days of a station, downloaded per province and fuel
   only when you open it (~85 KB per day).
 - **Comparisons** — how many cents per litre of margin a station keeps above the cheapest
-  one nearby (exact: taxes and product cost are the same for both), and how today's price
-  compares with its own recent average.
+  one nearby (exact: taxes and product cost are the same for both), the list of every
+  station in that radius, and how today's price compares with its own recent average.
 - **List view**, favourites, brand filter, English and Spanish.
+- **Web version** with the same features at
+  [pablosoage.github.io/openfuel](https://pablosoage.github.io/openfuel/), no install.
 
 ## Where the data comes from
 
 | Data | Source |
 |---|---|
 | Stations, prices, history | [Ministerio para la Transición Ecológica y el Reto Demográfico](https://sede.minetur.gob.es/es-ES/datosabiertos/catalogo/precios-carburantes), `ServiciosRESTCarburantes` open-data service |
-| Brand logos, discount plans | The backend of [geoportalgasolineras.es](https://geoportalgasolineras.es). Optional: when it fails the app shows a badge and no plans |
+| Brand logos, discount plans | The backend of [geoportalgasolineras.es](https://geoportalgasolineras.es). Optional: when it fails the app says so and keeps what it had |
+| Logos the geoportal lacks | [Wikimedia Commons](https://commons.wikimedia.org) (public domain or CC BY-SA), listed in [`brands.json`](core/src/main/resources/brands.json) |
+| Additive claims | Each brand's own website, linked per product |
 | Tax rates | BOE: Ley 38/1992 art. 50, Real Decreto-ley 7/2026, Real Decreto-ley 18/2026; INE CPI series for the conditional months |
 | Map | © OpenStreetMap contributors, tiles by [OpenFreeMap](https://openfreemap.org), rendered with [MapLibre](https://maplibre.org) |
 
-Nothing proprietary is stored in this repository. Logos are fetched at runtime and kept
-only on the device.
+No logo is stored in the source tree. The app fetches them at runtime and keeps them on
+the device; for the web, which the geoportal does not serve, a weekly job caches them
+with the discount plans on the `enrichment` branch.
+
+The official data has its own mistakes: on 2026-09-23 three stations came at 0,0 and one
+with latitude and longitude swapped. Swapped pairs are put right, the rest are skipped.
 
 ## Building
 
@@ -59,15 +71,17 @@ core/     Kotlin/JVM, no Android: API parsing, brand normalisation, tax schedule
           breakdown, discounts, distances, comparisons. All the unit tests live here.
 android/  Compose + Material 3, Room (offline-first: the UI only reads the database),
           DataStore, MapLibre Native.
-tools/    Resource checker; archive script.
-web/      Browser version (no build step).
+tools/    Resource checker; daily price archive; weekly plans-and-logos enrichment.
+web/      Browser version (no build step): the same data files, logic ported to core.js.
 ```
 
-## Archive
+## Scheduled jobs
 
-A scheduled workflow stores a compact daily snapshot of every station's prices on the
-`archive` branch, so long-term history does not depend on how far back the official
-service goes.
+| Workflow | What | Where |
+|---|---|---|
+| `archive` | Daily compact snapshot of every station's prices, so long-term history does not depend on how far back the official service goes | `archive` branch |
+| `enrich` | Weekly discount plans of every station and one logo per brand, for the web | `enrichment` branch |
+| `pages` | Publishes `web/` with the data files and the enrichment under `data/` | GitHub Pages |
 
 ## License
 
