@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A fuel drop inside a map pin, 108dp adaptive canvas (safe zone 66dp). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,28c-11.6,0 -21,9.4 -21,21c0,15.8 21,33 21,33s21,-17.2 21,-33c0,-11.6 -9.4,-21 -21,-21z" />
+    <path
+        android:fillColor="#B4530A"
+        android:pathData="M54,37c0,0 -9,9.6 -9,15.6c0,5 4,9 9,9s9,-4 9,-9c0,-6 -9,-15.6 -9,-15.6z" />
+</vector>

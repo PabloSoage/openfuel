@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">openfuel</string>
+
+    <!-- Actions -->
+    <string name="action_apply">Apply</string>
+    <string name="action_back">Back</string>
+    <string name="action_brands">Brands</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_change">Change</string>
+    <string name="action_choose_fuel">Choose fuel</string>
+    <string name="action_download">Download</string>
+    <string name="action_favourite">Add to favourites</string>
+    <string name="action_unfavourite">Remove from favourites</string>
+    <string name="action_list">List</string>
+    <string name="action_map">Map</string>
+    <string name="action_open_in_maps">Open in Maps</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="action_show_all">Show all</string>
+
+    <!-- Fuels -->
+    <string name="fuel_goa">Diesel</string>
+    <string name="fuel_goa_premium">Premium diesel</string>
+    <string name="fuel_g95e5">Petrol 95 E5</string>
+    <string name="fuel_g95e10">Petrol 95 E10</string>
+    <string name="fuel_g95e5_premium">Premium petrol 95</string>
+    <string name="fuel_g98e5">Petrol 98 E5</string>
+    <string name="fuel_g98e10">Petrol 98 E10</string>
+    <string name="fuel_biodiesel">Biodiesel</string>
+    <string name="fuel_gob">Agricultural diesel (B)</string>
+    <string name="fuel_glp">LPG (Autogas)</string>
+    <string name="fuel_gnc">Compressed natural gas</string>
+    <string name="fuel_gnl">Liquefied natural gas</string>
+    <string name="fuel_diesel_renovable">Renewable diesel (HVO)</string>
+    <string name="fuel_adblue">AdBlue</string>
+    <string name="fuel_g95e85">Petrol E85</string>
+    <string name="fuel_bioetanol">Bioethanol</string>
+    <string name="fuel_hidrogeno">Hydrogen</string>
+    <string name="fuel_g95e25">Petrol 95 E25</string>
+    <string name="fuel_gasolina_renovable">Renewable petrol</string>
+    <string name="fuel_biogas_gnc">Compressed biogas</string>
+    <string name="fuel_biogas_gnl">Liquefied biogas</string>
+
+    <!-- Status line -->
+    <string name="status_loading">Loading prices…</string>
+    <string name="status_prices_of">Prices of %1$s · %2$s · %3$d stations</string>
+    <string name="status_offline">Offline: showing prices of %1$s</string>
+    <string name="status_error">Could not update: %1$s</string>
+
+    <!-- Station sheet -->
+    <string name="distance_km">%1$s km</string>
+    <string name="station_hours">Hours: %1$s</string>
+    <string name="share_text">%1$s, %2$s\n%4$s: %3$s €/l\n%5$s</string>
+    <string name="section_prices">Prices</string>
+    <string name="price_per_litre">%1$s €/l</string>
+    <string name="effective_price">With %2$s: %1$s €/l</string>
+    <string name="section_breakdown">What a litre of %1$s is made of</string>
+    <string name="breakdown_no_price">This station does not sell the selected fuel.</string>
+    <string name="breakdown_vat">VAT (%1$s)</string>
+    <string name="breakdown_excise">Hydrocarbon excise</string>
+    <string name="breakdown_rest">Product, logistics and margin</string>
+    <string name="breakdown_taxes_total">Taxes: %1$s per litre (%2$s of the price)</string>
+    <string name="breakdown_unconfirmed">The tax rate for this date could not be confirmed.</string>
+    <string name="breakdown_source">Source: %1$s</string>
+    <string name="breakdown_territory">No breakdown in Canarias, Ceuta and Melilla: they have no VAT (IGIC and IPSI instead).</string>
+    <string name="breakdown_product">No breakdown for this fuel: its excise is not charged per litre.</string>
+    <string name="breakdown_no_period">No tax rates on record for this date.</string>
+    <string name="section_compare">Compared with</string>
+    <string name="margin_above_cheapest">%1$s c/l more margin than the cheapest within %2$d km (%3$d stations)</string>
+    <string name="margin_cheapest">The cheapest within %1$d km (%2$d stations compared)</string>
+    <string name="vs_average_below">%1$s c/l below its %2$d-day average</string>
+    <string name="vs_average_above">%1$s c/l above its %2$d-day average</string>
+    <string name="section_discounts">Discount plans at this station</string>
+    <string name="discounts_none">No discount plans published for this station.</string>
+    <string name="discount_percent">%1$s %%</string>
+    <string name="discount_cents">%1$s c/l</string>
+    <string name="discount_not_applied">Shown only: not applied automatically.</string>
+    <string name="section_history">Last %1$d days</string>
+    <string name="history_off">History is off. Turn it on in Settings.</string>
+    <string name="history_none">Not enough days of data yet.</string>
+    <string name="history_max">max %1$s</string>
+    <string name="history_min">min %1$s</string>
+
+    <!-- List -->
+    <string name="sort_price">Price</string>
+    <string name="sort_distance">Distance</string>
+    <string name="filter_favourites">Favourites</string>
+    <string name="list_empty">No stations match these filters.</string>
+    <string name="list_pump_price">pump %1$s</string>
+
+    <!-- Brands -->
+    <string name="brands_title">Brands on the map</string>
+    <string name="brand_independent">Independent</string>
+
+    <!-- Region -->
+    <string name="region_title">Where do you refuel?</string>
+    <string name="region_explain">Only this area is downloaded: a community is under 2 MB, a province well under 1 MB.</string>
+    <string name="region_mode_communities">Communities</string>
+    <string name="region_mode_provinces">Provinces</string>
+    <string name="region_mode_all">All of Spain</string>
+    <string name="region_all_spain">All of Spain</string>
+    <string name="region_all_warning">All of Spain is about 12 MB per update. Better on Wi-Fi.</string>
+
+    <!-- Settings -->
+    <string name="settings_region">Region</string>
+    <string name="settings_history">Price history</string>
+    <string name="settings_history_explain">Downloaded per province and fuel when you open a station, about 85 KB per day the first time.</string>
+    <string name="history_choice_off">Off</string>
+    <string name="days_n">%1$d days</string>
+    <string name="settings_radius">Comparison radius</string>
+    <string name="settings_plans">Discount plans I have</string>
+    <string name="settings_plans_empty">Open a station to see its plans; every plan seen appears here.</string>
+    <string name="settings_brands">Brands</string>
+    <string name="settings_brands_hidden">Hidden brands: %1$d</string>
+    <string name="settings_language">Language</string>
+    <string name="language_system">System</string>
+    <string name="settings_about">About</string>
+    <string name="about_text">openfuel %1$s. Prices from the open data of the Ministerio para la Transición Ecológica y el Reto Demográfico. Logos and discount plans from geoportalgasolineras.es.</string>
+    <string name="about_attribution">Map © OpenStreetMap contributors, tiles by OpenFreeMap, rendered with MapLibre.</string>
+    <string name="about_tax_schedule">Tax schedule version %1$d, updated %2$s.</string>
+</resources>

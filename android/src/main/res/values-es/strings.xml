@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Acciones -->
+    <string name="action_apply">Aplicar</string>
+    <string name="action_back">Atrás</string>
+    <string name="action_brands">Marcas</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_change">Cambiar</string>
+    <string name="action_choose_fuel">Elegir carburante</string>
+    <string name="action_download">Descargar</string>
+    <string name="action_favourite">Añadir a favoritas</string>
+    <string name="action_unfavourite">Quitar de favoritas</string>
+    <string name="action_list">Lista</string>
+    <string name="action_map">Mapa</string>
+    <string name="action_open_in_maps">Abrir en Maps</string>
+    <string name="action_refresh">Actualizar</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_show_all">Mostrar todas</string>
+
+    <!-- Carburantes -->
+    <string name="fuel_goa">Gasóleo A</string>
+    <string name="fuel_goa_premium">Gasóleo premium</string>
+    <string name="fuel_g95e5">Gasolina 95 E5</string>
+    <string name="fuel_g95e10">Gasolina 95 E10</string>
+    <string name="fuel_g95e5_premium">Gasolina 95 premium</string>
+    <string name="fuel_g98e5">Gasolina 98 E5</string>
+    <string name="fuel_g98e10">Gasolina 98 E10</string>
+    <string name="fuel_biodiesel">Biodiésel</string>
+    <string name="fuel_gob">Gasóleo B (agrícola)</string>
+    <string name="fuel_glp">GLP (autogás)</string>
+    <string name="fuel_gnc">Gas natural comprimido</string>
+    <string name="fuel_gnl">Gas natural licuado</string>
+    <string name="fuel_diesel_renovable">Diésel renovable (HVO)</string>
+    <string name="fuel_adblue">AdBlue</string>
+    <string name="fuel_g95e85">Gasolina E85</string>
+    <string name="fuel_bioetanol">Bioetanol</string>
+    <string name="fuel_hidrogeno">Hidrógeno</string>
+    <string name="fuel_g95e25">Gasolina 95 E25</string>
+    <string name="fuel_gasolina_renovable">Gasolina renovable</string>
+    <string name="fuel_biogas_gnc">Biogás comprimido</string>
+    <string name="fuel_biogas_gnl">Biogás licuado</string>
+
+    <!-- Línea de estado -->
+    <string name="status_loading">Cargando precios…</string>
+    <string name="status_prices_of">Precios del %1$s · %2$s · %3$d estaciones</string>
+    <string name="status_offline">Sin conexión: precios del %1$s</string>
+    <string name="status_error">No se pudo actualizar: %1$s</string>
+
+    <!-- Ficha -->
+    <string name="distance_km">%1$s km</string>
+    <string name="station_hours">Horario: %1$s</string>
+    <string name="share_text">%1$s, %2$s\n%4$s: %3$s €/l\n%5$s</string>
+    <string name="section_prices">Precios</string>
+    <string name="price_per_litre">%1$s €/l</string>
+    <string name="effective_price">Con %2$s: %1$s €/l</string>
+    <string name="section_breakdown">De qué está hecho un litro de %1$s</string>
+    <string name="breakdown_no_price">Esta estación no vende el carburante elegido.</string>
+    <string name="breakdown_vat">IVA (%1$s)</string>
+    <string name="breakdown_excise">Impuesto sobre hidrocarburos</string>
+    <string name="breakdown_rest">Producto, logística y margen</string>
+    <string name="breakdown_taxes_total">Impuestos: %1$s por litro (%2$s del precio)</string>
+    <string name="breakdown_unconfirmed">No se ha podido confirmar el tipo impositivo de esta fecha.</string>
+    <string name="breakdown_source">Fuente: %1$s</string>
+    <string name="breakdown_territory">Sin desglose en Canarias, Ceuta y Melilla: no tienen IVA (IGIC e IPSI en su lugar).</string>
+    <string name="breakdown_product">Sin desglose para este carburante: su impuesto no se cobra por litro.</string>
+    <string name="breakdown_no_period">No hay tipos impositivos registrados para esta fecha.</string>
+    <string name="section_compare">Comparada con</string>
+    <string name="margin_above_cheapest">%1$s c/l más de margen que la más barata a %2$d km (%3$d estaciones)</string>
+    <string name="margin_cheapest">La más barata a %1$d km (%2$d estaciones comparadas)</string>
+    <string name="vs_average_below">%1$s c/l por debajo de su media de %2$d días</string>
+    <string name="vs_average_above">%1$s c/l por encima de su media de %2$d días</string>
+    <string name="section_discounts">Planes de descuento de esta estación</string>
+    <string name="discounts_none">Esta estación no tiene planes de descuento publicados.</string>
+    <string name="discount_percent">%1$s %%</string>
+    <string name="discount_cents">%1$s c/l</string>
+    <string name="discount_not_applied">Solo informativo: no se aplica automáticamente.</string>
+    <string name="section_history">Últimos %1$d días</string>
+    <string name="history_off">El histórico está desactivado. Actívalo en Ajustes.</string>
+    <string name="history_none">Todavía no hay suficientes días de datos.</string>
+    <string name="history_max">máx. %1$s</string>
+    <string name="history_min">mín. %1$s</string>
+
+    <!-- Lista -->
+    <string name="sort_price">Precio</string>
+    <string name="sort_distance">Distancia</string>
+    <string name="filter_favourites">Favoritas</string>
+    <string name="list_empty">Ninguna estación cumple estos filtros.</string>
+    <string name="list_pump_price">surtidor %1$s</string>
+
+    <!-- Marcas -->
+    <string name="brands_title">Marcas en el mapa</string>
+    <string name="brand_independent">Independientes</string>
+
+    <!-- Región -->
+    <string name="region_title">¿Dónde repostas?</string>
+    <string name="region_explain">Solo se descarga esta zona: una comunidad ocupa menos de 2 MB y una provincia bastante menos de 1 MB.</string>
+    <string name="region_mode_communities">Comunidades</string>
+    <string name="region_mode_provinces">Provincias</string>
+    <string name="region_mode_all">Toda España</string>
+    <string name="region_all_spain">Toda España</string>
+    <string name="region_all_warning">Toda España son unos 12 MB por actualización. Mejor con wifi.</string>
+
+    <!-- Ajustes -->
+    <string name="settings_region">Región</string>
+    <string name="settings_history">Histórico de precios</string>
+    <string name="settings_history_explain">Se descarga por provincia y carburante al abrir una estación, unos 85 KB por día la primera vez.</string>
+    <string name="history_choice_off">No</string>
+    <string name="days_n">%1$d días</string>
+    <string name="settings_radius">Radio de comparación</string>
+    <string name="settings_plans">Planes de descuento que tengo</string>
+    <string name="settings_plans_empty">Abre una estación para ver sus planes; aquí aparecen todos los que hayas visto.</string>
+    <string name="settings_brands">Marcas</string>
+    <string name="settings_brands_hidden">Marcas ocultas: %1$d</string>
+    <string name="settings_language">Idioma</string>
+    <string name="language_system">Sistema</string>
+    <string name="settings_about">Acerca de</string>
+    <string name="about_text">openfuel %1$s. Precios de los datos abiertos del Ministerio para la Transición Ecológica y el Reto Demográfico. Logos y planes de descuento de geoportalgasolineras.es.</string>
+    <string name="about_attribution">Mapa © colaboradores de OpenStreetMap, teselas de OpenFreeMap, dibujado con MapLibre.</string>
+    <string name="about_tax_schedule">Calendario fiscal versión %1$d, actualizado el %2$s.</string>
+</resources>
