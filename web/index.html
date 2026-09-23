@@ -2,29 +2,79 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>openfuel</title>
-<meta name="description" content="Spanish fuel prices on a map, with a per-litre tax breakdown.">
+<meta name="description" content="Spanish fuel prices on a map: what each litre is made of, and what you actually pay.">
+<meta name="theme-color" content="#b4530a">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css"
+      integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
+<header class="bar">
   <h1>openfuel</h1>
-  <label><span data-i18n="fuel">Fuel</span>
-    <select id="fuel"></select>
-  </label>
-  <label><span data-i18n="region">Region</span>
-    <select id="region"></select>
-  </label>
-  <button id="reload" type="button" data-i18n="reload">Reload</button>
+  <select id="fuel" aria-label="Fuel"></select>
+  <span class="grow"></span>
+  <button id="btn-locate" class="icon" type="button" data-i18n-title="locate">⌖</button>
+  <button id="btn-brands" class="icon" type="button" data-i18n-title="brands">⛃</button>
+  <button id="btn-refresh" class="icon" type="button" data-i18n-title="refresh">⟳</button>
+  <button id="btn-view" class="icon" type="button" data-i18n-title="list">☰</button>
+  <button id="btn-settings" class="icon" type="button" data-i18n-title="settings">⚙</button>
 </header>
+
 <main>
   <div id="map"></div>
+  <section id="list" hidden>
+    <div class="chips">
+      <button type="button" class="chip" data-sort="price" data-i18n="sortPrice">Price</button>
+      <button type="button" class="chip" data-sort="distance" data-i18n="sortDistance">Distance</button>
+      <button type="button" class="chip" id="chip-fav" data-i18n="favourites">Favourites</button>
+    </div>
+    <ol id="list-rows"></ol>
+  </section>
+  <aside id="panel" hidden aria-live="polite"></aside>
   <p id="status" role="status"></p>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.js"></script>
-<script src="app.js"></script>
+
+<dialog id="dlg-region">
+  <form method="dialog">
+    <h2 data-i18n="regionTitle">Where do you refuel?</h2>
+    <p class="muted" data-i18n="regionExplain"></p>
+    <div class="tabs">
+      <label><input type="radio" name="kind" value="ccaa" checked> <span data-i18n="communities">Communities</span></label>
+      <label><input type="radio" name="kind" value="prov"> <span data-i18n="provinces">Provinces</span></label>
+      <label><input type="radio" name="kind" value="all"> <span data-i18n="allSpain">All of Spain</span></label>
+    </div>
+    <div id="region-options" class="options"></div>
+    <menu>
+      <button value="cancel" id="region-cancel" data-i18n="cancel">Cancel</button>
+      <button value="ok" id="region-ok" class="primary" data-i18n="download">Download</button>
+    </menu>
+  </form>
+</dialog>
+
+<dialog id="dlg-brands">
+  <form method="dialog">
+    <h2 data-i18n="brandsTitle">Brands on the map</h2>
+    <div id="brand-options" class="options"></div>
+    <menu>
+      <button value="all" id="brands-all" data-i18n="showAll">Show all</button>
+      <button value="ok" class="primary" data-i18n="apply">Apply</button>
+    </menu>
+  </form>
+</dialog>
+
+<dialog id="dlg-settings">
+  <form method="dialog">
+    <h2 data-i18n="settings">Settings</h2>
+    <div id="settings-body"></div>
+    <menu><button value="ok" class="primary" data-i18n="close">Close</button></menu>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js"
+        integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>
