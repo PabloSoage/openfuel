@@ -1,0 +1,37 @@
+﻿{
+ "Fecha": "20/09/2026 0:00:00",
+ "ListaEESSPrecio": [
+  {
+   "C.P.": "36520",
+   "IDEESS": "773",
+   "Rótulo": "REPSOL",
+   "Latitud": "42,762389",
+   "Longitud (WGS84)": "-8,024778",
+   "PrecioProducto": "1,859",
+   "IDProvincia": "36",
+   "IDCCAA": "12"
+  },
+  {
+   "C.P.": "36616",
+   "IDEESS": "16055",
+   "Rótulo": "PETROPRIX",
+   "Latitud": "42,543917",
+   "Longitud (WGS84)": "-8,704833",
+   "PrecioProducto": "1,799",
+   "IDProvincia": "36",
+   "IDCCAA": "12"
+  },
+  {
+   "C.P.": "36000",
+   "IDEESS": "999",
+   "Rótulo": "X",
+   "Latitud": "42,4",
+   "Longitud (WGS84)": "-8,6",
+   "PrecioProducto": "",
+   "IDProvincia": "36",
+   "IDCCAA": "12"
+  }
+ ],
+ "Nota": "",
+ "ResultadoConsulta": "OK"
+}
