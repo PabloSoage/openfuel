@@ -27,8 +27,9 @@ jobs:
           node-version: 22
       # Seconds, and it fails before any Gradle run would.
       - run: node tools/check-resources.mjs
-      # The embedded tax schedule is also served to installed apps from this repo.
-      - run: node -e "JSON.parse(require('fs').readFileSync('core/src/main/resources/tax-schedule.json','utf8'))"
+      # The embedded data files are also served to installed apps and the web from this repo.
+      - run: for f in core/src/main/resources/*.json; do node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" || exit 1; done
+      - run: node --check web/app.js
 
   android:
     runs-on: ubuntu-latest

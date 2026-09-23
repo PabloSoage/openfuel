@@ -142,10 +142,14 @@ def main():
     with open(price_path, "wb") as raw, gzip.GzipFile(fileobj=raw, mode="wb", mtime=0, filename="") as gz:
         gz.write(payload)
 
-    stations_changed = write_if_changed(
-        os.path.join(args.out, "stations.json"),
-        json.dumps(stations, ensure_ascii=False, sort_keys=True, indent=0) + "\n",
-    )
+    # stations.json describes the stations as they are now: a back-filled old
+    # day (--date) must not roll it back, or the next daily run flips it again.
+    stations_changed = False
+    if not args.date:
+        stations_changed = write_if_changed(
+            os.path.join(args.out, "stations.json"),
+            json.dumps(stations, ensure_ascii=False, sort_keys=True, indent=0) + "\n",
+        )
     write_if_changed(os.path.join(args.out, "README.md"), README)
 
     size = os.path.getsize(price_path)

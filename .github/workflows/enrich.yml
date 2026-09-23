@@ -1,0 +1,61 @@
+name: enrich
+
+# Discount plans and brand logos for the web (the geoportal refuses browsers from
+# other origins). Weekly, into the orphan branch `enrichment`; the pages workflow
+# publishes it under data/. See tools/enrich/enrich.py.
+#
+# Same open risk as archive.yml: if the geoportal refuses runners outside Spain,
+# move `runs-on` to a self-hosted runner.
+
+on:
+  schedule:
+    - cron: '41 3 * * 1'   # Mondays, about 05:41 in Spain
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: enrich
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check out the enrichment branch
+        run: |
+          git config --global user.name "PabloSoage"
+          git config --global user.email "p.soage@udc.es"
+          if git ls-remote --exit-code --heads origin enrichment >/dev/null; then
+            git fetch origin enrichment:enrichment
+            git worktree add enrichment-wt enrichment
+          else
+            git worktree add --detach enrichment-wt
+            cd enrichment-wt
+            git checkout --orphan enrichment
+            git rm -rf --quiet . || true
+          fi
+
+      - name: Plans and logos
+        run: python tools/enrich/enrich.py --out enrichment-wt
+
+      - name: Commit and push
+        working-directory: enrichment-wt
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing new."
+            exit 0
+          fi
+          git commit --quiet -m "Plans and logos of $(date -u +%F)"
+          git push origin enrichment

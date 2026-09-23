@@ -1,6 +1,8 @@
 name: pages
 
-# Phase 5: publishes web/ to GitHub Pages, with the same tax schedule the app uses.
+# Phase 5: publishes web/ to GitHub Pages together with the data the app embeds
+# (tax schedule, brands, fuel products) and, when the enrich workflow has run,
+# the weekly discount plans and logos under data/.
 # Needs Settings → Pages → Source: "GitHub Actions".
 
 on:
@@ -8,8 +10,11 @@ on:
     branches: [main]
     paths:
       - 'web/**'
-      - 'core/src/main/resources/tax-schedule.json'
+      - 'core/src/main/resources/**'
       - '.github/workflows/pages.yml'
+  workflow_run:
+    workflows: [enrich]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -29,7 +34,17 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
-      - run: cp core/src/main/resources/tax-schedule.json web/tax-schedule.json
+        with:
+          ref: main
+      - name: Shared data
+        run: cp core/src/main/resources/tax-schedule.json core/src/main/resources/brands.json core/src/main/resources/fuel-products.json web/
+      - name: Plans and logos (enrichment branch, if it exists)
+        run: |
+          mkdir -p web/data
+          if git ls-remote --exit-code --heads origin enrichment >/dev/null; then
+            git fetch --depth 1 origin enrichment
+            git archive FETCH_HEAD | tar -x -C web/data
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
