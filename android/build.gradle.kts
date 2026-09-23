@@ -44,7 +44,14 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            // Same as Rustify: R8 plus resource shrinking. Most of the weight is
+            // material-icons-extended, of which the app uses a dozen icons.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 

@@ -18,3 +18,11 @@ captures/
 
 # Web (phase 5) local preview artefacts
 web/.cache/
+
+keystore/
+# Everything the signed-release build drops into android/release/
+android/release/*
+!android/release/output-metadata.json
+
+# Python
+__pycache__/

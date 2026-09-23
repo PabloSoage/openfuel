@@ -48,7 +48,8 @@ fun HistoryChart(points: List<PricePoint>, modifier: Modifier) {
             var previousDay: Long? = null
             points.forEach { p ->
                 val d = p.day.toEpochDay()
-                if (previousDay == null || d - previousDay!! > 1) path.moveTo(x(p), y(p.price)) else path.lineTo(x(p), y(p.price))
+                val previous = previousDay
+                if (previous == null || d - previous > 1) path.moveTo(x(p), y(p.price)) else path.lineTo(x(p), y(p.price))
                 previousDay = d
             }
             drawPath(path, line, style = Stroke(width = 2.dp.toPx()))
