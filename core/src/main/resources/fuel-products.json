@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "updated": "2026-09-23",
+  "notes": "What each brand says about its fuels: commercial name and the additive claims it makes, per fuel field of the official API. These are marketing statements, summarised from the linked page on the date given; nothing here is verified, and nothing says a given station actually sells that formulation. A brand/fuel that is missing simply has no researched claim. Shared by the Android app (FuelProducts) and the web.",
+  "baseline": {
+    "en": "Every road petrol and diesel sold in Spain meets EN 228 / EN 590 (Real Decreto 61/2006); brands add their own additive packages on top.",
+    "es": "Toda gasolina y gasóleo de automoción vendido en España cumple EN 228 / EN 590 (Real Decreto 61/2006); cada marca añade encima su propio paquete de aditivos."
+  },
+  "products": [
+    {
+      "brand": "repsol", "fuels": ["GOA"], "name": "Repsol Diesel e+ Neotech", "premium": false,
+      "claims": {
+        "es": ["Fórmula estabilizante que neutraliza los metales que aceleran la oxidación", "Efecto detergente «Keep Clean»", "Protección anticorrosión y frente al agua"],
+        "en": ["Stabilising formula that neutralises the metals that speed up oxidation", "“Keep Clean” detergent effect", "Protection against corrosion and water"]
+      },
+      "source": "https://www.repsol.es/particulares/asesoramiento-consumo/que-es-neotech/", "checked": "2026-09-23"
+    },
+    {
+      "brand": "repsol", "fuels": ["GOA_PREMIUM"], "name": "Repsol Diesel e+10 Neotech", "premium": true,
+      "claims": {
+        "es": ["Fórmula estabilizante patentada contra la oxidación y el envejecimiento prematuro", "Limpieza progresiva de residuos", "Antiespumante, anticorrosión y separación del agua"],
+        "en": ["Patented stabilising formula against oxidation and premature ageing", "Progressive removal of deposits", "Anti-foam, anti-corrosion and water separation"]
+      },
+      "source": "https://www.repsol.es/particulares/asesoramiento-consumo/que-es-neotech/", "checked": "2026-09-23"
+    },
+    {
+      "brand": "repsol", "fuels": ["G95E5", "G95E10"], "name": "Repsol Efitec 95 Neotech", "premium": false,
+      "claims": {
+        "es": ["Efecto «Keep Clean»: evita depósitos en las válvulas de admisión", "Protección anticorrosión del sistema de combustible", "Marcador exclusivo de control de calidad; gasolina de color azul"],
+        "en": ["“Keep Clean” effect: prevents intake-valve deposits", "Anti-corrosion protection of the fuel system", "Exclusive quality-control marker; blue-coloured petrol"]
+      },
+      "source": "https://www.repsol.es/particulares/asesoramiento-consumo/que-es-neotech/", "checked": "2026-09-23"
+    },
+    {
+      "brand": "repsol", "fuels": ["G95E5_PREMIUM"], "name": "Repsol Efitec 95 Premium Fórmula Neotech", "premium": true,
+      "claims": {
+        "es": ["Capacidad extra de limpieza de válvulas e inyectores", "Previene residuos en la cámara de combustión", "Protege frente al agua e inhibe la herrumbre"],
+        "en": ["Extra cleaning of valves and injectors", "Prevents combustion-chamber deposits", "Protects against water and inhibits rust"]
+      },
+      "source": "https://www.repsol.es/content/dam/images-ecommerce/particulares/vehiculos/gasolinaneotech/ficha_producto_Efitec_95Neotech_premium_tcm19-51191.pdf", "checked": "2026-09-23"
+    },
+    {
+      "brand": "repsol", "fuels": ["G98E5", "G98E10"], "name": "Repsol Efitec 98 Neotech", "premium": true,
+      "claims": {
+        "es": ["Fórmula Neotech con efecto «Keep Clean»", "Al minimizar la suciedad, optimiza el consumo"],
+        "en": ["Neotech formula with the “Keep Clean” effect", "By keeping the engine clean, optimises consumption"]
+      },
+      "source": "https://www.repsol.es/particulares/asesoramiento-consumo/que-es-neotech/", "checked": "2026-09-23"
+    },
+    {
+      "brand": "moeve", "fuels": ["GOA_PREMIUM"], "name": "Moeve Diésel MAX (antes Óptima)", "premium": true,
+      "claims": {
+        "es": ["Mejorador del número de cetano para el arranque en frío", "Detergentes que limpian hasta el 80 % de un inyector ya sucio", "Menos consumo y emisiones, según la marca"],
+        "en": ["Cetane improver for cold starts", "Detergents that clean up to 80 % of an already dirty injector", "Lower consumption and emissions, per the brand"]
+      },
+      "source": "https://www.moeve.es/en/utilities/catalogue/high-power-charging-points/optima-fuels", "checked": "2026-09-23"
+    },
+    {
+      "brand": "moeve", "fuels": ["G95E5_PREMIUM"], "name": "Moeve Gasolina MAX 95 (antes Óptima 95)", "premium": true,
+      "claims": {
+        "es": ["Modificador de fricción que reduce las pérdidas de energía", "Detergentes que limpian el sistema de combustible y eliminan depósitos", "«Recupera hasta el 100 % de la potencia», certificado por un laboratorio independiente según la marca"],
+        "en": ["Friction modifier that reduces energy losses", "Detergents that clean the fuel system and remove deposits", "“Recovers up to 100 % of the power”, certified by an independent lab per the brand"]
+      },
+      "source": "https://www.moeve.es/es/utilidades/catalogo/optima", "checked": "2026-09-23"
+    },
+    {
+      "brand": "moeve", "fuels": ["G98E5", "G98E10"], "name": "Moeve Gasolina MAX 98 (antes Óptima 98)", "premium": true,
+      "claims": {
+        "es": ["Mezcla exclusiva de aditivos; recomendada para motores de alta compresión", "Modificador de fricción", "Detergentes que limpian el sistema de combustible"],
+        "en": ["Exclusive additive blend; recommended for high-compression engines", "Friction modifier", "Detergents that clean the fuel system"]
+      },
+      "source": "https://www.moeve.es/es/utilidades/catalogo/optima", "checked": "2026-09-23"
+    },
+    {
+      "brand": "galp", "fuels": ["GOA", "G95E5", "G95E10"], "name": "Galp Evologic", "premium": false,
+      "claims": {
+        "es": ["Aditivos multifuncionales de rendimiento", "Mantiene limpios los sistemas de combustible e inyección y evita la corrosión", "Hasta −5,2 % de consumo en diésel y −3,97 % en gasolina (ensayos CEC, según la marca)"],
+        "en": ["Multifunctional performance additives", "Keeps fuel and injection systems clean and prevents corrosion", "Up to −5.2 % consumption in diesel and −3.97 % in petrol (CEC tests, per the brand)"]
+      },
+      "source": "https://www.galp.com/es/evologic", "checked": "2026-09-23"
+    },
+    {
+      "brand": "galp", "fuels": ["GOA_PREMIUM", "G95E5_PREMIUM", "G98E5", "G98E10"], "name": "Galp Hi-Energy", "premium": true,
+      "claims": {
+        "es": ["Línea premium «aditivada de excelencia»", "Hasta 50 km más por repostaje, según la marca", "Gasolina con octanaje superior"],
+        "en": ["Premium line “with excellent additives”", "Up to 50 km more per fill-up, per the brand", "Petrol with a higher octane rating"]
+      },
+      "source": "https://www.galp.com/es/hi-energy", "checked": "2026-09-23"
+    },
+    {
+      "brand": "bp", "fuels": ["GOA", "G95E5", "G95E10"], "name": "bp con tecnología ACTIVE", "premium": false,
+      "claims": {
+        "es": ["Moléculas ACTIVE que se adhieren a la suciedad de inyectores y válvulas y la arrastran", "Crean una capa protectora que impide que se vuelva a adherir", "Ayudan a proteger la eficiencia y la potencia del motor"],
+        "en": ["ACTIVE molecules that latch onto dirt on injectors and valves and carry it away", "They form a protective layer that stops it sticking again", "Help protect engine efficiency and power"]
+      },
+      "source": "https://www.bp.com/es_es/spain/home/productos-y-servicios/para-su-vehiculo/los-carburantes-bp-con-tecnologia-active.html", "checked": "2026-09-23"
+    },
+    {
+      "brand": "bp", "fuels": ["GOA_PREMIUM", "G95E5_PREMIUM", "G98E5", "G98E10"], "name": "bp Ultimate con tecnología ACTIVE", "premium": true,
+      "claims": {
+        "es": ["El carburante bp que más limpia: empieza a quitar suciedad tras dos depósitos (pruebas internas)", "Hasta 840 km más al año frente a carburantes básicos, según la marca", "Ayuda a restaurar y mantener la potencia del motor"],
+        "en": ["bp's best-cleaning fuel: starts removing dirt after two tankfuls (internal tests)", "Up to 840 km more a year than basic fuels, per the brand", "Helps restore and maintain engine power"]
+      },
+      "source": "https://www.bp.com/es_es/spain/home/productos-y-servicios/para-su-vehiculo/los-carburantes-bp-con-tecnologia-active.html", "checked": "2026-09-23"
+    },
+    {
+      "brand": "shell", "fuels": ["GOA"], "name": "Shell FuelSave Diesel", "premium": false,
+      "claims": {
+        "es": ["Diseñado para una ignición más eficiente", "Combate la acumulación de depósitos en zonas delicadas del motor"],
+        "en": ["Designed for more efficient ignition", "Fights deposit build-up in sensitive engine areas"]
+      },
+      "source": "https://www.shell.es/en-ruta/carburantes-shell/carburantes-shell-fuelsave.html", "checked": "2026-09-23"
+    },
+    {
+      "brand": "shell", "fuels": ["G95E5", "G95E10"], "name": "Shell FuelSave 95", "premium": false,
+      "claims": {
+        "es": ["Detergentes especiales que reducen las pérdidas de energía del motor", "Mantiene limpias las válvulas de admisión"],
+        "en": ["Special detergents that reduce the engine's energy losses", "Keeps intake valves clean"]
+      },
+      "source": "https://www.shell.es/en-ruta/carburantes-shell/carburantes-shell-fuelsave.html", "checked": "2026-09-23"
+    },
+    {
+      "brand": "shell", "fuels": ["GOA_PREMIUM"], "name": "Shell V-Power Diesel", "premium": true,
+      "claims": {
+        "es": ["Diseñado para restaurar y mantener la potencia del motor mediante una protección activa"],
+        "en": ["Designed to restore and maintain engine power through active protection"]
+      },
+      "source": "https://www.shell.es/en-ruta/carburantes-shell/shell-v-power/shell-v-power-diesel.html", "checked": "2026-09-23"
+    },
+    {
+      "brand": "shell", "fuels": ["G98E5", "G98E10", "G95E5_PREMIUM"], "name": "Shell V-Power", "premium": true,
+      "claims": {
+        "es": ["Moléculas reductoras de fricción", "Mantienen la limpieza del motor"],
+        "en": ["Friction-reducing molecules", "Keep the engine clean"]
+      },
+      "source": "https://www.shell.es/en-ruta/carburantes-shell/shell-v-power/shell-v-power-gasolina.html", "checked": "2026-09-23"
+    }
+  ]
+}

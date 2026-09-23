@@ -15,6 +15,8 @@ data class Brand(
     /** Host used for the favicon fallback, or null when not confidently known. */
     val website: String?,
     val independent: Boolean,
+    /** A PNG to use when the geoportal has no logo for the brand (Wikimedia Commons). */
+    val logoUrl: String? = null,
 ) {
     /** Key used by the brand filter: every independent station is one entry. */
     val filterKey: String get() = if (independent) INDEPENDENT_FILTER_KEY else key

@@ -1,6 +1,14 @@
 package com.varuna.openfuel.core.brand
 
 import com.varuna.openfuel.core.model.Brand
+import com.varuna.openfuel.core.parse.array
+import com.varuna.openfuel.core.parse.string
+import com.varuna.openfuel.core.parse.withoutBom
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonObject
 import java.text.Normalizer
 import java.util.Locale
 
@@ -12,8 +20,8 @@ import java.util.Locale
  * no accents, single spaces); the first entry whose pattern matches wins, so
  * order matters. Anything unmatched is an independent station.
  *
- * Websites are only filled in where the host is known with confidence: a wrong
- * host would put someone else's logo on the map. The rest fall back to a badge.
+ * The entries are data (`core/src/main/resources/brands.json`), shared with
+ * the web and the enrichment script so the three classify signs alike.
  */
 class BrandCatalog(private val entries: List<Entry>) {
 
@@ -54,41 +62,40 @@ class BrandCatalog(private val entries: List<Entry>) {
             )
         }
 
-        private fun brand(
-            key: String,
-            name: String,
-            color: Long,
-            initials: String,
-            website: String?,
-            vararg patterns: String,
-            textColor: Long = 0xFFFFFFFF,
-        ) = Entry(
-            Brand(key, name, color, textColor, initials, website, independent = false),
-            patterns.map { Regex(it) },
-        )
+        /** Parses `brands.json`; a malformed entry fails loudly, it is our own file. */
+        fun parse(json: String): BrandCatalog {
+            val root = Json.parseToJsonElement(json.withoutBom()).jsonObject
+            val brands = requireNotNull(root.array("brands")) { "brands missing" }
+            return BrandCatalog(
+                brands.map { element ->
+                    val o = element as JsonObject
+                    fun req(key: String) = requireNotNull(o.string(key)) { "$key missing in $o" }
+                    Entry(
+                        Brand(
+                            key = req("key"),
+                            displayName = req("name"),
+                            color = argb(req("color")),
+                            textColor = argb(req("textColor")),
+                            initials = req("initials"),
+                            website = (o["website"] as? JsonPrimitive)?.contentOrNull,
+                            independent = false,
+                            logoUrl = (o["logoUrl"] as? JsonPrimitive)?.contentOrNull,
+                        ),
+                        requireNotNull(o.array("patterns")) { "patterns missing in $o" }
+                            .map { Regex((it as JsonPrimitive).content) },
+                    )
+                },
+            )
+        }
 
-        val default = BrandCatalog(
-            listOf(
-                // Before REPSOL: some Petronor signs mention Repsol, the group it belongs to.
-                brand("petronor", "Petronor", 0xFF00843D, "PN", "www.petronor.com", "\\bPETRONOR\\b"),
-                brand("repsol", "Repsol", 0xFFFF6A13, "R", "www.repsol.es", "\\bREPSOL\\b", "\\bCAMPSA\\b"),
-                // Cepsa renamed itself Moeve; both signs coexist mid-rebrand.
-                brand("moeve", "Moeve (Cepsa)", 0xFF1D4F91, "M", null, "\\bMOEVE\\b", "\\bCEPSA\\b"),
-                brand("galp", "Galp", 0xFFFF5F00, "G", "www.galp.com", "\\bGALP\\b"),
-                brand("ballenoil", "Ballenoil", 0xFF0069B4, "B", null, "\\bBALLENOIL\\b"),
-                brand("plenergy", "Plenergy", 0xFF00A0DF, "PL", null, "\\bPLENERGY\\b"),
-                brand("shell", "Shell", 0xFFFFD500, "S", "www.shell.es", "\\bSHELL\\b", textColor = 0xFFDD1D21),
-                brand("petroprix", "Petroprix", 0xFFE30613, "PP", null, "\\bPETROPRIX\\b"),
-                brand("bp", "BP", 0xFF009A3E, "BP", "www.bp.com", "\\bBP\\b"),
-                brand("carrefour", "Carrefour", 0xFF004E9F, "C", "www.carrefour.es", "\\bCARREFOUR\\b"),
-                brand("avia", "Avia", 0xFFE3001B, "A", null, "\\bAVIA\\b"),
-                brand("q8", "Q8", 0xFF0055A5, "Q8", null, "\\bQ8\\b"),
-                brand("esclatoil", "Esclatoil", 0xFF00833E, "E", null, "\\bESCLATOIL\\b"),
-                brand("bonarea", "bonÀrea", 0xFF8BC53F, "bA", null, "\\bBON ?AREA\\b"),
-                brand("alcampo", "Alcampo", 0xFFE2001A, "AL", null, "\\bALCAMPO\\b"),
-                brand("eroski", "Eroski", 0xFFE30613, "ER", null, "\\bEROSKI\\b"),
-                brand("disa", "DISA", 0xFF003E7E, "D", null, "\\bDISA\\b"),
-            ),
-        )
+        /** "#RRGGBB" → opaque ARGB. */
+        private fun argb(hex: String): Long = 0xFF000000 or hex.removePrefix("#").toLong(16)
+
+        val default: BrandCatalog by lazy {
+            val text = BrandCatalog::class.java.getResourceAsStream("/brands.json")
+                ?.use { it.readBytes().toString(Charsets.UTF_8) }
+                ?: throw IllegalStateException("brands.json missing from :core resources")
+            parse(text)
+        }
     }
 }

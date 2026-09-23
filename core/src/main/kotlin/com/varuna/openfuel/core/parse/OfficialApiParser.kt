@@ -60,6 +60,22 @@ object OfficialApiParser {
         }
     }
 
+    /**
+     * Coordinates checked against Spain (Canarias included). On 2026-09-23 the
+     * national list had three stations at 0,0 and one (Tui) with latitude and
+     * longitude swapped, which drew it in Tanzania and made the map frame the
+     * world. Swapped pairs are put right; anything else outside is dropped.
+     */
+    fun coordinates(lat: Double?, lon: Double?): Pair<Double, Double>? {
+        if (lat == null || lon == null) return null
+        fun inSpain(la: Double, lo: Double) = la in 27.0..44.5 && lo in -19.0..5.0
+        return when {
+            inSpain(lat, lon) -> lat to lon
+            inSpain(lon, lat) -> lon to lat
+            else -> null
+        }
+    }
+
     fun parseFecha(raw: String?): LocalDateTime? =
         raw?.trim()?.takeIf { it.isNotEmpty() }?.let { runCatching { LocalDateTime.parse(it, FECHA) }.getOrNull() }
 
@@ -76,8 +92,9 @@ object OfficialApiParser {
 
     private fun readStation(o: JsonObject, catalog: BrandCatalog): Station {
         val id = requireNotNull(o.string("IDEESS")?.trim()?.takeIf { it.isNotEmpty() }) { "IDEESS" }
-        val lat = requireNotNull(SpanishNumbers.parseOrNull(o.string("Latitud"))) { "Latitud" }
-        val lon = requireNotNull(SpanishNumbers.parseOrNull(o.string("Longitud (WGS84)"))) { "Longitud" }
+        val (lat, lon) = requireNotNull(
+            coordinates(SpanishNumbers.parseOrNull(o.string("Latitud")), SpanishNumbers.parseOrNull(o.string("Longitud (WGS84)"))),
+        ) { "coordinates" }
         val prices = buildMap {
             for (fuel in Fuel.entries) {
                 val price = SpanishNumbers.parseOrNull(o.string(fuel.apiField)) ?: continue

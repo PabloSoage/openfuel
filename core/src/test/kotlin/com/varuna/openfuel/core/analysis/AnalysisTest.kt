@@ -34,6 +34,16 @@ class AnalysisTest {
         assertEquals("t", r.cheapest.id)
     }
 
+    @Test fun `nearby lists the stations in the radius, cheapest first, the target included`() {
+        val target = station("t", 1.90)
+        val cheap = station("a", 1.80, lat = 42.51)
+        val far = station("far", 1.50, lat = 43.5)
+        val noPrice = station("n", 1.70, lat = 42.52)
+        val list = Nearby.around(target, 10.0, listOf(target, cheap, far, noPrice)) { if (it.id == "n") null else it.prices[Fuel.GOA] }
+        assertEquals(listOf("a", "t"), list.map { it.station.id })
+        assertEquals(0.0, list.last().distanceKm, 0.0)
+    }
+
     @Test fun `no breakdown, no comparison`() {
         val canarias = station("c", 1.3, ccaa = "05")
         assertNull(RelativeMargin.compute(canarias, Fuel.GOA, listOf(canarias), 10.0, day, schedule))

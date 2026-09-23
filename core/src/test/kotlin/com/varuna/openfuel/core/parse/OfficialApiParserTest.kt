@@ -17,6 +17,13 @@ class OfficialApiParserTest {
         assertEquals(2, snapshot.stations.size)
     }
 
+    @Test fun `coordinates outside Spain are repaired when swapped and dropped otherwise`() {
+        // Tui (16268) came with lat/lon swapped on 2026-09-23; three stations came at 0,0.
+        assertEquals(42.037472 to -8.659472, OfficialApiParser.coordinates(-8.659472, 42.037472))
+        assertEquals(null, OfficialApiParser.coordinates(0.0, 0.0))
+        assertEquals(28.1 to -15.4, OfficialApiParser.coordinates(28.1, -15.4)) // Canarias stays
+    }
+
     @Test fun `a station without coordinates is skipped and counted`() {
         assertEquals(1, snapshot.skipped)
         assertFalse(snapshot.stations.any { it.id == "9999" })

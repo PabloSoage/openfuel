@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "updated": "2026-09-23",
+  "notes": "logoUrl is a fallback when the geoportal has no logo for the brand: a PNG on Wikimedia Commons (public domain or CC BY-SA, served with CORS so the web can use it too). Turns the free-text Rótulo of the official API into a brand. Patterns are matched against the normalised sign (NFD without combining marks, upper case, single spaces); the first brand with a matching pattern wins, so order matters. A website is only set where the host is known with confidence: a wrong host would put someone else's logo on the map. Shared by the Android app (BrandCatalog), the web (app.js) and tools/enrich/enrich.py.",
+  "brands": [
+    { "key": "petronor", "name": "Petronor", "color": "#00843D", "textColor": "#FFFFFF", "initials": "PN", "website": "www.petronor.com", "patterns": ["\\bPETRONOR\\b"], "comment": "Before REPSOL: some Petronor signs mention Repsol, the group it belongs to." },
+    { "key": "repsol", "name": "Repsol", "color": "#FF6A13", "textColor": "#FFFFFF", "initials": "R", "website": "www.repsol.es", "patterns": ["\\bREPSOL\\b", "\\bCAMPSA\\b"] },
+    { "key": "moeve", "name": "Moeve (Cepsa)", "color": "#1D4F91", "textColor": "#FFFFFF", "initials": "M", "website": null, "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Moeve_logo.svg/330px-Moeve_logo.svg.png", "patterns": ["\\bMOEVE\\b", "\\bCEPSA\\b"], "comment": "Cepsa renamed itself Moeve; both signs coexist mid-rebrand." },
+    { "key": "galp", "name": "Galp", "color": "#FF5F00", "textColor": "#FFFFFF", "initials": "G", "website": "www.galp.com", "patterns": ["\\bGALP\\b"] },
+    { "key": "ballenoil", "name": "Ballenoil", "color": "#0069B4", "textColor": "#FFFFFF", "initials": "B", "website": null, "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Logo_Ballenoil.svg/330px-Logo_Ballenoil.svg.png", "patterns": ["\\bBALLENOIL\\b"] },
+    { "key": "plenergy", "name": "Plenergy", "color": "#00A0DF", "textColor": "#FFFFFF", "initials": "PL", "website": null, "patterns": ["\\bPLENERGY\\b"] },
+    { "key": "shell", "name": "Shell", "color": "#FFD500", "textColor": "#DD1D21", "initials": "S", "website": "www.shell.es", "patterns": ["\\bSHELL\\b"] },
+    { "key": "petroprix", "name": "Petroprix", "color": "#E30613", "textColor": "#FFFFFF", "initials": "PP", "website": null, "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Logo_Petroprix.svg/330px-Logo_Petroprix.svg.png", "patterns": ["\\bPETROPRIX\\b"] },
+    { "key": "bp", "name": "BP", "color": "#009A3E", "textColor": "#FFFFFF", "initials": "BP", "website": "www.bp.com", "patterns": ["\\bBP\\b"] },
+    { "key": "carrefour", "name": "Carrefour", "color": "#004E9F", "textColor": "#FFFFFF", "initials": "C", "website": "www.carrefour.es", "patterns": ["\\bCARREFOUR\\b"] },
+    { "key": "avia", "name": "Avia", "color": "#E3001B", "textColor": "#FFFFFF", "initials": "A", "website": null, "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/AVIA_International_logo.svg/330px-AVIA_International_logo.svg.png", "patterns": ["\\bAVIA\\b"] },
+    { "key": "q8", "name": "Q8", "color": "#0055A5", "textColor": "#FFFFFF", "initials": "Q8", "website": null, "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Q8_logo.svg/330px-Q8_logo.svg.png", "patterns": ["\\bQ8\\b"] },
+    { "key": "esclatoil", "name": "Esclatoil", "color": "#00833E", "textColor": "#FFFFFF", "initials": "E", "website": null, "patterns": ["\\bESCLATOIL\\b"] },
+    { "key": "bonarea", "name": "bonÀrea", "color": "#8BC53F", "textColor": "#FFFFFF", "initials": "bA", "website": null, "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/9/97/Logo-bonarea-agrupa.png", "patterns": ["\\bBON ?AREA\\b"] },
+    { "key": "alcampo", "name": "Alcampo", "color": "#E2001A", "textColor": "#FFFFFF", "initials": "AL", "website": null, "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Alcampo.png/330px-Alcampo.png", "patterns": ["\\bALCAMPO\\b"] },
+    { "key": "eroski", "name": "Eroski", "color": "#E30613", "textColor": "#FFFFFF", "initials": "ER", "website": null, "logoUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Eroski_logo.svg/330px-Eroski_logo.svg.png", "patterns": ["\\bEROSKI\\b"] },
+    { "key": "disa", "name": "DISA", "color": "#003E7E", "textColor": "#FFFFFF", "initials": "D", "website": null, "patterns": ["\\bDISA\\b"] }
+  ]
+}
