@@ -47,7 +47,7 @@
     <string name="status_loading">Loading prices…</string>
     <string name="status_prices_of">Prices of %1$s · %2$s · %3$d stations</string>
     <string name="status_offline">Offline: showing prices of %1$s</string>
-    <string name="status_error">Could not update: %1$s</string>
+    <string name="status_error">Could not update the prices.</string>
 
     <!-- Station sheet -->
     <string name="distance_km">%1$s km</string>
@@ -74,6 +74,17 @@
     <string name="vs_average_above">%1$s c/l above its %2$d-day average</string>
     <string name="section_discounts">Discount plans at this station</string>
     <string name="discounts_none">No discount plans published for this station.</string>
+    <string name="discounts_failed">Could not load the discount plans (geoportalgasolineras.es did not answer).</string>
+    <string name="action_retry">Retry</string>
+    <string name="nearby_show">See the %1$d stations within %2$d km</string>
+    <string name="nearby_hide">Hide the list</string>
+    <string name="nearby_this">this one</string>
+    <string name="nearby_same">same price</string>
+    <string name="nearby_delta">+%1$s c/l</string>
+    <string name="product_claims_note">What the brand says, not verified · checked %1$s</string>
+    <string name="product_source">Source</string>
+    <string name="product_premium">premium</string>
+    <string name="product_none">No additive claims researched for this brand.</string>
     <string name="discount_percent">%1$s %%</string>
     <string name="discount_cents">%1$s c/l</string>
     <string name="discount_not_applied">Shown only: not applied automatically.</string>

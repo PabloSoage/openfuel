@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import com.varuna.openfuel.BuildConfig
 import com.varuna.openfuel.R
+import com.varuna.openfuel.core.discount.DiscountKind
 import com.varuna.openfuel.data.SettingsStore
 import com.varuna.openfuel.ui.MainViewModel
 import com.varuna.openfuel.ui.RegionNames
@@ -100,7 +101,7 @@ fun SettingsScreen(ui: UiState, vm: MainViewModel, onBack: () -> Unit) {
                             Checkbox(
                                 checked = plan.id in settings.ownedPlans,
                                 onCheckedChange = { vm.setPlanOwned(plan.id, it) },
-                                enabled = plan.appliesToEveryone,
+                                enabled = plan.appliesToEveryone && plan.kind != DiscountKind.OTHER,
                             )
                             Text(plan.name, style = MaterialTheme.typography.bodyMedium)
                         }

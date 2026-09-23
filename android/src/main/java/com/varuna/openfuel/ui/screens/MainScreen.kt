@@ -58,15 +58,16 @@ fun MainScreen(vm: MainViewModel) {
     val detail by vm.detail.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    val permissions = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-        DeviceLocation.lastKnown(context)?.let { vm.setLocation(it.latitude, it.longitude) }
+    var permissionGranted by remember { mutableStateOf(false) }
+    val permissions = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+        permissionGranted = result.values.any { it }
     }
+    val hadPermission = remember { DeviceLocation.hasPermission(context) }
     LaunchedEffect(Unit) {
-        if (DeviceLocation.hasPermission(context)) {
-            DeviceLocation.lastKnown(context)?.let { vm.setLocation(it.latitude, it.longitude) }
-        } else {
-            permissions.launch(DeviceLocation.PERMISSIONS)
-        }
+        if (!DeviceLocation.hasPermission(context)) permissions.launch(DeviceLocation.PERMISSIONS)
+    }
+    LaunchedEffect(hadPermission || permissionGranted) {
+        if (hadPermission || permissionGranted) DeviceLocation.current(context)?.let { vm.setLocation(it.latitude, it.longitude) }
     }
 
     val settings = ui.settings
@@ -127,6 +128,7 @@ fun MainScreen(vm: MainViewModel) {
                     rows = ui.rows,
                     logos = ui.logos,
                     location = ui.location,
+                    frameKey = settings.region,
                     onStationClick = { vm.openStation(it) },
                 )
             }
@@ -172,16 +174,16 @@ private fun StatusLine(ui: UiState, modifier: Modifier) {
     val settings = ui.settings ?: return
     val region = settings.region?.let { RegionNames.summary(it, stringResource(R.string.region_all_spain)) }.orEmpty()
     val text = when {
-        ui.error != null && settings.publishedAt != null ->
+        ui.refreshFailed && settings.publishedAt != null ->
             stringResource(R.string.status_offline, settings.publishedAt)
-        ui.error != null -> stringResource(R.string.status_error, ui.error)
+        ui.refreshFailed -> stringResource(R.string.status_error)
         settings.publishedAt != null ->
             stringResource(R.string.status_prices_of, settings.publishedAt, region, ui.rows.size)
         else -> stringResource(R.string.status_loading)
     }
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = if (ui.error != null) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surface.copy(alpha = 0.92f),
+        color = if (ui.refreshFailed) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surface.copy(alpha = 0.92f),
         tonalElevation = 2.dp,
     ) {
         Text(text, style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))

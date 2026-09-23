@@ -98,7 +98,9 @@ class OpenFuelRepository(
                 missing.map { day ->
                     async {
                         gate.withPermit {
-                            runCatching { official.historyPrices(day, provinceId, fuel) }.getOrNull()?.let { prices ->
+                            // An empty answer (a day not published yet) is not recorded as
+                            // fetched, so it is asked for again next time.
+                            runCatching { official.historyPrices(day, provinceId, fuel) }.getOrNull()?.takeIf { it.isNotEmpty() }?.let { prices ->
                                 db.prices().insertHistory(
                                     prices.map { (id, price) -> HistoryPriceEntity(id, fuel.name, day.toEpochDay(), price) },
                                 )
@@ -123,26 +125,43 @@ class OpenFuelRepository(
             past + listOfNotNull(now)
         }
 
-    /** Plans of one station, from cache when fetched in the last 7 days. */
-    suspend fun plansFor(stationId: String, force: Boolean = false): List<DiscountPlan> = withContext(Dispatchers.IO) {
+    /**
+     * Plans of one station: the cached ones straight away when fresh (7 days),
+     * otherwise a request to the geoportal. [PlansResult.failed] tells "the
+     * geoportal did not answer" apart from "this station publishes none".
+     */
+    suspend fun plansFor(stationId: String, force: Boolean = false): PlansResult = withContext(Dispatchers.IO) {
         val fetchedAt = db.plans().fetchedAt(stationId)
         val fresh = fetchedAt != null && System.currentTimeMillis() - fetchedAt < PLANS_TTL_MS
-        if (force || !fresh) fetchPlans(stationId)
-        db.plans().plansFor(stationId).map { it.toPlan() }
+        val failed = if (force || !fresh) {
+            val plans = geoportal.plans(stationId)
+            if (plans != null) storePlans(listOf(stationId to plans))
+            plans == null && fetchedAt == null
+        } else {
+            false
+        }
+        PlansResult(db.plans().plansFor(stationId).map { it.toPlan() }, failed)
     }
 
-    /** Background fill for ranking by effective price; only worth it if the user owns a plan. */
+    /**
+     * Background fill for ranking by effective price, only worth it if the user
+     * owns a plan. Capped at [PREFETCH_MAX] stations (the caller passes them
+     * nearest or cheapest first) so a whole-Spain region never turns into
+     * thousands of requests to an undocumented service. Written in batches:
+     * every write re-emits the map's flows.
+     */
     suspend fun prefetchPlans(stationIds: List<String>): Unit = withContext(Dispatchers.IO) {
+        val now = System.currentTimeMillis()
+        val due = stationIds.take(PREFETCH_MAX).filter { id ->
+            val fetchedAt = db.plans().fetchedAt(id)
+            fetchedAt == null || now - fetchedAt >= PLANS_TTL_MS
+        }
         val gate = Semaphore(PARALLEL_REQUESTS)
-        coroutineScope {
-            stationIds.map { id ->
-                async {
-                    gate.withPermit {
-                        val fetchedAt = db.plans().fetchedAt(id)
-                        if (fetchedAt == null || System.currentTimeMillis() - fetchedAt >= PLANS_TTL_MS) fetchPlans(id)
-                    }
-                }
-            }.awaitAll()
+        for (batch in due.chunked(PREFETCH_BATCH)) {
+            val results = coroutineScope {
+                batch.map { id -> async { gate.withPermit { geoportal.plans(id)?.let { id to it } } } }.awaitAll().filterNotNull()
+            }
+            if (results.isNotEmpty()) storePlans(results)
         }
     }
 
@@ -151,21 +170,27 @@ class OpenFuelRepository(
         else db.favourites().remove(stationId)
     }
 
-    private suspend fun fetchPlans(stationId: String) {
-        val plans = geoportal.plans(stationId) ?: return // failure: keep whatever is cached
+    private suspend fun storePlans(results: List<Pair<String, List<DiscountPlan>>>) {
+        val now = System.currentTimeMillis()
         db.withTransaction {
-            db.plans().upsertPlans(plans.map { it.toEntity() })
-            db.plans().clearStation(stationId)
-            db.plans().insertStationPlans(plans.map { StationPlanEntity(stationId, it.id) })
-            db.plans().markFetched(StationPlansFetchEntity(stationId, System.currentTimeMillis()))
+            db.plans().upsertPlans(results.flatMap { (_, plans) -> plans.map { it.toEntity() } }.distinctBy { it.id })
+            for ((stationId, plans) in results) {
+                db.plans().clearStation(stationId)
+                db.plans().insertStationPlans(plans.map { StationPlanEntity(stationId, it.id) })
+                db.plans().markFetched(StationPlansFetchEntity(stationId, now))
+            }
         }
     }
 
     data class RefreshOutcome(val stations: Int, val skipped: Int, val publishedAt: LocalDateTime?)
 
+    data class PlansResult(val plans: List<DiscountPlan>, val failed: Boolean)
+
     private companion object {
         const val PARALLEL_REQUESTS = 4
         const val PLANS_TTL_MS = 7L * 24 * 60 * 60 * 1000
+        const val PREFETCH_MAX = 150
+        const val PREFETCH_BATCH = 20
         val FECHA_OUT: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM HH:mm")
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -51,7 +52,8 @@ fun RegionPicker(initial: RegionSelection?, onConfirm: (RegionSelection) -> Unit
     var provinces by remember { mutableStateOf((initial as? RegionSelection.Provinces)?.ids ?: emptySet()) }
 
     Surface(Modifier.fillMaxSize()) {
-        Column(Modifier.fillMaxSize().padding(16.dp)) {
+        // Edge-to-edge: keep the title off the status bar and the button off the gesture bar.
+        Column(Modifier.fillMaxSize().safeDrawingPadding().padding(16.dp)) {
             Text(stringResource(R.string.region_title), style = MaterialTheme.typography.headlineSmall)
             Text(stringResource(R.string.region_explain), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 8.dp))
             ModeRow(mode == Mode.COMMUNITIES, stringResource(R.string.region_mode_communities)) { mode = Mode.COMMUNITIES }

@@ -33,18 +33,21 @@ data class UiState(
     /** Every station of the region, whatever the filters: phase-2 comparisons need them. */
     val allStations: List<Station> = emptyList(),
     val brands: List<BrandFilterItem> = emptyList(),
+    val favourites: Set<String> = emptySet(),
     val logos: Map<String, ByteArray> = emptyMap(),
     val planCatalog: List<DiscountPlan> = emptyList(),
     val schedule: TaxSchedule? = null,
     val location: LatLon? = null,
     val refreshing: Boolean = false,
-    val error: String? = null,
+    val refreshFailed: Boolean = false,
 )
 
 data class StationDetail(
     val station: Station,
     val plans: List<DiscountPlan> = emptyList(),
     val plansLoading: Boolean = true,
+    /** The geoportal did not answer and nothing was cached: not the same as "no plans". */
+    val plansFailed: Boolean = false,
     val history: List<PricePoint> = emptyList(),
     val historyLoading: Boolean = true,
     val relative: RelativeMargin.Result? = null,

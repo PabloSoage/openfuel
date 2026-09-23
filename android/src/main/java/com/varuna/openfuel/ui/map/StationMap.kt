@@ -15,6 +15,9 @@ import com.varuna.openfuel.ui.LatLon
 import com.varuna.openfuel.ui.StationRow
 import com.varuna.openfuel.ui.theme.BandColors
 import com.varuna.openfuel.util.Format
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.addJsonObject
 import kotlinx.serialization.json.buildJsonObject
@@ -47,11 +50,13 @@ fun StationMap(
     rows: List<StationRow>,
     logos: Map<String, ByteArray>,
     location: LatLon?,
+    /** A new value (another region) frames the map again. */
+    frameKey: Any?,
     onStationClick: (String) -> Unit,
 ) {
     var map by remember { mutableStateOf<MapLibreMap?>(null) }
     var style by remember { mutableStateOf<Style?>(null) }
-    var framed by remember { mutableStateOf(false) }
+    var framed by remember(frameKey) { mutableStateOf(Framing.NONE) }
     val clicks by rememberUpdatedState(onStationClick)
     val iconPx = with(LocalDensity.current) { ICON_DP.dp.roundToPx() }
 
@@ -67,34 +72,47 @@ fun StationMap(
         style = s
     }
 
-    LaunchedEffect(style, rows, logos) {
+    // Icons only change when a brand appears or a logo arrives, not on every
+    // price or plan update; addImage replaces an image with the same id.
+    val brands = remember(rows) { rows.map { it.station.brand }.distinctBy { it.key } }
+    val brandKeys = remember(brands) { brands.map { it.key }.toSet() }
+    LaunchedEffect(style, brandKeys, logos) {
         val s = style ?: return@LaunchedEffect
-        val brands = rows.map { it.station.brand }.distinctBy { it.key }
-        for (brand in brands) {
-            // Re-added when a logo arrives: addImage replaces an image with the same id.
-            s.addImage(brand.key, MarkerIcons.forBrand(brand, logos[brand.key], iconPx))
-        }
-        (s.getSource(SOURCE_ID) as? GeoJsonSource)?.setGeoJson(geoJson(rows))
+        val icons = withContext(Dispatchers.Default) { brands.associate { it.key to MarkerIcons.forBrand(it, logos[it.key], iconPx) } }
+        icons.forEach { (key, bitmap) -> s.addImage(key, bitmap) }
+    }
+    LaunchedEffect(style, rows) {
+        val s = style ?: return@LaunchedEffect
+        val json = withContext(Dispatchers.Default) { geoJson(rows) }
+        (s.getSource(SOURCE_ID) as? GeoJsonSource)?.setGeoJson(json)
     }
 
-    LaunchedEffect(map, rows.isNotEmpty(), location) {
+    // Framed once per region: on the user when they are inside it, otherwise
+    // on the whole region. A location that arrives after the region framing
+    // still wins, once.
+    LaunchedEffect(map, rows.isNotEmpty(), location, frameKey) {
         val m = map ?: return@LaunchedEffect
-        if (framed) return@LaunchedEffect
+        if (framed == Framing.LOCATION || rows.size < 2) return@LaunchedEffect
+        // newLatLngBounds needs the view's size; before layout it frames the world.
+        repeat(40) { if (m.width > 0f && m.height > 0f) return@repeat; delay(50) }
+        val bounds = LatLngBounds.Builder().apply {
+            rows.forEach { include(LatLng(it.station.lat, it.station.lon)) }
+        }.build()
+        val here = location?.let { LatLng(it.lat, it.lon) }
         when {
-            location != null -> {
-                m.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.lat, location.lon), 12.0))
-                framed = true
+            here != null && bounds.contains(here) -> {
+                m.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 12.0))
+                framed = Framing.LOCATION
             }
-            rows.size >= 2 -> {
-                val bounds = LatLngBounds.Builder().apply {
-                    rows.forEach { include(LatLng(it.station.lat, it.station.lon)) }
-                }.build()
+            framed == Framing.NONE -> {
                 m.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 64))
-                framed = true
+                framed = Framing.REGION
             }
         }
     }
 }
+
+private enum class Framing { NONE, REGION, LOCATION }
 
 private const val ICON_DP = 34
 

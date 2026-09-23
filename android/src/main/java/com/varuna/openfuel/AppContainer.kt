@@ -19,10 +19,11 @@ class AppContainer(context: Context) {
     val http: HttpClient = JdkHttpClient(USER_AGENT)
     val database: OpenFuelDatabase = OpenFuelDatabase.build(context)
     val settings = SettingsStore(context.applicationContext)
-    private val geoportal = GeoportalApi(http)
+    // Optional enrichment: a slow geoportal must not keep a spinner up for long.
+    private val geoportal = GeoportalApi(JdkHttpClient(USER_AGENT, connectTimeoutMs = 5_000, readTimeoutMs = 8_000))
     val repository = OpenFuelRepository(database, settings, OfficialApi(http, catalog), geoportal, catalog)
     val taxSchedules = TaxScheduleProvider(http, settings)
-    val logos = LogoResolver(database, geoportal, FaviconFetcher(http), catalog)
+    val logos = LogoResolver(database, geoportal, FaviconFetcher(http), http, catalog)
 
     companion object {
         val USER_AGENT = "openfuel/${BuildConfig.VERSION_NAME} (+https://github.com/PabloSoage/openfuel)"

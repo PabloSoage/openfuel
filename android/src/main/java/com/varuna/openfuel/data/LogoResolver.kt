@@ -4,20 +4,28 @@ import android.util.Log
 import com.varuna.openfuel.core.brand.BrandCatalog
 import com.varuna.openfuel.core.net.FaviconFetcher
 import com.varuna.openfuel.core.net.GeoportalApi
+import com.varuna.openfuel.core.net.HttpClient
+import com.varuna.openfuel.core.parse.GeoportalParser
 import com.varuna.openfuel.data.db.BrandLogoEntity
 import com.varuna.openfuel.data.db.OpenFuelDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
- * The logo cascade, one brand at a time: geoportal `imagenEESS` → the brand
- * site's apple-touch-icon → nothing (the map draws a badge). Results are kept
- * per brand, never per station; a miss is retried after 30 days, a hit after 90.
+ * The logo cascade, one brand at a time: geoportal `imagenEESS` of a few of
+ * the brand's stations → the brand's `logoUrl` (Wikimedia Commons) → the
+ * brand site's apple-touch-icon → nothing (the map draws a badge).
+ *
+ * The geoportal carries a logo on some stations of a brand and not others
+ * (Carrefour on 1 in 12 sampled on 2026-09-23, Petroprix on 8), so several
+ * stations are tried, spread over the list rather than the first ones. A miss
+ * is retried the next day, a hit after 90.
  */
 class LogoResolver(
     private val db: OpenFuelDatabase,
     private val geoportal: GeoportalApi,
     private val favicons: FaviconFetcher,
+    private val http: HttpClient,
     private val catalog: BrandCatalog,
 ) {
     suspend fun resolveMissing(now: Long = System.currentTimeMillis()): Unit = withContext(Dispatchers.IO) {
@@ -32,26 +40,38 @@ class LogoResolver(
     }
 
     private suspend fun resolve(brandKey: String): Pair<String, ByteArray?> {
-        for (station in db.stations().byBrand(brandKey, GEOPORTAL_ATTEMPTS)) {
+        val stations = db.stations().byBrand(brandKey, SAMPLE)
+        val step = (stations.size / GEOPORTAL_ATTEMPTS).coerceAtLeast(1)
+        for (station in stations.filterIndexed { i, _ -> i % step == 0 }.take(GEOPORTAL_ATTEMPTS)) {
             geoportal.logoPng(station.id)?.let { return SOURCE_GEOPORTAL to it }
         }
-        val host = catalog.fromKey(brandKey, "").website
-        if (host != null) favicons.pngFor(host)?.let { return SOURCE_FAVICON to it }
+        val brand = catalog.fromKey(brandKey, "")
+        brand.logoUrl?.let { url -> png(url)?.let { return SOURCE_URL to it } }
+        brand.website?.let { host -> favicons.pngFor(host)?.let { return SOURCE_FAVICON to it } }
         return SOURCE_NONE to null
     }
 
+    private fun png(url: String): ByteArray? = runCatching { http.get(url, mapOf("Accept" to "image/png")) }
+        .getOrNull()?.takeIf { it.isSuccess && GeoportalParser.isPng(it.body) }?.body
+
     private fun isStale(logo: BrandLogoEntity, now: Long): Boolean {
+        // Misses recorded before the cascade tried several stations and logoUrl
+        // are retried at once, not a month later.
+        if (logo.png == null && logo.checkedAt < CASCADE_V2_MS) return true
         val maxAge = if (logo.png == null) MISS_TTL_MS else HIT_TTL_MS
         return now - logo.checkedAt > maxAge
     }
 
     private companion object {
         const val TAG = "LogoResolver"
-        const val GEOPORTAL_ATTEMPTS = 3
+        const val SAMPLE = 200
+        const val GEOPORTAL_ATTEMPTS = 8
         const val SOURCE_GEOPORTAL = "geoportal"
+        const val SOURCE_URL = "url"
         const val SOURCE_FAVICON = "favicon"
         const val SOURCE_NONE = "none"
-        const val MISS_TTL_MS = 30L * 24 * 60 * 60 * 1000
+        const val MISS_TTL_MS = 24L * 60 * 60 * 1000
         const val HIT_TTL_MS = 90L * 24 * 60 * 60 * 1000
+        const val CASCADE_V2_MS = 1_790_190_000_000L // 2026-09-23 21:00 CEST
     }
 }
