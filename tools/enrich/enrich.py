@@ -10,7 +10,7 @@ and writes static files into a directory that is the checkout of the
     logos/<brand>.png   one logo per brand, from the geoportal's imagenEESS
     logos/index.json    {brand: "geoportal"}
 
-Polite by design: two requests in flight, a pause after each, and a station
+Polite by design: three requests in flight, a pause after each, and a station
 whose request fails keeps the plans of the previous run. Standard library only.
 """
 import argparse
@@ -33,7 +33,7 @@ BRANDS = os.path.join(ROOT, "core", "src", "main", "resources", "brands.json")
 KINDS = {1: "PERCENT", 2: "CENTS_PER_LITRE"}
 LOGO_ATTEMPTS = 8
 PROBE = 30
-WORKERS = 2
+WORKERS = 3
 PAUSE_S = 0.25
 
 
