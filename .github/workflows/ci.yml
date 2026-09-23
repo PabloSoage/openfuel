@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v5
+      # Parsing, brands, tax maths, discounts: the part that is wrong silently.
+      - run: ./gradlew :core:test --no-daemon
+
+  resources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      # Seconds, and it fails before any Gradle run would.
+      - run: node tools/check-resources.mjs
+      # The embedded tax schedule is also served to installed apps from this repo.
+      - run: node -e "JSON.parse(require('fs').readFileSync('core/src/main/resources/tax-schedule.json','utf8'))"
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v5
+      - run: ./gradlew :android:assembleDebug --no-daemon
