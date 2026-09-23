@@ -7,6 +7,7 @@ import com.varuna.openfuel.core.parse.withoutBom
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import java.text.Normalizer
@@ -80,6 +81,7 @@ class BrandCatalog(private val entries: List<Entry>) {
                             website = (o["website"] as? JsonPrimitive)?.contentOrNull,
                             independent = false,
                             logoUrl = (o["logoUrl"] as? JsonPrimitive)?.contentOrNull,
+                            preferLogoUrl = (o["preferLogoUrl"] as? JsonPrimitive)?.booleanOrNull ?: false,
                         ),
                         requireNotNull(o.array("patterns")) { "patterns missing in $o" }
                             .map { Regex((it as JsonPrimitive).content) },

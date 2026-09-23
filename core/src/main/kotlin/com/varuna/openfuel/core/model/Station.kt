@@ -17,6 +17,8 @@ data class Brand(
     val independent: Boolean,
     /** A PNG to use when the geoportal has no logo for the brand (Wikimedia Commons). */
     val logoUrl: String? = null,
+    /** Use [logoUrl] before the geoportal, whose logo for this brand is wrong (Petronor gets Repsol's). */
+    val preferLogoUrl: Boolean = false,
 ) {
     /** Key used by the brand filter: every independent station is one entry. */
     val filterKey: String get() = if (independent) INDEPENDENT_FILTER_KEY else key

@@ -13,7 +13,8 @@ import kotlinx.coroutines.withContext
 
 /**
  * The logo cascade, one brand at a time: geoportal `imagenEESS` of a few of
- * the brand's stations → the brand's `logoUrl` (Wikimedia Commons) → the
+ * the brand's stations (after `logoUrl` when the brand prefers it: the
+ * geoportal gives Petronor Repsol's logo) → the brand's `logoUrl` (Wikimedia Commons) → the
  * brand site's apple-touch-icon → nothing (the map draws a badge).
  *
  * The geoportal carries a logo on some stations of a brand and not others
@@ -40,12 +41,13 @@ class LogoResolver(
     }
 
     private suspend fun resolve(brandKey: String): Pair<String, ByteArray?> {
+        val brand = catalog.fromKey(brandKey, "")
+        if (brand.preferLogoUrl) brand.logoUrl?.let { url -> png(url)?.let { return SOURCE_URL to it } }
         val stations = db.stations().byBrand(brandKey, SAMPLE)
         val step = (stations.size / GEOPORTAL_ATTEMPTS).coerceAtLeast(1)
         for (station in stations.filterIndexed { i, _ -> i % step == 0 }.take(GEOPORTAL_ATTEMPTS)) {
             geoportal.logoPng(station.id)?.let { return SOURCE_GEOPORTAL to it }
         }
-        val brand = catalog.fromKey(brandKey, "")
         brand.logoUrl?.let { url -> png(url)?.let { return SOURCE_URL to it } }
         brand.website?.let { host -> favicons.pngFor(host)?.let { return SOURCE_FAVICON to it } }
         return SOURCE_NONE to null
@@ -55,6 +57,8 @@ class LogoResolver(
         .getOrNull()?.takeIf { it.isSuccess && GeoportalParser.isPng(it.body) }?.body
 
     private fun isStale(logo: BrandLogoEntity, now: Long): Boolean {
+        // A brand whose geoportal logo is known to be wrong drops a cached one at once.
+        if (logo.source == SOURCE_GEOPORTAL && catalog.fromKey(logo.brandKey, "").preferLogoUrl) return true
         // Misses recorded before the cascade tried several stations and logoUrl
         // are retried at once, not a month later.
         if (logo.png == null && logo.checkedAt < CASCADE_V2_MS) return true

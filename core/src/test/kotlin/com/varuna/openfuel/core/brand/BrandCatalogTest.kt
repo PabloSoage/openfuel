@@ -49,6 +49,13 @@ class BrandCatalogTest {
     @Test fun `normalisation strips accents, case and extra spaces`() =
         assertEquals("ESTACION NUMERO 1", BrandCatalog.normalise("  Estación   número 1 "))
 
+    @Test fun `Petronor uses its own logo before the geoportal's, which is Repsol's`() {
+        val petronor = catalog.fromKey("petronor", "")
+        assertTrue(petronor.preferLogoUrl)
+        assertTrue(petronor.logoUrl!!.startsWith("https://"))
+        assertTrue(!catalog.fromKey("repsol", "").preferLogoUrl)
+    }
+
     @Test fun `a stored key rebuilds the brand`() {
         assertEquals("Repsol", catalog.fromKey("repsol", "whatever").displayName)
         assertTrue(catalog.fromKey("ind:GA", "Gasolinera Ávila").independent)

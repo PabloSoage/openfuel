@@ -169,8 +169,13 @@ function plansAt(stationId) {
 
 const logoCache = new Map(); // brand key → Promise<HTMLImageElement|null>
 
+/**
+ * The weekly geoportal copy first (square, made for a disc), then Wikimedia —
+ * except for brands whose geoportal logo is wrong (Petronor gets Repsol's).
+ */
 function logoUrl(brand) {
   if (brand.independent) return null;
+  if (brand.preferLogoUrl && brand.logoUrl) return brand.logoUrl;
   if (state.logoIndex[brand.key]) return `data/logos/${brand.key}.png`;
   return brand.logoUrl || null;
 }
