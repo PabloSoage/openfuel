@@ -1,0 +1,32 @@
+{
+ "id": 16055,
+ "rotulo": "PETROPRIX",
+ "operador": "TITULARES DE INSTALACIONES DE DISTRIBUCIÓN AL POR MENOR",
+ "direccion": "AVENIDA AVDA DEL AYUNTAMIENTO, 1",
+ "margen": "I",
+ "codPostal": "36520",
+ "provincia": "PONTEVEDRA",
+ "municipio": "AGOLADA                  ",
+ "localidad": null,
+ "fechaPvp": "23/09/2026",
+ "horaPvp": "00:00",
+ "tipoVenta": "P",
+ "remision": "OM",
+ "coordenadaX": "08W0129,2",
+ "coordenadaY": "42N4544,6",
+ "coordenadaX_dec": -8.024778,
+ "coordenadaY_dec": 42.762389,
+ "horario": "L-V: 07:30-22:30; S-D: 08:00-22:30",
+ "tipoRango": {
+  "id": 3,
+  "tipo": "Península/Baleares",
+  "alias": "P/B"
+ },
+ "tipoEstacion": "EESS",
+ "porcBioetanol": 0.0,
+ "porcBioalcohol": 0.0,
+ "imagenEESS": null,
+ "planesDescuento": null,
+ "favorita": false,
+ "precio": null
+}

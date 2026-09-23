@@ -1,0 +1,85 @@
+[
+ {
+  "id": 102,
+  "nombre": "Repsol Máxima",
+  "descripcion": "Todos los clientes que paguen con la tarjeta Repsol Máxima (tarjeta de pago particular) conseguirán un 2% sobre el importe total.",
+  "cifraDescuento": 2.0,
+  "fechaValidez": null,
+  "operador": {
+   "id": 18,
+   "nombre": "EMPRESAS DEL GRUPO REPSOL"
+  },
+  "tipoDescuento": {
+   "id": 1,
+   "tipo": "%",
+   "descripcion": "Porcentaje sobre el precio total"
+  },
+  "tipoDestinatario": {
+   "id": 1,
+   "tipo": "Todos los consumidores"
+  }
+ },
+ {
+  "id": 144,
+  "nombre": "Repsol Más Visa",
+  "descripcion": "Descuento de 3 céntimos por litro.",
+  "cifraDescuento": 3.0,
+  "fechaValidez": null,
+  "operador": {
+   "id": 18,
+   "nombre": "EMPRESAS DEL GRUPO REPSOL"
+  },
+  "tipoDescuento": {
+   "id": 2,
+   "tipo": "cts/litro",
+   "descripcion": "Céntimos de euro en cada litro"
+  },
+  "tipoDestinatario": {
+   "id": 1,
+   "tipo": "Todos los consumidores"
+  }
+ },
+ {
+  "id": 145,
+  "nombre": "Tarjetas cobranded solred",
+  "descripcion": "2% sobre el importe.",
+  "cifraDescuento": 2.0,
+  "fechaValidez": null,
+  "operador": {
+   "id": 18,
+   "nombre": "EMPRESAS DEL GRUPO REPSOL"
+  },
+  "tipoDescuento": {
+   "id": 1,
+   "tipo": "%",
+   "descripcion": "Porcentaje sobre el precio total"
+  },
+  "tipoDestinatario": {
+   "id": 1,
+   "tipo": "Todos los consumidores"
+  }
+ },
+ {
+  "id": 900,
+  "nombre": "Plan flotas (sintético)",
+  "descripcion": "Fixture: tipo y destinatario no observados en datos reales.",
+  "cifraDescuento": 5.0,
+  "fechaValidez": null,
+  "operador": {
+   "id": 18,
+   "nombre": "EMPRESAS DEL GRUPO REPSOL"
+  },
+  "tipoDescuento": {
+   "id": 7,
+   "tipo": "otro",
+   "descripcion": "?"
+  },
+  "tipoDestinatario": {
+   "id": 4,
+   "tipo": "Flotas"
+  }
+ },
+ {
+  "nombre": "sin id, se descarta"
+ }
+]
