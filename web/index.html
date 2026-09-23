@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>openfuel</title>
+<meta name="description" content="Spanish fuel prices on a map, with a per-litre tax breakdown.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛽</text></svg>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>openfuel</h1>
+  <label><span data-i18n="fuel">Fuel</span>
+    <select id="fuel"></select>
+  </label>
+  <label><span data-i18n="region">Region</span>
+    <select id="region"></select>
+  </label>
+  <button id="reload" type="button" data-i18n="reload">Reload</button>
+</header>
+<main>
+  <div id="map"></div>
+  <p id="status" role="status"></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
