@@ -31,7 +31,8 @@ USER_AGENT = "openfuel-enrich (+https://github.com/PabloSoage/openfuel)"
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BRANDS = os.path.join(ROOT, "core", "src", "main", "resources", "brands.json")
 KINDS = {1: "PERCENT", 2: "CENTS_PER_LITRE"}
-LOGO_ATTEMPTS = 3
+LOGO_ATTEMPTS = 8
+PROBE = 30
 WORKERS = 2
 PAUSE_S = 0.25
 
@@ -114,11 +115,24 @@ def main():
         with open(previous_path, encoding="utf-8") as f:
             previous = json.load(f)
 
+    # Probe first: if the geoportal does not answer this machine (it may refuse
+    # runners outside Spain), say so in a minute instead of timing out in hours.
+    started = time.monotonic()
+    probe = [plans_of(sid)[1] for sid, _ in stations[:PROBE]]
+    probe_failed = sum(r is None for r in probe)
+    per_request = (time.monotonic() - started) / max(len(probe), 1)
+    print(f"probe: {len(probe) - probe_failed}/{len(probe)} answered, {per_request:.2f} s per request", flush=True)
+    if probe_failed > len(probe) // 2:
+        print("the geoportal does not answer this machine: nothing written", file=sys.stderr)
+        return 3
+
     plans = dict(previous.get("plans", {}))
     by_station = {}
     failed = 0
     with concurrent.futures.ThreadPoolExecutor(WORKERS) as pool:
-        for station_id, result in pool.map(plans_of, [sid for sid, _ in stations]):
+        for done, (station_id, result) in enumerate(pool.map(plans_of, [sid for sid, _ in stations]), 1):
+            if done % 1000 == 0:
+                print(f"{done}/{len(stations)} stations, {failed} failed, {time.monotonic() - started:.0f} s", flush=True)
             if result is None:
                 failed += 1
                 if station_id in previous.get("stations", {}):

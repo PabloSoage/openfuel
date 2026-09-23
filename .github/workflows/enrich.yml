@@ -11,6 +11,10 @@ on:
   schedule:
     - cron: '41 3 * * 1'   # Mondays, about 05:41 in Spain
   workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Only the first N stations (a quick test); empty for all'
+        required: false
 
 permissions:
   contents: write
@@ -47,7 +51,9 @@ jobs:
           fi
 
       - name: Plans and logos
-        run: python tools/enrich/enrich.py --out enrichment-wt
+        env:
+          LIMIT: ${{ github.event.inputs.limit }}
+        run: python -u tools/enrich/enrich.py --out enrichment-wt ${LIMIT:+--limit "$LIMIT"}
 
       - name: Commit and push
         working-directory: enrichment-wt
