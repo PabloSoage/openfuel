@@ -1,0 +1,20 @@
+# Gradle
+.gradle/
+build/
+*/build/
+local.properties
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
+
+# Android
+*.apk
+*.aab
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Web (phase 5) local preview artefacts
+web/.cache/
