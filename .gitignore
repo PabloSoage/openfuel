@@ -20,9 +20,8 @@ captures/
 web/.cache/
 
 keystore/
-# Everything the signed-release build drops into android/release/
-android/release/*
-!android/release/output-metadata.json
+# Everything the signed-release build drops into android/release/ (APKs go to GitHub Releases)
+android/release/
 
 # Python
 __pycache__/

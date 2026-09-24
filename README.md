@@ -31,9 +31,14 @@ history of the last days. Offline-first, no keys, no accounts, no trackers.
 - **Comparisons** — how many cents per litre of margin a station keeps above the cheapest
   one nearby (exact: taxes and product cost are the same for both), the list of every
   station in that radius, and how today's price compares with its own recent average.
-- **List view**, favourites, brand filter, English and Spanish.
-- **Web version** with the same features at
-  [pablosoage.github.io/openfuel](https://pablosoage.github.io/openfuel/), no install.
+- **Search** a town, postcode, address or station: the downloaded stations answer as you
+  type, with no network; any other address goes to OpenStreetMap when you submit. A place
+  outside your region offers to add its province.
+- **My location** on the map, list view, favourites, a brand filter (all, none, or just the
+  ones you pick), English and Spanish.
+- **Web version** at [pablosoage.github.io/openfuel](https://pablosoage.github.io/openfuel/),
+  no install, with the same features. Its discount plans come from a weekly job (below);
+  until that job completes a national run, the web has plans for only a few stations.
 
 ## Where the data comes from
 
@@ -41,8 +46,9 @@ history of the last days. Offline-first, no keys, no accounts, no trackers.
 |---|---|
 | Stations, prices, history | [Ministerio para la Transición Ecológica y el Reto Demográfico](https://sede.minetur.gob.es/es-ES/datosabiertos/catalogo/precios-carburantes), `ServiciosRESTCarburantes` open-data service |
 | Brand logos, discount plans | The backend of [geoportalgasolineras.es](https://geoportalgasolineras.es). Optional: when it fails the app says so and keeps what it had |
-| Logos the geoportal lacks | [Wikimedia Commons](https://commons.wikimedia.org) (public domain or CC BY-SA), listed in [`brands.json`](core/src/main/resources/brands.json) |
+| Logos the geoportal lacks | [Wikimedia Commons](https://commons.wikimedia.org), listed in [`brands.json`](core/src/main/resources/brands.json). Ten are public domain; the [Ballenoil](https://commons.wikimedia.org/wiki/File:Logo_Ballenoil.svg) and [Petroprix](https://commons.wikimedia.org/wiki/File:Logo_Petroprix.svg) logos are by Autopistero20502020, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), credited in the app and the web |
 | Additive claims | Each brand's own website, linked per product |
+| Address search | [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org), only when you submit a search, at most once a second |
 | Tax rates | BOE: Ley 38/1992 art. 50, Real Decreto-ley 7/2026, Real Decreto-ley 18/2026; INE CPI series for the conditional months |
 | Map | © OpenStreetMap contributors, tiles by [OpenFreeMap](https://openfreemap.org), rendered with [MapLibre](https://maplibre.org) |
 
@@ -80,7 +86,7 @@ web/      Browser version (no build step): the same data files, logic ported to 
 | Workflow | What | Where |
 |---|---|---|
 | `archive` | Daily compact snapshot of every station's prices, so long-term history does not depend on how far back the official service goes | `archive` branch |
-| `enrich` | Weekly discount plans of every station and one logo per brand, for the web | `enrichment` branch |
+| `enrich` | Weekly discount plans and one logo per brand, for the web. Brands with no plan at any station in the last full run are only sampled (15 stations), and asked in full again if the sample finds one | `enrichment` branch |
 | `pages` | Publishes `web/` with the data files and the enrichment under `data/` | GitHub Pages |
 
 ## License

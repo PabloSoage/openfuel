@@ -6,7 +6,7 @@ with the web:
 | File | What |
 |---|---|
 | `tax-schedule.json` | Excise and VAT per period, with the legal source of each |
-| `brands.json` | Sign patterns → brand, colours, and a Wikimedia logo where the geoportal has none |
+| `brands.json` | Sign patterns → brand, colours, and a Wikimedia logo where the geoportal has none. A logo under a licence that asks for attribution (CC BY-SA) must carry `logoCredit` (author, licence, licence URL, Commons page); `BrandCatalogTest` checks it and both "About" screens show it |
 | `fuel-products.json` | Per brand and fuel: commercial name and additive claims, with source and date |
 
 ## Tax schedule
