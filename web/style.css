@@ -104,3 +104,22 @@ dialog menu button, .btn { border: 1px solid var(--line); background: var(--bg);
 /* Keep the map's attribution above the status line. */
 .maplibregl-ctrl-bottom-right, .maplibregl-ctrl-bottom-left { bottom: 34px; }
 @media (max-width: 480px) { .bar h1 { display: none; } .bar { gap: 2px; padding-left: 8px; padding-right: 8px; } button.icon { width: 34px; height: 34px; font-size: 18px; } }
+
+/* Search: a bar under the header; results float over the map. */
+.searchbar { position: relative; z-index: 6; padding: 8px 12px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.searchbar[hidden] { display: none; }
+.searchbar input { width: 100%; padding: 8px 12px; border-radius: 20px; border: 1px solid var(--line); background: var(--bg); }
+#search-results { position: absolute; left: 8px; right: 8px; top: 100%; max-height: min(60vh, 420px); overflow: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 8px 24px #0003; padding: 4px 12px 8px; }
+#search-results h4 { margin: 8px 0 2px; font-size: 12px; color: var(--primary); text-transform: uppercase; letter-spacing: .04em; }
+#search-results ul { list-style: none; margin: 0; padding: 0; }
+#search-results li { display: flex; gap: 10px; align-items: center; padding: 8px 4px; border-bottom: 1px solid var(--line); cursor: pointer; }
+#search-results li:hover { background: var(--surface); }
+#search-results li small { display: block; color: var(--muted); font-size: 12px; }
+#search-results .ico { width: 20px; text-align: center; }
+
+/* "Outside your region" card, above the status line. */
+#outside { position: absolute; left: 12px; right: 12px; bottom: 44px; z-index: 4; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 6px 18px #0003; padding: 10px 12px; }
+#outside[hidden] { display: none; }
+#outside p { margin: 0 0 8px; }
+#outside menu { display: flex; justify-content: flex-end; gap: 8px; margin: 0; padding: 0; }
+#outside menu button { border: 1px solid var(--line); background: var(--bg); padding: 6px 14px; border-radius: 18px; cursor: pointer; }

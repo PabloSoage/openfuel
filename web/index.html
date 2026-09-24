@@ -16,12 +16,17 @@
   <h1>openfuel</h1>
   <select id="fuel" aria-label="Fuel"></select>
   <span class="grow"></span>
+  <button id="btn-search" class="icon" type="button" data-i18n-title="search">⌕</button>
   <button id="btn-locate" class="icon" type="button" data-i18n-title="locate">⌖</button>
   <button id="btn-brands" class="icon" type="button" data-i18n-title="brands">⛃</button>
   <button id="btn-refresh" class="icon" type="button" data-i18n-title="refresh">⟳</button>
   <button id="btn-view" class="icon" type="button" data-i18n-title="list">☰</button>
   <button id="btn-settings" class="icon" type="button" data-i18n-title="settings">⚙</button>
 </header>
+<form id="searchbar" class="searchbar" role="search" hidden>
+  <input id="search" type="search" autocomplete="off" enterkeyhint="search" data-i18n-placeholder="searchHint">
+  <div id="search-results" hidden></div>
+</form>
 
 <main>
   <div id="map"></div>
@@ -34,6 +39,7 @@
     <ol id="list-rows"></ol>
   </section>
   <aside id="panel" hidden aria-live="polite"></aside>
+  <div id="outside" class="card" hidden></div>
   <p id="status" role="status"></p>
 </main>
 
@@ -60,6 +66,7 @@
     <div id="brand-options" class="options"></div>
     <menu>
       <button value="all" id="brands-all" data-i18n="showAll">Show all</button>
+      <button value="none" id="brands-none" data-i18n="none">None</button>
       <button value="ok" class="primary" data-i18n="apply">Apply</button>
     </menu>
   </form>

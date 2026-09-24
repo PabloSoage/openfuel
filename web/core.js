@@ -259,3 +259,82 @@ export function band(index, n) {
   if (index >= n - Math.floor(n / 3)) return 'dear';
   return 'mid';
 }
+
+// --- search (port of core/search) --------------------------------------------
+
+const ISO_PROVINCE = {
+  'ES-VI': '01', 'ES-AB': '02', 'ES-A': '03', 'ES-AL': '04', 'ES-AV': '05', 'ES-BA': '06', 'ES-PM': '07', 'ES-B': '08',
+  'ES-BU': '09', 'ES-CC': '10', 'ES-CA': '11', 'ES-CS': '12', 'ES-CR': '13', 'ES-CO': '14', 'ES-C': '15', 'ES-CU': '16',
+  'ES-GI': '17', 'ES-GR': '18', 'ES-GU': '19', 'ES-SS': '20', 'ES-H': '21', 'ES-HU': '22', 'ES-J': '23', 'ES-LE': '24',
+  'ES-L': '25', 'ES-LO': '26', 'ES-LU': '27', 'ES-M': '28', 'ES-MA': '29', 'ES-MU': '30', 'ES-NA': '31', 'ES-OR': '32',
+  'ES-O': '33', 'ES-P': '34', 'ES-GC': '35', 'ES-PO': '36', 'ES-SA': '37', 'ES-TF': '38', 'ES-S': '39', 'ES-SG': '40',
+  'ES-SE': '41', 'ES-SO': '42', 'ES-T': '43', 'ES-TE': '44', 'ES-TO': '45', 'ES-V': '46', 'ES-VA': '47', 'ES-BI': '48',
+  'ES-ZA': '49', 'ES-Z': '50', 'ES-CE': '51', 'ES-ML': '52',
+};
+const ISO_SINGLE_PROVINCE_COMMUNITY = {
+  'ES-AS': '33', 'ES-CB': '39', 'ES-MD': '28', 'ES-MC': '30', 'ES-NC': '31', 'ES-RI': '26', 'ES-IB': '07', 'ES-CE': '51', 'ES-ML': '52',
+};
+
+/** INE province of a Nominatim address: postcode, else ISO province code, else single-province community. */
+export function provinceOf(address = {}) {
+  const pc = (address.postcode || '').trim();
+  if (/^\d{5}$/.test(pc) && +pc.slice(0, 2) >= 1 && +pc.slice(0, 2) <= 52) return pc.slice(0, 2);
+  return ISO_PROVINCE[(address['ISO3166-2-lvl6'] || '').toUpperCase()]
+    ?? ISO_SINGLE_PROVINCE_COMMUNITY[(address['ISO3166-2-lvl4'] || '').toUpperCase()] ?? null;
+}
+
+export function nominatimUrl(query, language) {
+  const q = new URLSearchParams({ format: 'jsonv2', addressdetails: '1', countrycodes: 'es', limit: '6', 'accept-language': language, q: query.trim() });
+  return `https://nominatim.openstreetmap.org/search?${q}`;
+}
+
+export function parseNominatim(json) {
+  if (!Array.isArray(json)) return [];
+  return json.flatMap((r) => {
+    const lat = Number(r.lat); const lon = Number(r.lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return [];
+    const display = r.display_name || '';
+    const detail = display.includes(', ') ? display.slice(display.indexOf(', ') + 2).replace(/, (España|Spain)$/, '') : '';
+    return [{ name: r.name || display.split(',')[0], detail, lat, lon, provinceId: provinceOf(r.address), kind: 'address' }];
+  });
+}
+
+/** "VIGO" → "Vigo"; mixed-case text is left alone. */
+export const title = (text) => (/[a-zà-ÿ]/.test(text) ? text : text.toLowerCase().replace(/(^|\s)(\S)/g, (m, s, c) => s + c.toUpperCase()));
+
+/**
+ * Among the downloaded stations, as the user types: postcodes, localities
+ * (at the centre of their stations) and stations by sign or address.
+ */
+export function localSearch(query, stations, provinceName = (id) => id, limit = 8) {
+  const q = normalise(query);
+  if (q.length < 2) return [];
+  const words = q.split(' ');
+  const matches = (text) => text.includes(q) || words.every((w) => text.split(/[ ,.\-/]/).some((t) => t.startsWith(w)));
+  const centre = (name, detail, list, kind) => ({
+    name, detail: detail ? `${detail} · ${list.length}` : `${list.length}`,
+    lat: list.reduce((a, s) => a + s.lat, 0) / list.length, lon: list.reduce((a, s) => a + s.lon, 0) / list.length,
+    provinceId: list[0].provinceId, kind,
+  });
+  const group = (key) => {
+    const m = new Map();
+    for (const s of stations) { const k = key(s); if (!m.has(k)) m.set(k, []); m.get(k).push(s); }
+    return [...m.entries()];
+  };
+  const out = [];
+  if (/^\d+$/.test(q)) {
+    group((s) => s.postalCode).filter(([pc]) => pc.startsWith(q)).sort((a, b) => b[1].length - a[1].length)
+      .forEach(([pc, list]) => out.push(centre(pc, title(list[0].locality), list, 'postcode')));
+  }
+  group((s) => `${s.locality}|${s.provinceId}`).filter(([k]) => matches(normalise(k.split('|')[0])))
+    .sort((a, b) => (normalise(a[0]).startsWith(q) ? 0 : 1) - (normalise(b[0]).startsWith(q) ? 0 : 1) || b[1].length - a[1].length)
+    .forEach(([k, list]) => out.push(centre(title(k.split('|')[0]), provinceName(list[0].provinceId), list, 'locality')));
+  for (const s of stations) {
+    if (out.filter((p) => p.kind === 'station').length >= limit) break;
+    if (matches(normalise(`${s.sign} ${s.address}`))) {
+      out.push({ name: s.sign || s.brand.name, detail: [s.address, s.locality].filter(Boolean).map(title).join(', '), lat: s.lat, lon: s.lon, provinceId: s.provinceId, kind: 'station', stationId: s.id });
+    }
+  }
+  const seen = new Set();
+  return out.filter((p) => { const k = `${p.kind}|${p.name}|${p.detail}`; if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, limit);
+}

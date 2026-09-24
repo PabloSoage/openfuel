@@ -48,6 +48,11 @@ const STRINGS = {
     attribution: 'Map © OpenStreetMap contributors, tiles by OpenFreeMap, rendered with MapLibre.',
     schedule: (v, d) => `Tax schedule version ${v}, updated ${d}.`, plansDate: (d) => `Discount plans of ${d}.`,
     km: (v) => `${v} km`, hours: (h) => `Hours: ${h}`, locError: 'Location not available.',
+    search: 'Search', searchHint: 'Town, postcode, address or station', searchLocal: 'In your region',
+    searchOsm: (q) => `Search “${q}” on OpenStreetMap`, searchOsmLoading: 'Searching OpenStreetMap…',
+    searchOsmFailed: 'OpenStreetMap did not answer.', searchOsmNone: 'Nothing found on OpenStreetMap.', searchOsmHeader: 'OpenStreetMap',
+    outside: (n) => `${n} is outside the region you downloaded.`, addProvince: (p) => `Add ${p}`, close: 'Close', none: 'None',
+    logoCredit: (b, a, l) => `${b} logo: ${a}, ${l}, Wikimedia Commons`, searchCredit: 'Address search by OpenStreetMap Nominatim.',
   },
   es: {
     locate: 'Mi ubicación', brands: 'Marcas', refresh: 'Actualizar', list: 'Lista', map: 'Mapa', settings: 'Ajustes',
@@ -86,6 +91,11 @@ const STRINGS = {
     attribution: 'Mapa © colaboradores de OpenStreetMap, teselas de OpenFreeMap, dibujado con MapLibre.',
     schedule: (v, d) => `Calendario fiscal versión ${v}, actualizado el ${d}.`, plansDate: (d) => `Planes de descuento del ${d}.`,
     km: (v) => `${v} km`, hours: (h) => `Horario: ${h}`, locError: 'Ubicación no disponible.',
+    search: 'Buscar', searchHint: 'Localidad, código postal, dirección o estación', searchLocal: 'En tu región',
+    searchOsm: (q) => `Buscar «${q}» en OpenStreetMap`, searchOsmLoading: 'Buscando en OpenStreetMap…',
+    searchOsmFailed: 'OpenStreetMap no respondió.', searchOsmNone: 'Nada encontrado en OpenStreetMap.', searchOsmHeader: 'OpenStreetMap',
+    outside: (n) => `${n} queda fuera de la región descargada.`, addProvince: (p) => `Añadir ${p}`, close: 'Cerrar', none: 'Ninguna',
+    logoCredit: (b, a, l) => `Logo de ${b}: ${a}, ${l}, Wikimedia Commons`, searchCredit: 'Búsqueda de direcciones con Nominatim de OpenStreetMap.',
   },
 };
 
@@ -136,6 +146,9 @@ const km = (v) => T.km(fmt(v, v < 10 ? 1 : 0));
 const fuelName = (key) => core.FUEL[key]?.[LANG] ?? key;
 const mapsUrl = (s) => `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
 const dayLabel = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
+const EMPTY_FC = { type: 'FeatureCollection', features: [] };
+const point = (lat, lon) => ({ type: 'FeatureCollection', features: [{ type: 'Feature', geometry: { type: 'Point', coordinates: [lon, lat] }, properties: {} }] });
+const provinceName = (id) => core.PROVINCES.find((p) => p[0] === id)?.[1] ?? id;
 
 async function json(url, options) {
   const r = await fetch(url, options);
@@ -304,6 +317,11 @@ function initMap() {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     }
+    // The last searched place and the user's position, above the stations.
+    map.addSource('pin', { type: 'geojson', data: EMPTY_FC });
+    map.addLayer({ id: 'pin', type: 'circle', source: 'pin', paint: { 'circle-color': '#C62828', 'circle-radius': 9, 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 3 } });
+    map.addSource('me', { type: 'geojson', data: state.location ? point(state.location.lat, state.location.lon) : EMPTY_FC });
+    map.addLayer({ id: 'me', type: 'circle', source: 'me', paint: { 'circle-color': '#1E88E5', 'circle-radius': 8, 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 3 } });
     resolve();
   }));
 }
@@ -598,6 +616,8 @@ function openBrands() {
   $('brand-options').innerHTML = items.map(([k, n]) => `<label><input type="checkbox" value="${esc(k)}" ${settings.hidden.has(k) ? '' : 'checked'}>
     ${esc(k === 'independent' ? T.independent : state.catalog.byKey[k]?.name ?? k)} (${n})</label>`).join('');
   $('brands-all').onclick = (e) => { e.preventDefault(); $('brand-options').querySelectorAll('input').forEach((i) => { i.checked = true; }); };
+  // "Only Repsol" is two taps: None, then Repsol.
+  $('brands-none').onclick = (e) => { e.preventDefault(); $('brand-options').querySelectorAll('input').forEach((i) => { i.checked = false; }); };
   dlg.onclose = () => {
     if (dlg.returnValue !== 'ok') return;
     settings.hidden = new Set([...$('brand-options').querySelectorAll('input:not(:checked)')].map((i) => i.value));
@@ -605,6 +625,105 @@ function openBrands() {
     refresh();
   };
   dlg.showModal();
+}
+
+/** CC BY-SA logos must credit author, licence and source, one by one. */
+function logoCredits() {
+  return (state.catalog?.brands ?? []).filter((b) => b.logoCredit).map((b) =>
+    `<a href="${esc(b.logoCredit.page)}" target="_blank" rel="noopener">${esc(T.logoCredit(b.name, b.logoCredit.author, b.logoCredit.license))}</a>`).join('<br>');
+}
+
+// --- search -------------------------------------------------------------------
+// The downloaded stations answer while the user types, with no network;
+// OpenStreetMap's Nominatim only on submit, at most once a second (its usage
+// policy; the browser's Referer identifies the page).
+
+const search = { query: '', local: [], remote: null, loading: false, failed: false, lastRemoteAt: 0, timer: 0 };
+
+function toggleSearch() {
+  const bar = $('searchbar');
+  bar.hidden = !bar.hidden;
+  if (bar.hidden) clearSearch(); else $('search').focus();
+}
+
+function clearSearch() {
+  Object.assign(search, { query: '', local: [], remote: null, loading: false, failed: false });
+  $('search').value = '';
+  renderSearch();
+}
+
+function onSearchInput() {
+  search.query = $('search').value;
+  search.remote = null;
+  search.failed = false;
+  clearTimeout(search.timer);
+  search.timer = setTimeout(() => { search.local = core.localSearch(search.query, state.stations, provinceName); renderSearch(); }, 120);
+}
+
+async function searchRemote() {
+  const q = search.query.trim();
+  if (q.length < 2) return;
+  search.loading = true; search.failed = false; renderSearch();
+  const wait = 1000 - (Date.now() - search.lastRemoteAt);
+  if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+  search.lastRemoteAt = Date.now();
+  let result = null;
+  try { result = core.parseNominatim(await json(core.nominatimUrl(q, LANG))); } catch { /* shown below */ }
+  if (search.query.trim() !== q) return;
+  search.loading = false;
+  search.failed = result == null;
+  search.remote = result ?? [];
+  renderSearch();
+}
+
+function renderSearch() {
+  const box = $('search-results');
+  if (search.query.trim().length < 2) { box.innerHTML = ''; box.hidden = true; return; }
+  const row = (p, i, src) => `<li data-src="${src}" data-i="${i}"><span class="ico">${p.kind === 'station' ? '⛽' : '📍'}</span>
+    <span><b>${esc(p.name)}</b>${p.detail ? `<small>${esc(p.detail)}</small>` : ''}</span></li>`;
+  let html = '';
+  if (search.local.length) html += `<h4>${T.searchLocal}</h4><ul>${search.local.map((p, i) => row(p, i, 'local')).join('')}</ul>`;
+  if (search.loading) html += `<p class="muted">${T.searchOsmLoading}</p>`;
+  else if (search.remote == null) html += `<button type="button" class="linkish" data-act="osm">${esc(T.searchOsm(search.query.trim()))}</button>`;
+  else if (search.failed) html += `<p class="muted">${T.searchOsmFailed}</p>`;
+  else if (!search.remote.length) html += `<p class="muted">${T.searchOsmNone}</p>`;
+  else html += `<h4>${T.searchOsmHeader}</h4><ul>${search.remote.map((p, i) => row(p, i, 'remote')).join('')}</ul>`;
+  box.innerHTML = html;
+  box.hidden = false;
+}
+
+function pickPlace(p) {
+  $('searchbar').hidden = true;
+  clearSearch();
+  if (state.view === 'list') $('btn-view').click();
+  const zoom = p.kind === 'address' || p.kind === 'station' ? 15 : 12.5;
+  map?.getSource('pin')?.setData(p.kind === 'station' ? EMPTY_FC : point(p.lat, p.lon));
+  map?.flyTo({ center: [p.lon, p.lat], zoom });
+  if (p.kind === 'station' && p.stationId) openStation(p.stationId);
+  const sel = settings.region;
+  const outside = sel && p.provinceId && !core.provinceIds(sel).includes(p.provinceId);
+  showOutside(outside ? p : null, zoom);
+}
+
+/** "This place is outside the region you downloaded", with a one-tap fix. */
+function showOutside(p, zoom) {
+  const box = $('outside');
+  if (!p) { box.hidden = true; return; }
+  box.innerHTML = `<p>${esc(T.outside(p.name))}</p><menu><button type="button" data-act="close">${T.close}</button>
+    <button type="button" class="primary" data-act="add">${esc(T.addProvince(provinceName(p.provinceId)))}</button></menu>`;
+  box.hidden = false;
+  box.onclick = async (e) => {
+    const act = e.target.closest('[data-act]')?.dataset.act;
+    if (!act) return;
+    box.hidden = true;
+    if (act !== 'add') return;
+    const ids = new Set(core.provinceIds(settings.region));
+    ids.add(p.provinceId);
+    settings.region = { kind: 'prov', ids: [...ids].sort() };
+    save();
+    await loadPrices();
+    map?.flyTo({ center: [p.lon, p.lat], zoom });
+  };
 }
 
 function openSettings() {
@@ -626,7 +745,8 @@ function openSettings() {
     <h3>${T.radius}</h3>${chips('radiusKm', [5, 10, 25], settings.radiusKm, (k) => T.km(k))}
     <h3>${T.plansOwned}</h3>${plans || `<p class="muted">${state.plans ? T.plansEmpty : T.plansUnknown}</p>`}
     <h3>${T.language}</h3>${chips('lang', ['', 'en', 'es'], settings.lang, (l) => ({ '': T.system, en: 'English', es: 'Español' }[l]))}
-    <h3>${T.about}</h3><p class="muted">${T.aboutText}</p><p class="muted">${T.attribution}</p>
+    <h3>${T.about}</h3><p class="muted">${T.aboutText}</p><p class="muted">${T.attribution} ${T.searchCredit}</p>
+    <p class="muted">${logoCredits()}</p>
     <p class="muted">${state.schedule ? esc(T.schedule(state.schedule.version, state.schedule.updated)) : ''} ${state.plans?.generated ? esc(T.plansDate(state.plans.generated.slice(0, 10))) : ''}</p>`;
   $('dlg-settings').showModal();
 }
@@ -641,6 +761,14 @@ function wire() {
   $('btn-brands').addEventListener('click', openBrands);
   $('btn-settings').addEventListener('click', openSettings);
   $('btn-locate').addEventListener('click', () => locate(true));
+  $('btn-search').addEventListener('click', toggleSearch);
+  $('search').addEventListener('input', onSearchInput);
+  $('searchbar').addEventListener('submit', (e) => { e.preventDefault(); searchRemote(); });
+  $('search-results').addEventListener('click', (e) => {
+    if (e.target.closest('[data-act="osm"]')) { searchRemote(); return; }
+    const li = e.target.closest('li[data-src]');
+    if (li) pickPlace((li.dataset.src === 'local' ? search.local : search.remote)[Number(li.dataset.i)]);
+  });
   $('btn-view').addEventListener('click', () => {
     state.view = state.view === 'map' ? 'list' : 'map';
     $('list').hidden = state.view !== 'list';
@@ -688,13 +816,17 @@ function wire() {
     openSettings();
     refresh();
   });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('panel').hidden) closePanel(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!$('searchbar').hidden) { $('searchbar').hidden = true; clearSearch(); } else if (!$('panel').hidden) closePanel();
+  });
 }
 
 function locate(fly) {
   if (!navigator.geolocation) return;
   navigator.geolocation.getCurrentPosition((pos) => {
     state.location = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+    map?.getSource('me')?.setData(point(state.location.lat, state.location.lon));
     $('btn-locate').classList.add('on');
     refresh();
     if (fly) map?.flyTo({ center: [state.location.lon, state.location.lat], zoom: 12 });
@@ -707,6 +839,7 @@ async function main() {
   document.documentElement.lang = LANG;
   document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = T[el.dataset.i18n]; });
   document.querySelectorAll('[data-i18n-title]').forEach((el) => { el.title = T[el.dataset.i18nTitle]; el.setAttribute('aria-label', el.title); });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => { el.placeholder = T[el.dataset.i18nPlaceholder]; el.setAttribute('aria-label', el.placeholder); });
   wire();
 
   const [schedule, brands, products, plans, logoIndex] = await Promise.all([
