@@ -9,6 +9,15 @@
     <!-- In-app updates: hands the release APK downloaded from GitHub to the installer. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!-- Android 11+ package visibility: lets the updater list every app that installs APKs
+         (system installer, Install With Options with Shizuku, SAI…), not only the system one. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="application/vnd.android.package-archive" />
+        </intent>
+    </queries>
+
     <application
         android:name=".OpenFuelApp"
         android:allowBackup="true"

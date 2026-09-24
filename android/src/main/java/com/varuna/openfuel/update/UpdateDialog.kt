@@ -10,6 +10,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -32,7 +33,8 @@ import java.io.File
 private sealed interface Download {
     data object Idle : Download
     data class Running(val progress: Float) : Download
-    data class Ready(val file: File) : Download
+    /** Downloaded; [installers] are the apps that can open it, listed when there is more than one. */
+    data class Ready(val file: File, val installers: List<AppUpdate.Installer>) : Download
     data object Failed : Download
 }
 
@@ -44,9 +46,14 @@ fun UpdateDialog(update: Releases.Update, updates: AppUpdate, onDismiss: () -> U
     var state by remember { mutableStateOf<Download>(Download.Idle) }
     val running = state is Download.Running
 
-    fun install(file: File) {
-        // Without "install unknown apps" the installer refuses; the file stays for the next tap.
-        if (AppUpdate.canInstall(context)) AppUpdate.install(context, file) else AppUpdate.requestInstallPermission(context)
+    // One installer: straight to it. Several: the user picks, because under Advanced Protection
+    // only a Shizuku-based one (Install With Options) can install at all.
+    fun install(ready: Download.Ready) {
+        when (ready.installers.size) {
+            0 -> AppUpdate.installWithChooser(context, ready.file)
+            1 -> AppUpdate.installWith(context, ready.file, ready.installers.single())
+            else -> Unit
+        }
     }
 
     AlertDialog(
@@ -57,13 +64,32 @@ fun UpdateDialog(update: Releases.Update, updates: AppUpdate, onDismiss: () -> U
                 Text(
                     plainNotes(update.body).ifBlank { update.tag },
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.heightIn(max = 320.dp).verticalScroll(rememberScrollState()),
+                    // Shorter while the installers are listed, so they fit under it.
+                    modifier = Modifier
+                        .heightIn(max = if ((state as? Download.Ready)?.installers.orEmpty().size > 1) 180.dp else 320.dp)
+                        .verticalScroll(rememberScrollState()),
                 )
                 when (val s = state) {
                     is Download.Running -> if (s.progress >= 0f) {
                         LinearProgressIndicator(progress = { s.progress }, modifier = Modifier.fillMaxWidth().padding(top = 12.dp))
                     } else {
                         LinearProgressIndicator(Modifier.fillMaxWidth().padding(top = 12.dp))
+                    }
+                    is Download.Ready -> if (s.installers.size > 1) {
+                        Text(
+                            stringResource(R.string.update_choose_installer),
+                            style = MaterialTheme.typography.titleSmall,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 4.dp),
+                        )
+                        s.installers.forEach { installer ->
+                            OutlinedButton(
+                                onClick = { AppUpdate.installWith(context, s.file, installer) },
+                                modifier = Modifier.fillMaxWidth(),
+                            ) { Text(installer.label) }
+                        }
+                        TextButton(onClick = { AppUpdate.installWithChooser(context, s.file) }) {
+                            Text(stringResource(R.string.update_other_installer))
+                        }
                     }
                     Download.Failed -> Text(
                         stringResource(R.string.update_download_failed),
@@ -76,23 +102,27 @@ fun UpdateDialog(update: Releases.Update, updates: AppUpdate, onDismiss: () -> U
         },
         confirmButton = {
             val apk = update.apk
-            if (apk == null) {
+            val choosing = (state as? Download.Ready)?.installers.orEmpty().size > 1
+            if (choosing) {
+                // The list above is the action.
+            } else if (apk == null) {
                 Button(onClick = { Intents.openUrl(context, update.htmlUrl) }) { Text(stringResource(R.string.update_open_github)) }
             } else {
                 Button(
                     enabled = !running,
                     onClick = {
-                        (state as? Download.Ready)?.let { install(it.file); return@Button }
+                        (state as? Download.Ready)?.let { install(it); return@Button }
                         state = Download.Running(-1f)
                         scope.launch {
                             state = try {
-                                Download.Ready(updates.download(context, apk) { state = Download.Running(it) })
+                                val file = updates.download(context, apk) { state = Download.Running(it) }
+                                Download.Ready(file, AppUpdate.installers(context, file))
                             } catch (e: CancellationException) {
                                 throw e
                             } catch (_: Exception) {
                                 Download.Failed
                             }
-                            (state as? Download.Ready)?.let { install(it.file) }
+                            (state as? Download.Ready)?.let { install(it) }
                         }
                     },
                 ) {

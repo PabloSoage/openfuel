@@ -163,4 +163,6 @@
     <string name="update_later">Later</string>
     <string name="update_open_github">Open on GitHub</string>
     <string name="update_download_failed">The download failed.</string>
+    <string name="update_choose_installer">Install with</string>
+    <string name="update_other_installer">Other installer…</string>
 </resources>

@@ -66,6 +66,16 @@ class AppUpdate(http: HttpClient) {
             out
         }
 
+    /** An app that opens APKs: the system installer, Install With Options (Shizuku), SAI… */
+    data class Installer(val label: String, val packageName: String, val activityName: String) {
+        /**
+         * Only the system installer checks openfuel's own "install unknown apps" permission.
+         * A Shizuku-based one installs with its own rights, which is the only way left
+         * under Android's Advanced Protection, where that permission cannot be granted.
+         */
+        val isSystem: Boolean get() = packageName.endsWith(".packageinstaller")
+    }
+
     companion object {
         private const val UPDATES_DIR = "updates"
 
@@ -77,14 +87,47 @@ class AppUpdate(http: HttpClient) {
             runCatching { context.startActivity(intent) }
         }
 
-        /** Hands the APK to the system installer (or any other the user has). */
-        fun install(context: Context, apk: File) {
-            val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", apk)
-            val view = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(uri, "application/vnd.android.package-archive")
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-            context.startActivity(Intent.createChooser(view, null))
+        private fun apkUri(context: Context, apk: File) =
+            FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", apk)
+
+        private fun viewIntent(context: Context, apk: File) = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(apkUri(context, apk), MIME_APK)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
+
+        /** Every app that can install [apk]; needs the package-archive `<queries>` entry on Android 11+. */
+        fun installers(context: Context, apk: File): List<Installer> {
+            val pm = context.packageManager
+            return runCatching {
+                pm.queryIntentActivities(viewIntent(context, apk), 0).mapNotNull { ri ->
+                    val ai = ri.activityInfo ?: return@mapNotNull null
+                    Installer(ri.loadLabel(pm).toString(), ai.packageName, ai.name)
+                }
+                    .filter { it.packageName != context.packageName }
+                    .distinctBy { it.packageName }
+                    // The system installer first, the rest by name.
+                    .sortedWith(compareBy<Installer> { !it.isSystem }.thenBy { it.label.lowercase() })
+            }.getOrDefault(emptyList())
+        }
+
+        /** Opens [apk] with [installer], sending the user to grant the permission first if the system one needs it. */
+        fun installWith(context: Context, apk: File, installer: Installer) {
+            if (installer.isSystem && !canInstall(context)) {
+                requestInstallPermission(context)
+                return
+            }
+            // An installer uninstalled or disabled since it was listed: the chooser still works.
+            runCatching {
+                context.grantUriPermission(installer.packageName, apkUri(context, apk), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                context.startActivity(viewIntent(context, apk).setClassName(installer.packageName, installer.activityName))
+            }.onFailure { installWithChooser(context, apk) }
+        }
+
+        /** The system chooser, for whatever [installers] could not see. */
+        fun installWithChooser(context: Context, apk: File) {
+            context.startActivity(Intent.createChooser(viewIntent(context, apk), null))
+        }
+
+        private const val MIME_APK = "application/vnd.android.package-archive"
     }
 }
