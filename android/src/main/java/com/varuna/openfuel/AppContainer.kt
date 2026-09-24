@@ -7,6 +7,7 @@ import com.varuna.openfuel.core.net.GeoportalApi
 import com.varuna.openfuel.core.net.HttpClient
 import com.varuna.openfuel.core.net.JdkHttpClient
 import com.varuna.openfuel.core.net.OfficialApi
+import com.varuna.openfuel.core.search.Nominatim
 import com.varuna.openfuel.data.LogoResolver
 import com.varuna.openfuel.data.OpenFuelRepository
 import com.varuna.openfuel.data.SettingsStore
@@ -24,6 +25,8 @@ class AppContainer(context: Context) {
     val repository = OpenFuelRepository(database, settings, OfficialApi(http, catalog), geoportal, catalog)
     val taxSchedules = TaxScheduleProvider(http, settings)
     val logos = LogoResolver(database, geoportal, FaviconFetcher(http), http, catalog)
+    /** Address search; its usage policy requires this identifying User-Agent. */
+    val nominatim = Nominatim(http)
 
     companion object {
         val USER_AGENT = "openfuel/${BuildConfig.VERSION_NAME} (+https://github.com/PabloSoage/openfuel)"

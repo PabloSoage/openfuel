@@ -1,6 +1,7 @@
 package com.varuna.openfuel.ui.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -30,29 +31,34 @@ fun BrandFilterDialog(brands: List<BrandFilterItem>, onApply: (Set<String>) -> U
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.brands_title)) },
         text = {
-            LazyColumn(Modifier.heightIn(max = 420.dp)) {
-                items(brands, key = { it.filterKey }) { brand ->
-                    val visible = brand.filterKey !in hidden
-                    Row(
-                        Modifier.fillMaxWidth().clickable {
-                            hidden = if (visible) hidden + brand.filterKey else hidden - brand.filterKey
-                        },
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Checkbox(
-                            checked = visible,
-                            onCheckedChange = { checked ->
-                                hidden = if (checked) hidden - brand.filterKey else hidden + brand.filterKey
+            Column {
+                // "Only Repsol" is two taps: None, then Repsol.
+                Row {
+                    TextButton(onClick = { hidden = emptySet() }) { Text(stringResource(R.string.action_show_all)) }
+                    TextButton(onClick = { hidden = brands.map { it.filterKey }.toSet() }) { Text(stringResource(R.string.action_show_none)) }
+                }
+                LazyColumn(Modifier.heightIn(max = 420.dp)) {
+                    items(brands, key = { it.filterKey }) { brand ->
+                        val visible = brand.filterKey !in hidden
+                        Row(
+                            Modifier.fillMaxWidth().clickable {
+                                hidden = if (visible) hidden + brand.filterKey else hidden - brand.filterKey
                             },
-                        )
-                        Text("${brand.name.ifBlank { independent }} (${brand.stations})")
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Checkbox(
+                                checked = visible,
+                                onCheckedChange = { checked ->
+                                    hidden = if (checked) hidden - brand.filterKey else hidden + brand.filterKey
+                                },
+                            )
+                            Text("${brand.name.ifBlank { independent }} (${brand.stations})")
+                        }
                     }
                 }
             }
         },
         confirmButton = { TextButton(onClick = { onApply(hidden) }) { Text(stringResource(R.string.action_apply)) } },
-        dismissButton = {
-            TextButton(onClick = { hidden = emptySet() }) { Text(stringResource(R.string.action_show_all)) }
-        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) } },
     )
 }

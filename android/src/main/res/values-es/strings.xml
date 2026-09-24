@@ -126,7 +126,25 @@
     <string name="settings_language">Idioma</string>
     <string name="language_system">Sistema</string>
     <string name="settings_about">Acerca de</string>
-    <string name="about_text">openfuel %1$s. Precios de los datos abiertos del Ministerio para la Transición Ecológica y el Reto Demográfico. Logos y planes de descuento de geoportalgasolineras.es.</string>
+    <string name="about_text">openfuel %1$s. Precios de los datos abiertos del Ministerio para la Transición Ecológica y el Reto Demográfico. Logos y planes de descuento de geoportalgasolineras.es; los logos que le faltan, de Wikimedia Commons. Búsqueda de direcciones con Nominatim de OpenStreetMap.</string>
     <string name="about_attribution">Mapa © colaboradores de OpenStreetMap, teselas de OpenFreeMap, dibujado con MapLibre.</string>
     <string name="about_tax_schedule">Calendario fiscal versión %1$d, actualizado el %2$s.</string>
+
+    <!-- Search, location, brand filter, credits -->
+    <string name="action_show_none">Ninguna</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_close">Cerrar</string>
+    <string name="action_my_location">Mi ubicación</string>
+    <string name="search_hint">Localidad, código postal, dirección o estación</string>
+    <string name="search_local_header">En tu región</string>
+    <string name="search_osm">Buscar «%1$s» en OpenStreetMap</string>
+    <string name="search_osm_loading">Buscando en OpenStreetMap…</string>
+    <string name="search_osm_failed">OpenStreetMap no respondió.</string>
+    <string name="search_osm_none">Nada encontrado en OpenStreetMap.</string>
+    <string name="search_osm_header">OpenStreetMap</string>
+    <string name="outside_region">%1$s queda fuera de la región descargada.</string>
+    <string name="action_add_province">Añadir %1$s</string>
+    <string name="location_unavailable">Ubicación no disponible.</string>
+    <string name="location_denied">Permiso de ubicación denegado. Puedes concederlo en los ajustes de la app.</string>
+    <string name="about_logo_credit">Logo de %1$s: %2$s, %3$s, Wikimedia Commons</string>
 </resources>

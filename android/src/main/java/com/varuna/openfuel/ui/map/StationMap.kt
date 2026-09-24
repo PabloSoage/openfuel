@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.varuna.openfuel.core.net.Endpoints
 import com.varuna.openfuel.ui.LatLon
+import com.varuna.openfuel.ui.MapFocus
 import com.varuna.openfuel.ui.StationRow
 import com.varuna.openfuel.ui.theme.BandColors
 import com.varuna.openfuel.util.Format
@@ -30,6 +31,7 @@ import org.maplibre.android.geometry.LatLngBounds
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.Style
 import org.maplibre.android.style.expressions.Expression
+import org.maplibre.android.style.layers.CircleLayer
 import org.maplibre.android.style.layers.PropertyFactory
 import org.maplibre.android.style.layers.SymbolLayer
 import org.maplibre.android.style.sources.GeoJsonSource
@@ -52,6 +54,10 @@ fun StationMap(
     location: LatLon?,
     /** A new value (another region) frames the map again. */
     frameKey: Any?,
+    /** A camera request (search, "my location"); each new value is animated to. */
+    focus: MapFocus?,
+    /** Where the last search landed, drawn as a pin. */
+    searchPin: LatLon?,
     onStationClick: (String) -> Unit,
 ) {
     var map by remember { mutableStateOf<MapLibreMap?>(null) }
@@ -62,6 +68,7 @@ fun StationMap(
 
     MapLibreView(modifier, Endpoints.MAP_STYLE) { m, s ->
         installLayer(s)
+        installOverlays(s)
         m.addOnMapClickListener { point ->
             val screen = m.projection.toScreenLocation(point)
             val id = m.queryRenderedFeatures(screen, LAYER_ID).firstOrNull()?.getStringProperty("id")
@@ -94,7 +101,11 @@ fun StationMap(
         val m = map ?: return@LaunchedEffect
         if (framed == Framing.LOCATION || rows.size < 2) return@LaunchedEffect
         // newLatLngBounds needs the view's size; before layout it frames the world.
-        repeat(40) { if (m.width > 0f && m.height > 0f) return@repeat; delay(50) }
+        var waited = 0
+        while ((m.width <= 0f || m.height <= 0f) && waited < 40) {
+            delay(50)
+            waited++
+        }
         val bounds = LatLngBounds.Builder().apply {
             rows.forEach { include(LatLng(it.station.lat, it.station.lon)) }
         }.build()
@@ -109,6 +120,52 @@ fun StationMap(
                 framed = Framing.REGION
             }
         }
+    }
+
+    // Search and "my location" move the camera; the dot and the pin follow their state.
+    LaunchedEffect(map, focus) {
+        val m = map ?: return@LaunchedEffect
+        val f = focus ?: return@LaunchedEffect
+        framed = Framing.LOCATION // a place the user asked for beats any automatic framing
+        m.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(f.lat, f.lon), f.zoom))
+    }
+    LaunchedEffect(style, location) {
+        (style?.getSource(ME_SOURCE) as? GeoJsonSource)?.setGeoJson(location?.let { point(it) } ?: EMPTY)
+    }
+    LaunchedEffect(style, searchPin) {
+        (style?.getSource(PIN_SOURCE) as? GeoJsonSource)?.setGeoJson(searchPin?.let { point(it) } ?: EMPTY)
+    }
+}
+
+private const val ME_SOURCE = "me"
+private const val PIN_SOURCE = "search-pin"
+
+private fun point(p: LatLon): String =
+    """{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[${p.lon},${p.lat}]},"properties":{}}]}"""
+
+/** The user's position and the search pin, in the style Rustify uses for its own dots. */
+private fun installOverlays(style: Style) {
+    if (style.getSource(PIN_SOURCE) == null) {
+        style.addSource(GeoJsonSource(PIN_SOURCE, EMPTY))
+        style.addLayer(
+            CircleLayer("search-pin-layer", PIN_SOURCE).withProperties(
+                PropertyFactory.circleColor("#C62828"),
+                PropertyFactory.circleRadius(9f),
+                PropertyFactory.circleStrokeColor("#FFFFFF"),
+                PropertyFactory.circleStrokeWidth(3f),
+            ),
+        )
+    }
+    if (style.getSource(ME_SOURCE) == null) {
+        style.addSource(GeoJsonSource(ME_SOURCE, EMPTY))
+        style.addLayer(
+            CircleLayer("me-layer", ME_SOURCE).withProperties(
+                PropertyFactory.circleColor("#1E88E5"),
+                PropertyFactory.circleRadius(8f),
+                PropertyFactory.circleStrokeColor("#FFFFFF"),
+                PropertyFactory.circleStrokeWidth(3f),
+            ),
+        )
     }
 }
 

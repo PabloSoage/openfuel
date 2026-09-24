@@ -1,5 +1,6 @@
 package com.varuna.openfuel.ui.screens
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,7 +14,9 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -23,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -32,6 +36,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,12 +47,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.varuna.openfuel.R
 import com.varuna.openfuel.core.model.Fuel
+import com.varuna.openfuel.ui.LatLon
 import com.varuna.openfuel.ui.MainViewModel
 import com.varuna.openfuel.ui.RegionNames
 import com.varuna.openfuel.ui.UiState
 import com.varuna.openfuel.ui.fuelLabel
 import com.varuna.openfuel.ui.map.StationMap
 import com.varuna.openfuel.util.DeviceLocation
+import kotlinx.coroutines.launch
 
 private enum class Screen { MAP, LIST, SETTINGS }
 
@@ -58,9 +65,25 @@ fun MainScreen(vm: MainViewModel) {
     val detail by vm.detail.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
+    val scope = rememberCoroutineScope()
+    val locationUnavailable = stringResource(R.string.location_unavailable)
+    val locationDenied = stringResource(R.string.location_denied)
+    /** "My location": a fix, then the map goes there; a toast when there is none. */
+    val centreOnUser: () -> Unit = {
+        scope.launch {
+            val fix = DeviceLocation.current(context)
+            if (fix != null) vm.focusOnUser(fix.latitude, fix.longitude)
+            else Toast.makeText(context, locationUnavailable, Toast.LENGTH_SHORT).show()
+        }
+    }
+    var centreAfterGrant by remember { mutableStateOf(false) }
     var permissionGranted by remember { mutableStateOf(false) }
     val permissions = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
         permissionGranted = result.values.any { it }
+        if (centreAfterGrant) {
+            centreAfterGrant = false
+            if (permissionGranted) centreOnUser() else Toast.makeText(context, locationDenied, Toast.LENGTH_LONG).show()
+        }
     }
     val hadPermission = remember { DeviceLocation.hasPermission(context) }
     LaunchedEffect(Unit) {
@@ -82,6 +105,11 @@ fun MainScreen(vm: MainViewModel) {
 
     var screen by rememberSaveable { mutableStateOf(Screen.MAP) }
     var brandsOpen by remember { mutableStateOf(false) }
+    var searchOpen by rememberSaveable { mutableStateOf(false) }
+    val focus by vm.focus.collectAsStateWithLifecycle()
+    val searchPin by vm.searchPin.collectAsStateWithLifecycle()
+    val search by vm.search.collectAsStateWithLifecycle()
+    val outside by vm.outside.collectAsStateWithLifecycle()
 
     if (screen == Screen.SETTINGS) {
         BackHandler { screen = Screen.MAP }
@@ -94,6 +122,9 @@ fun MainScreen(vm: MainViewModel) {
             TopAppBar(
                 title = { FuelSelector(settings.fuel, onSelect = vm::setFuel) },
                 actions = {
+                    IconButton(onClick = { searchOpen = !searchOpen; if (!searchOpen) vm.clearSearch() }) {
+                        Icon(Icons.Filled.Search, contentDescription = stringResource(R.string.action_search))
+                    }
                     IconButton(onClick = { brandsOpen = true }) {
                         Icon(Icons.Filled.FilterList, contentDescription = stringResource(R.string.action_brands))
                     }
@@ -129,7 +160,44 @@ fun MainScreen(vm: MainViewModel) {
                     logos = ui.logos,
                     location = ui.location,
                     frameKey = settings.region,
+                    focus = focus,
+                    searchPin = searchPin?.let { LatLon(it.lat, it.lon) },
                     onStationClick = { vm.openStation(it) },
+                )
+            }
+            if (screen == Screen.MAP) {
+                SmallFloatingActionButton(
+                    onClick = {
+                        if (DeviceLocation.hasPermission(context)) centreOnUser()
+                        else { centreAfterGrant = true; permissions.launch(DeviceLocation.PERMISSIONS) }
+                    },
+                    modifier = Modifier.align(Alignment.BottomEnd).padding(end = 12.dp, bottom = 44.dp),
+                ) {
+                    Icon(Icons.Filled.MyLocation, contentDescription = stringResource(R.string.action_my_location))
+                }
+            }
+            outside?.let { place ->
+                OutsideRegionCard(
+                    place = place,
+                    onAdd = { vm.addProvinceOf(place) },
+                    onDismiss = vm::dismissOutside,
+                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 36.dp),
+                )
+            }
+            if (searchOpen) {
+                BackHandler { searchOpen = false; vm.clearSearch() }
+                SearchOverlay(
+                    state = search,
+                    onQuery = vm::setSearchQuery,
+                    onSubmit = vm::searchRemote,
+                    onPick = { place ->
+                        searchOpen = false
+                        screen = Screen.MAP
+                        vm.pickPlace(place)
+                        vm.clearSearch()
+                    },
+                    onClose = { searchOpen = false; vm.clearSearch() },
+                    modifier = Modifier.align(Alignment.TopCenter),
                 )
             }
             StatusLine(ui, Modifier.align(Alignment.BottomCenter))

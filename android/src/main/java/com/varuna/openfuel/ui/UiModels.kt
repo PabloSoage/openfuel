@@ -53,3 +53,16 @@ data class StationDetail(
     val relative: RelativeMargin.Result? = null,
     val ownAverage: OwnAverage.Result? = null,
 )
+
+/** Where the map should go. [key] changes on every request, so the same place can be asked for twice. */
+data class MapFocus(val lat: Double, val lon: Double, val zoom: Double, val key: Long = System.nanoTime())
+
+data class SearchState(
+    val query: String = "",
+    /** Among the downloaded stations, as the user types. */
+    val local: List<com.varuna.openfuel.core.search.Place> = emptyList(),
+    /** From OpenStreetMap, only after the user submits; null until then. */
+    val remote: List<com.varuna.openfuel.core.search.Place>? = null,
+    val remoteLoading: Boolean = false,
+    val remoteFailed: Boolean = false,
+)

@@ -12,6 +12,8 @@ import com.varuna.openfuel.core.geo.Geo
 import com.varuna.openfuel.core.model.Fuel
 import com.varuna.openfuel.core.model.RegionSelection
 import com.varuna.openfuel.core.model.Station
+import com.varuna.openfuel.core.search.LocalSearch
+import com.varuna.openfuel.core.search.Place
 import com.varuna.openfuel.data.Settings
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +27,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -37,6 +40,21 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     private val refreshState = MutableStateFlow(RefreshState())
     private val _detail = MutableStateFlow<StationDetail?>(null)
     val detail: StateFlow<StationDetail?> = _detail
+
+    private val _focus = MutableStateFlow<MapFocus?>(null)
+    /** Camera requests from search and "my location"; the map animates to each new value. */
+    val focus: StateFlow<MapFocus?> = _focus
+
+    private val _searchPin = MutableStateFlow<Place?>(null)
+    /** The place the last search jumped to, drawn as a pin. */
+    val searchPin: StateFlow<Place?> = _searchPin
+
+    private val _search = MutableStateFlow(SearchState())
+    val search: StateFlow<SearchState> = _search
+
+    private val _outside = MutableStateFlow<Place?>(null)
+    /** A searched place outside the downloaded region, with the province that would cover it. */
+    val outside: StateFlow<Place?> = _outside
 
     private data class RefreshState(val running: Boolean = false, val failed: Boolean = false)
 
@@ -203,6 +221,84 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
         }
     }
 
+    // --- search ----------------------------------------------------------------
+
+    fun setSearchQuery(query: String) {
+        val local = LocalSearch.search(query, ui.value.allStations) { RegionNames.province(it) }
+        _search.value = SearchState(query = query, local = local)
+    }
+
+    private var lastRemoteAt = 0L
+    private var remoteJob: Job? = null
+
+    /** OpenStreetMap, on submit only, never faster than one request a second (its usage policy). */
+    fun searchRemote(language: String) {
+        val query = _search.value.query.trim()
+        if (query.length < 2) return
+        remoteJob?.cancel()
+        _search.update { it.copy(remoteLoading = true, remoteFailed = false) }
+        remoteJob = viewModelScope.launch {
+            val wait = 1_000L - (System.currentTimeMillis() - lastRemoteAt)
+            if (wait > 0) kotlinx.coroutines.delay(wait)
+            lastRemoteAt = System.currentTimeMillis()
+            val result = withContext(Dispatchers.IO) { container.nominatim.search(query, language) }
+            _search.update {
+                if (it.query.trim() != query) it
+                else it.copy(remote = result.orEmpty(), remoteLoading = false, remoteFailed = result == null)
+            }
+        }
+    }
+
+    fun clearSearch() {
+        remoteJob?.cancel()
+        _search.value = SearchState()
+    }
+
+    fun pickPlace(place: Place) {
+        // A local copy: Place lives in :core, and Kotlin does not smart-cast another module's properties.
+        val stationId = place.stationId
+        if (place.kind == Place.Kind.STATION && stationId != null) {
+            _searchPin.value = null
+            _focus.value = MapFocus(place.lat, place.lon, STATION_ZOOM)
+            openStation(stationId)
+        } else {
+            _searchPin.value = place
+            _focus.value = MapFocus(place.lat, place.lon, if (place.kind == Place.Kind.ADDRESS) STREET_ZOOM else TOWN_ZOOM)
+        }
+        val region = ui.value.settings?.region
+        val provinceId = place.provinceId
+        _outside.value = if (region != null && provinceId != null && provinceId !in region.provinceIds()) place else null
+    }
+
+    fun dismissOutside() {
+        _outside.value = null
+    }
+
+    /** Adds the province of [place] to the region, downloads it, and goes back to the place. */
+    fun addProvinceOf(place: Place) {
+        val provinceId = place.provinceId ?: return
+        val region = ui.value.settings?.region ?: return
+        val next = when (region) {
+            RegionSelection.AllSpain -> return
+            is RegionSelection.Communities -> RegionSelection.Provinces(region.provinceIds() + provinceId)
+            is RegionSelection.Provinces -> RegionSelection.Provinces(region.ids + provinceId)
+        }
+        _outside.value = null
+        refreshJob?.cancel()
+        viewModelScope.launch {
+            store.setRegion(next)
+            refresh(force = true)
+            refreshJob?.join()
+            _focus.value = MapFocus(place.lat, place.lon, if (place.kind == Place.Kind.ADDRESS) STREET_ZOOM else TOWN_ZOOM)
+        }
+    }
+
+    /** "My location": centre the map on the user. */
+    fun focusOnUser(lat: Double, lon: Double) {
+        setLocation(lat, lon)
+        _focus.value = MapFocus(lat, lon, STREET_ZOOM)
+    }
+
     fun closeStation() {
         detailJob?.cancel()
         _detail.value = null
@@ -284,6 +380,9 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
 
     companion object {
         private const val STALE_MS = 30L * 60 * 1000
+        private const val TOWN_ZOOM = 12.5
+        private const val STREET_ZOOM = 15.0
+        private const val STATION_ZOOM = 15.0
 
         /** The official prices are Spanish days, whatever the device's zone. */
         fun today(): LocalDate = LocalDate.now(ZoneId.of("Europe/Madrid"))

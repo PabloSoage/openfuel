@@ -1,6 +1,7 @@
 package com.varuna.openfuel.ui.screens
 
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,16 +30,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import com.varuna.openfuel.BuildConfig
 import com.varuna.openfuel.R
+import com.varuna.openfuel.core.brand.BrandCatalog
 import com.varuna.openfuel.core.discount.DiscountKind
 import com.varuna.openfuel.data.SettingsStore
 import com.varuna.openfuel.ui.MainViewModel
 import com.varuna.openfuel.ui.RegionNames
 import com.varuna.openfuel.ui.UiState
+import com.varuna.openfuel.util.Intents
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,6 +138,17 @@ fun SettingsScreen(ui: UiState, vm: MainViewModel, onBack: () -> Unit) {
             Section(stringResource(R.string.settings_about))
             Text(stringResource(R.string.about_text, BuildConfig.VERSION_NAME), style = MaterialTheme.typography.bodySmall)
             Text(stringResource(R.string.about_attribution), style = MaterialTheme.typography.bodySmall)
+            // CC BY-SA logos must credit author, licence and source, one by one.
+            val context = LocalContext.current
+            BrandCatalog.default.brands.mapNotNull { b -> b.logoCredit?.let { b.displayName to it } }
+                .forEach { (brand, credit) ->
+                    Text(
+                        stringResource(R.string.about_logo_credit, brand, credit.author, credit.license),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.clickable { Intents.openUrl(context, credit.page) },
+                    )
+                }
             Text(
                 stringResource(R.string.about_tax_schedule, ui.schedule?.version ?: 0, ui.schedule?.updated.orEmpty()),
                 style = MaterialTheme.typography.bodySmall,
