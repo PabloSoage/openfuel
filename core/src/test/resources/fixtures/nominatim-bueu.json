@@ -1,0 +1,43 @@
+[
+ {
+  "lat": "42.3182637",
+  "lon": "-8.7817755",
+  "category": "boundary",
+  "type": "administrative",
+  "addresstype": "municipality",
+  "name": "Bueu",
+  "display_name": "Bueu, Morrazo, Pontevedra, Galicia, España",
+  "address": {
+   "municipality": "Bueu",
+   "county": "Morrazo",
+   "state_district": "Pontevedra",
+   "ISO3166-2-lvl6": "ES-PO",
+   "state": "Galicia",
+   "ISO3166-2-lvl4": "ES-GA",
+   "country": "España",
+   "country_code": "es"
+  }
+ },
+ {
+  "lat": "42.3263343",
+  "lon": "-8.7847158",
+  "category": "boundary",
+  "type": "administrative",
+  "addresstype": "civil_parish",
+  "name": "Bueu",
+  "display_name": "Bueu, Morrazo, Pontevedra, Galicia, 36930, España",
+  "address": {
+   "civil_parish": "Bueu",
+   "town": "Bueu",
+   "municipality": "Bueu",
+   "county": "Morrazo",
+   "state_district": "Pontevedra",
+   "ISO3166-2-lvl6": "ES-PO",
+   "state": "Galicia",
+   "ISO3166-2-lvl4": "ES-GA",
+   "postcode": "36930",
+   "country": "España",
+   "country_code": "es"
+  }
+ }
+]
