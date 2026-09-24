@@ -28,6 +28,8 @@ concurrency:
 
 jobs:
   deploy:
+    # After enrich only when it succeeded: a failed run changed nothing to publish.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
