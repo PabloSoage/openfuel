@@ -60,4 +60,13 @@ class BrandCatalogTest {
         assertEquals("Repsol", catalog.fromKey("repsol", "whatever").displayName)
         assertTrue(catalog.fromKey("ind:GA", "Gasolinera Ávila").independent)
     }
+
+    @Test fun `CC BY-SA logos carry their attribution, public-domain ones need none`() {
+        val sa = catalog.brands.filter { it.logoCredit != null }
+        assertEquals(setOf("ballenoil", "petroprix"), sa.map { it.key }.toSet())
+        sa.forEach {
+            assertTrue(it.logoCredit!!.license.startsWith("CC BY-SA"))
+            assertTrue(it.logoCredit!!.page.startsWith("https://commons.wikimedia.org/wiki/File:"))
+        }
+    }
 }

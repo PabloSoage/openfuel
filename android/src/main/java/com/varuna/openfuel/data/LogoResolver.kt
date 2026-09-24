@@ -42,7 +42,14 @@ class LogoResolver(
 
     private suspend fun resolve(brandKey: String): Pair<String, ByteArray?> {
         val brand = catalog.fromKey(brandKey, "")
-        if (brand.preferLogoUrl) brand.logoUrl?.let { url -> png(url)?.let { return SOURCE_URL to it } }
+        // A brand whose geoportal logo is known to be wrong (Petronor gets Repsol's)
+        // never falls back to it: if its own logo cannot be fetched, it gets a badge
+        // today and another try tomorrow.
+        if (brand.preferLogoUrl) {
+            brand.logoUrl?.let { url -> png(url)?.let { return SOURCE_URL to it } }
+            brand.website?.let { host -> favicons.pngFor(host)?.let { return SOURCE_FAVICON to it } }
+            return SOURCE_NONE to null
+        }
         val stations = db.stations().byBrand(brandKey, SAMPLE)
         val step = (stations.size / GEOPORTAL_ATTEMPTS).coerceAtLeast(1)
         for (station in stations.filterIndexed { i, _ -> i % step == 0 }.take(GEOPORTAL_ATTEMPTS)) {

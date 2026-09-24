@@ -19,6 +19,8 @@ data class Brand(
     val logoUrl: String? = null,
     /** Use [logoUrl] before the geoportal, whose logo for this brand is wrong (Petronor gets Repsol's). */
     val preferLogoUrl: Boolean = false,
+    /** Required attribution of [logoUrl] when its licence asks for one (CC BY-SA); null for public domain. */
+    val logoCredit: LogoCredit? = null,
 ) {
     /** Key used by the brand filter: every independent station is one entry. */
     val filterKey: String get() = if (independent) INDEPENDENT_FILTER_KEY else key
@@ -27,6 +29,9 @@ data class Brand(
         const val INDEPENDENT_FILTER_KEY = "independent"
     }
 }
+
+/** Author, licence and page of a Wikimedia Commons logo, shown in "About". */
+data class LogoCredit(val author: String, val license: String, val licenseUrl: String, val page: String)
 
 /** Tax territory, decided by the autonomous community. */
 enum class Territory {

@@ -1,6 +1,7 @@
 package com.varuna.openfuel.core.brand
 
 import com.varuna.openfuel.core.model.Brand
+import com.varuna.openfuel.core.model.LogoCredit
 import com.varuna.openfuel.core.parse.array
 import com.varuna.openfuel.core.parse.string
 import com.varuna.openfuel.core.parse.withoutBom
@@ -82,6 +83,10 @@ class BrandCatalog(private val entries: List<Entry>) {
                             independent = false,
                             logoUrl = (o["logoUrl"] as? JsonPrimitive)?.contentOrNull,
                             preferLogoUrl = (o["preferLogoUrl"] as? JsonPrimitive)?.booleanOrNull ?: false,
+                            logoCredit = (o["logoCredit"] as? JsonObject)?.let { c ->
+                                fun creq(key: String) = requireNotNull(c.string(key)) { "logoCredit.$key missing in $o" }
+                                LogoCredit(creq("author"), creq("license"), creq("licenseUrl"), creq("page"))
+                            },
                         ),
                         requireNotNull(o.array("patterns")) { "patterns missing in $o" }
                             .map { Regex((it as JsonPrimitive).content) },
