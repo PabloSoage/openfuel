@@ -130,7 +130,7 @@ export function parseStations(json, catalog) {
     const sign = (s['Rótulo'] || '').trim();
     out.push({
       id, sign, brand: catalog.classify(sign),
-      address: (s['Dirección'] || '').trim(), locality: (s['Localidad'] || '').trim(),
+      address: (s['Dirección'] || '').trim(), locality: (s['Localidad'] || '').trim(), municipality: (s['Municipio'] || '').trim(),
       postalCode: (s['C.P.'] || '').trim(), schedule: (s['Horario'] || '').trim(),
       provinceId: pad(s['IDProvincia'] || ''), ccaa: pad(s['IDCCAA'] || ''),
       lat: c[0], lon: c[1], prices,
@@ -326,9 +326,26 @@ export function localSearch(query, stations, provinceName = (id) => id, limit = 
     group((s) => s.postalCode).filter(([pc]) => pc.startsWith(q)).sort((a, b) => b[1].length - a[1].length)
       .forEach(([pc, list]) => out.push(centre(pc, title(list[0].locality), list, 'postcode')));
   }
-  group((s) => `${s.locality}|${s.provinceId}`).filter(([k]) => matches(normalise(k.split('|')[0])))
-    .sort((a, b) => (normalise(a[0]).startsWith(q) ? 0 : 1) - (normalise(b[0]).startsWith(q) ? 0 : 1) || b[1].length - a[1].length)
-    .forEach(([k, list]) => out.push(centre(title(k.split('|')[0]), provinceName(list[0].provinceId), list, 'locality')));
+  // Municipalities and localities: `Localidad` is often a parish ("SABARIGO") and
+  // `Municipio` the town ("Bueu"); both are searched, grouped regardless of case.
+  const places = new Map();
+  for (const s of stations) {
+    const names = [s.municipality, s.locality].map((n) => (n || '').trim()).filter(Boolean);
+    const seenHere = new Set();
+    for (const name of names) {
+      const n = normalise(name);
+      if (seenHere.has(n)) continue;
+      seenHere.add(n);
+      const key = `${n}|${s.provinceId}`;
+      if (!places.has(key)) places.set(key, { name, list: [] });
+      const e = places.get(key);
+      if (!/[a-zà-ÿ]/.test(e.name) && /[a-zà-ÿ]/.test(name)) e.name = name; // prefer "Bueu" over "BUEU"
+      e.list.push(s);
+    }
+  }
+  [...places.entries()].filter(([k]) => matches(k.split('|')[0]))
+    .sort((a, b) => (a[0].startsWith(q) ? 0 : 1) - (b[0].startsWith(q) ? 0 : 1) || b[1].list.length - a[1].list.length)
+    .forEach(([, e]) => out.push(centre(title(e.name), provinceName(e.list[0].provinceId), e.list, 'locality')));
   for (const s of stations) {
     if (out.filter((p) => p.kind === 'station').length >= limit) break;
     if (matches(normalise(`${s.sign} ${s.address}`))) {

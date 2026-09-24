@@ -42,8 +42,11 @@ class SearchTest {
         assertTrue("countrycodes=es" in url && "q=R%C3%BAa+do+Pr%C3%ADncipe%2C+Vigo" in url)
     }
 
-    private fun station(id: String, sign: String, locality: String, postcode: String, lat: Double, address: String = "RÚA X, 1") = Station(
-        id, sign, BrandCatalog.default.classify(sign), address, locality, locality, "PONTEVEDRA", "36", "12",
+    private fun station(
+        id: String, sign: String, locality: String, postcode: String, lat: Double,
+        address: String = "RÚA X, 1", municipality: String = locality,
+    ) = Station(
+        id, sign, BrandCatalog.default.classify(sign), address, locality, municipality, "PONTEVEDRA", "36", "12",
         postcode, lat, -8.7, "", "", mapOf(Fuel.GOA to 1.8),
     )
 
@@ -79,4 +82,23 @@ class SearchTest {
     }
 
     @Test fun `one letter is not a search`() = assertTrue(LocalSearch.search("v", stations).isEmpty())
+
+    /** Real case of 2026-09-24: the only Bueu station has Localidad SABARIGO and Municipio Bueu. */
+    @Test fun `a municipality is found even when the locality is a parish`() {
+        val list = listOf(station("5", "SHELL", "SABARIGO", "36938", 42.33, municipality = "Bueu"))
+        val bueu = LocalSearch.search("bueu", list).first()
+        assertEquals(Place.Kind.LOCALITY, bueu.kind)
+        assertEquals("Bueu", bueu.name)
+        assertEquals("Sabarigo", LocalSearch.search("sabarigo", list).first().name)
+    }
+
+    @Test fun `the same town in capitals and mixed case is one place`() {
+        val list = listOf(
+            station("6", "REPSOL", "VIGO", "36201", 42.24, municipality = "Vigo"),
+            station("7", "GALP", "VIGO", "36204", 42.22, municipality = "Vigo"),
+        )
+        val towns = LocalSearch.search("vigo", list).filter { it.kind == Place.Kind.LOCALITY }
+        assertEquals(1, towns.size)
+        assertTrue(towns.single().detail.endsWith("· 2"))
+    }
 }

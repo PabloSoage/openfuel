@@ -31,12 +31,23 @@ object LocalSearch {
                 .forEach { (code, list) -> results += centre(code, title(list.first().locality), list, Place.Kind.POSTCODE) }
         }
 
-        // Localities and municipalities: the name starts with the query, or every word appears in it.
-        val byLocality = stations.groupBy { it.locality.ifBlank { it.municipality } to it.provinceId }
-        byLocality.entries
-            .filter { (key, _) -> matches(BrandCatalog.normalise(key.first), q, words) }
-            .sortedWith(compareBy({ !BrandCatalog.normalise(it.key.first).startsWith(q) }, { -it.value.size }))
-            .forEach { (key, list) -> results += centre(title(key.first), provinceName(list.first().provinceId), list, Place.Kind.LOCALITY) }
+        // Municipalities and localities. In the official data `Localidad` is often a parish
+        // ("SABARIGO") and `Municipio` the town ("Bueu"), so both are searched; a station is
+        // counted once per distinct name, and names are grouped regardless of case.
+        val places = linkedMapOf<Pair<String, String>, Pair<String, MutableList<Station>>>()
+        for (s in stations) {
+            for (name in listOf(s.municipality, s.locality).map { it.trim() }.filter { it.isNotEmpty() }.distinctBy { BrandCatalog.normalise(it) }) {
+                val key = BrandCatalog.normalise(name) to s.provinceId
+                val entry = places.getOrPut(key) { name to mutableListOf() }
+                // Prefer the mixed-case spelling ("Bueu" over "BUEU") for display.
+                if (entry.first.none { it.isLowerCase() } && name.any { it.isLowerCase() }) places[key] = name to entry.second
+                places.getValue(key).second += s
+            }
+        }
+        places.entries
+            .filter { (key, _) -> matches(key.first, q, words) }
+            .sortedWith(compareBy({ !it.key.first.startsWith(q) }, { -it.value.second.size }))
+            .forEach { (_, value) -> results += centre(title(value.first), provinceName(value.second.first().provinceId), value.second, Place.Kind.LOCALITY) }
 
         // Stations by sign or address.
         stations.asSequence()
