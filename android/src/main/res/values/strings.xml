@@ -149,4 +149,18 @@
     <string name="location_unavailable">Location not available.</string>
     <string name="location_denied">Location permission denied. You can allow it in the app settings.</string>
     <string name="about_logo_credit">%1$s logo: %2$s, %3$s, Wikimedia Commons</string>
+    <string name="settings_updates">Updates</string>
+    <string name="update_installed">Installed version: %1$s</string>
+    <string name="update_new">New version available: %1$s</string>
+    <string name="update_see">See what\'s new</string>
+    <string name="update_up_to_date">You have the latest version.</string>
+    <string name="update_check_failed">Could not reach GitHub to check.</string>
+    <string name="update_check">Check for updates</string>
+    <string name="update_check_on_start">Check for updates when the app starts</string>
+    <string name="update_available_title">%1$s available</string>
+    <string name="update_download">Download</string>
+    <string name="update_install">Install</string>
+    <string name="update_later">Later</string>
+    <string name="update_open_github">Open on GitHub</string>
+    <string name="update_download_failed">The download failed.</string>
 </resources>

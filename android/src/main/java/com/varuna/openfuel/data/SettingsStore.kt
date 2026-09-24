@@ -3,6 +3,7 @@ package com.varuna.openfuel.data
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
@@ -28,6 +29,8 @@ data class Settings(
     val lastRefreshAt: Long,
     /** `Fecha` of the last official response, as the API wrote it. */
     val publishedAt: String?,
+    /** Look for a new release on GitHub when the app starts. */
+    val checkUpdates: Boolean = true,
 )
 
 class SettingsStore(private val context: Context) {
@@ -44,6 +47,7 @@ class SettingsStore(private val context: Context) {
         val PUBLISHED_AT = stringPreferencesKey("published_at")
         val TAX_SCHEDULE_JSON = stringPreferencesKey("tax_schedule_json")
         val TAX_SCHEDULE_CHECKED = longPreferencesKey("tax_schedule_checked_at")
+        val CHECK_UPDATES = booleanPreferencesKey("check_updates_on_start")
     }
 
     val settings: Flow<Settings> = context.dataStore.data.map { p ->
@@ -56,6 +60,7 @@ class SettingsStore(private val context: Context) {
             radiusKm = p[Keys.RADIUS_KM] ?: DEFAULT_RADIUS_KM,
             lastRefreshAt = p[Keys.LAST_REFRESH] ?: 0L,
             publishedAt = p[Keys.PUBLISHED_AT],
+            checkUpdates = p[Keys.CHECK_UPDATES] ?: true,
         )
     }
 
@@ -92,6 +97,8 @@ class SettingsStore(private val context: Context) {
     suspend fun setHistoryDays(days: Int) = context.dataStore.edit { it[Keys.HISTORY_DAYS] = days }
 
     suspend fun setRadiusKm(km: Int) = context.dataStore.edit { it[Keys.RADIUS_KM] = km }
+
+    suspend fun setCheckUpdates(on: Boolean) = context.dataStore.edit { it[Keys.CHECK_UPDATES] = on }
 
     suspend fun markRefreshed(at: Long, publishedAt: String?) = context.dataStore.edit { p ->
         p[Keys.LAST_REFRESH] = at

@@ -66,3 +66,12 @@ data class SearchState(
     val remoteLoading: Boolean = false,
     val remoteFailed: Boolean = false,
 )
+
+/** The GitHub release check, shown in Settings. */
+sealed interface UpdateStatus {
+    data object Idle : UpdateStatus
+    data object Checking : UpdateStatus
+    data object UpToDate : UpdateStatus
+    data object Failed : UpdateStatus
+    data class Available(val update: com.varuna.openfuel.core.update.Releases.Update) : UpdateStatus
+}

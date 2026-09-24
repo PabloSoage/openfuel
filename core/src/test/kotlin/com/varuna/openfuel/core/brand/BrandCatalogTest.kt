@@ -65,8 +65,9 @@ class BrandCatalogTest {
         val sa = catalog.brands.filter { it.logoCredit != null }
         assertEquals(setOf("ballenoil", "petroprix"), sa.map { it.key }.toSet())
         sa.forEach {
-            assertTrue(it.logoCredit!!.license.startsWith("CC BY-SA"))
-            assertTrue(it.logoCredit!!.page.startsWith("https://commons.wikimedia.org/wiki/File:"))
+            val credit = it.logoCredit!!
+            assertTrue(credit.license.startsWith("CC BY-SA"))
+            assertTrue(credit.page.startsWith("https://commons.wikimedia.org/wiki/File:"))
         }
     }
 }

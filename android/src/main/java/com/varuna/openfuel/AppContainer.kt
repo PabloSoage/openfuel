@@ -13,6 +13,7 @@ import com.varuna.openfuel.data.OpenFuelRepository
 import com.varuna.openfuel.data.SettingsStore
 import com.varuna.openfuel.data.TaxScheduleProvider
 import com.varuna.openfuel.data.db.OpenFuelDatabase
+import com.varuna.openfuel.update.AppUpdate
 
 /** Hand-wired dependencies: a handful of objects do not justify a DI framework. */
 class AppContainer(context: Context) {
@@ -27,6 +28,7 @@ class AppContainer(context: Context) {
     val logos = LogoResolver(database, geoportal, FaviconFetcher(http), http, catalog)
     /** Address search; its usage policy requires this identifying User-Agent. */
     val nominatim = Nominatim(http)
+    val updates = AppUpdate(http)
 
     companion object {
         val USER_AGENT = "openfuel/${BuildConfig.VERSION_NAME} (+https://github.com/PabloSoage/openfuel)"

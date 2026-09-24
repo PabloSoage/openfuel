@@ -18,6 +18,8 @@ import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -51,6 +53,7 @@ import com.varuna.openfuel.ui.LatLon
 import com.varuna.openfuel.ui.MainViewModel
 import com.varuna.openfuel.ui.RegionNames
 import com.varuna.openfuel.ui.UiState
+import com.varuna.openfuel.ui.UpdateStatus
 import com.varuna.openfuel.ui.fuelLabel
 import com.varuna.openfuel.ui.map.StationMap
 import com.varuna.openfuel.util.DeviceLocation
@@ -110,6 +113,7 @@ fun MainScreen(vm: MainViewModel) {
     val searchPin by vm.searchPin.collectAsStateWithLifecycle()
     val search by vm.search.collectAsStateWithLifecycle()
     val outside by vm.outside.collectAsStateWithLifecycle()
+    val update by vm.update.collectAsStateWithLifecycle()
 
     if (screen == Screen.SETTINGS) {
         BackHandler { screen = Screen.MAP }
@@ -145,7 +149,10 @@ fun MainScreen(vm: MainViewModel) {
                         }
                     }
                     IconButton(onClick = { screen = Screen.SETTINGS }) {
-                        Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.action_settings))
+                        // A dot while a new release waits in Settings.
+                        BadgedBox(badge = { if (update is UpdateStatus.Available) Badge() }) {
+                            Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.action_settings))
+                        }
                     }
                 },
             )

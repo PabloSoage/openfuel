@@ -7,7 +7,7 @@ today's prices, a per-litre breakdown into VAT, hydrocarbon excise and the rest,
 loyalty discounts published for each station applied to the price, and the price
 history of the last days. Offline-first, no keys, no accounts, no trackers.
 
-> **Status:** 0.1.0 in development.
+> **Status:** Beta v0.2.0. Releases: [GitHub](https://github.com/PabloSoage/openfuel/releases).
 
 ## What it does
 
@@ -36,6 +36,8 @@ history of the last days. Offline-first, no keys, no accounts, no trackers.
   outside your region offers to add its province.
 - **My location** on the map, list view, favourites, a brand filter (all, none, or just the
   ones you pick), English and Spanish.
+- **Updates** — Settings shows when GitHub has a newer release, with its notes, and downloads
+  and installs the APK for your phone. Checked when the app starts; can be turned off.
 - **Web version** at [pablosoage.github.io/openfuel](https://pablosoage.github.io/openfuel/),
   no install, with the same features. Its discount plans come from a weekly job (below);
   until that job completes a national run, the web has plans for only a few stations.
@@ -49,6 +51,7 @@ history of the last days. Offline-first, no keys, no accounts, no trackers.
 | Logos the geoportal lacks | [Wikimedia Commons](https://commons.wikimedia.org), listed in [`brands.json`](core/src/main/resources/brands.json). Ten are public domain; the [Ballenoil](https://commons.wikimedia.org/wiki/File:Logo_Ballenoil.svg) and [Petroprix](https://commons.wikimedia.org/wiki/File:Logo_Petroprix.svg) logos are by Autopistero20502020, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), credited in the app and the web |
 | Additive claims | Each brand's own website, linked per product |
 | Address search | [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org), only when you submit a search, at most once a second |
+| New versions | [GitHub releases](https://github.com/PabloSoage/openfuel/releases) of this repository, once per start unless turned off in Settings |
 | Tax rates | BOE: Ley 38/1992 art. 50, Real Decreto-ley 7/2026, Real Decreto-ley 18/2026; INE CPI series for the conditional months |
 | Map | © OpenStreetMap contributors, tiles by [OpenFreeMap](https://openfreemap.org), rendered with [MapLibre](https://maplibre.org) |
 

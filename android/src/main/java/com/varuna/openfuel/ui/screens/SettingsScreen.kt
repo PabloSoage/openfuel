@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -21,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -33,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.core.os.LocaleListCompat
 import com.varuna.openfuel.BuildConfig
 import com.varuna.openfuel.R
@@ -42,6 +47,8 @@ import com.varuna.openfuel.data.SettingsStore
 import com.varuna.openfuel.ui.MainViewModel
 import com.varuna.openfuel.ui.RegionNames
 import com.varuna.openfuel.ui.UiState
+import com.varuna.openfuel.ui.UpdateStatus
+import com.varuna.openfuel.update.UpdateDialog
 import com.varuna.openfuel.util.Intents
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -135,6 +142,9 @@ fun SettingsScreen(ui: UiState, vm: MainViewModel, onBack: () -> Unit) {
             }
 
             HorizontalDivider()
+            Updates(settings.checkUpdates, vm)
+
+            HorizontalDivider()
             Section(stringResource(R.string.settings_about))
             Text(stringResource(R.string.about_text, BuildConfig.VERSION_NAME), style = MaterialTheme.typography.bodySmall)
             Text(stringResource(R.string.about_attribution), style = MaterialTheme.typography.bodySmall)
@@ -163,6 +173,46 @@ fun SettingsScreen(ui: UiState, vm: MainViewModel, onBack: () -> Unit) {
             onApply = { vm.setHiddenBrands(it); brandsOpen = false },
             onDismiss = { brandsOpen = false },
         )
+    }
+}
+
+/** Installed version, what GitHub says about it, and whether to ask at every start. */
+@Composable
+private fun Updates(checkOnStart: Boolean, vm: MainViewModel) {
+    val status by vm.update.collectAsStateWithLifecycle()
+    var showing by remember { mutableStateOf(false) }
+    Section(stringResource(R.string.settings_updates))
+    Text(stringResource(R.string.update_installed, BuildConfig.VERSION_NAME), style = MaterialTheme.typography.bodyMedium)
+    when (val s = status) {
+        is UpdateStatus.Available -> {
+            Text(
+                stringResource(R.string.update_new, s.update.title),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+            Button(onClick = { showing = true }) { Text(stringResource(R.string.update_see)) }
+            if (showing) UpdateDialog(s.update, vm.appUpdate, onDismiss = { showing = false })
+        }
+        UpdateStatus.UpToDate -> Text(stringResource(R.string.update_up_to_date), style = MaterialTheme.typography.bodySmall)
+        UpdateStatus.Failed -> Text(
+            stringResource(R.string.update_check_failed),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.error,
+        )
+        else -> Unit
+    }
+    if (status !is UpdateStatus.Available) {
+        OutlinedButton(onClick = { vm.checkForUpdates() }, enabled = status != UpdateStatus.Checking) {
+            if (status == UpdateStatus.Checking) {
+                CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
+            } else {
+                Text(stringResource(R.string.update_check))
+            }
+        }
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(stringResource(R.string.update_check_on_start), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+        Switch(checked = checkOnStart, onCheckedChange = vm::setCheckUpdates)
     }
 }
 

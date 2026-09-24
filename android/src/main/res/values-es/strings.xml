@@ -147,4 +147,18 @@
     <string name="location_unavailable">Ubicación no disponible.</string>
     <string name="location_denied">Permiso de ubicación denegado. Puedes concederlo en los ajustes de la app.</string>
     <string name="about_logo_credit">Logo de %1$s: %2$s, %3$s, Wikimedia Commons</string>
+    <string name="settings_updates">Actualizaciones</string>
+    <string name="update_installed">Versión instalada: %1$s</string>
+    <string name="update_new">Hay una versión nueva: %1$s</string>
+    <string name="update_see">Ver novedades</string>
+    <string name="update_up_to_date">Tienes la última versión.</string>
+    <string name="update_check_failed">No se pudo consultar GitHub.</string>
+    <string name="update_check">Buscar actualizaciones</string>
+    <string name="update_check_on_start">Buscar actualizaciones al abrir la app</string>
+    <string name="update_available_title">%1$s disponible</string>
+    <string name="update_download">Descargar</string>
+    <string name="update_install">Instalar</string>
+    <string name="update_later">Más tarde</string>
+    <string name="update_open_github">Abrir en GitHub</string>
+    <string name="update_download_failed">La descarga falló.</string>
 </resources>

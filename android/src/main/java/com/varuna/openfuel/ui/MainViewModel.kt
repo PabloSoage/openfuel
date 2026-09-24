@@ -56,6 +56,12 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
     /** A searched place outside the downloaded region, with the province that would cover it. */
     val outside: StateFlow<Place?> = _outside
 
+    /** Download and install, for the update dialog. */
+    val appUpdate get() = container.updates
+
+    private val _update = MutableStateFlow<UpdateStatus>(UpdateStatus.Idle)
+    val update: StateFlow<UpdateStatus> = _update
+
     private data class RefreshState(val running: Boolean = false, val failed: Boolean = false)
 
     private data class Core(
@@ -103,6 +109,9 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
         viewModelScope.launch {
             container.taxSchedules.loadCached()
             refresh(force = false)
+        }
+        viewModelScope.launch {
+            if (store.current().checkUpdates) checkForUpdates(manual = false)
         }
     }
 
@@ -164,6 +173,23 @@ class MainViewModel(private val container: AppContainer) : ViewModel() {
 
     fun setRadiusKm(km: Int) {
         viewModelScope.launch { store.setRadiusKm(km) }
+    }
+
+    fun setCheckUpdates(on: Boolean) {
+        viewModelScope.launch { store.setCheckUpdates(on) }
+    }
+
+    /** A check at start-up stays quiet when GitHub does not answer; one the user asked for says so. */
+    fun checkForUpdates(manual: Boolean = true) {
+        if (_update.value == UpdateStatus.Checking) return
+        val previous = _update.value
+        _update.value = UpdateStatus.Checking
+        viewModelScope.launch {
+            _update.value = runCatching { container.updates.check() }.fold(
+                onSuccess = { it?.let(UpdateStatus::Available) ?: UpdateStatus.UpToDate },
+                onFailure = { if (it is CancellationException) throw it else if (manual) UpdateStatus.Failed else previous },
+            )
+        }
     }
 
     fun setLocation(lat: Double, lon: Double) {
