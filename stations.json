@@ -51,6 +51,19 @@
 "schedule": "L-D: 24H",
 "sign": "MOEVE"
 },
+"10000": {
+"address": "MANUEL QUIROGA, 50",
+"ccaaId": "12",
+"lat": 42.415444,
+"locality": "BARCO (O)",
+"lon": -6.978833,
+"municipality": "Barco de Valdeorras (O)",
+"postalCode": "32300",
+"province": "OURENSE",
+"provinceId": "32",
+"schedule": "L-D: 24H",
+"sign": "CEPSA"
+},
 "10001": {
 "address": "AVINGUDA ZONA INDUSTRIAL, S/N",
 "ccaaId": "09",
@@ -400,7 +413,7 @@
 "province": "BURGOS",
 "provinceId": "09",
 "schedule": "L-V: 24H; S-D: 06:00-00:00",
-"sign": "BP"
+"sign": "BP BRIVIESCA"
 },
 "1004": {
 "address": "BARRIO SOMAHOZ",
@@ -726,6 +739,19 @@
 "provinceId": "39",
 "schedule": "L: 06:30-22:30",
 "sign": "MEROIL"
+},
+"10082": {
+"address": "CALLE SAN  ILDEFONSO, 1",
+"ccaaId": "07",
+"lat": 39.443528,
+"locality": "INIESTA",
+"lon": -1.75275,
+"municipality": "Iniesta",
+"postalCode": "16235",
+"province": "CUENCA",
+"provinceId": "16",
+"schedule": "L-D: 24H",
+"sign": "161100-09363"
 },
 "10083": {
 "address": "C/ TOMAS ROCA BOSH, S/N",
@@ -8095,7 +8121,7 @@
 "postalCode": "10600",
 "province": "CÁCERES",
 "provinceId": "10",
-"schedule": "L-V: 06:30-23:00; S-D: 07:00-23:00",
+"schedule": "L-V: 06:30-22:00; S-D: 07:00-22:00",
 "sign": "REPSOL"
 },
 "10995": {
@@ -13544,6 +13570,19 @@
 "provinceId": "23",
 "schedule": "L-D: 24H",
 "sign": "SHELL"
+},
+"11578": {
+"address": "CARRETERA OU402 KM. 20",
+"ccaaId": "12",
+"lat": 42.306556,
+"locality": "FRIEIRA (A)",
+"lon": -8.070833,
+"municipality": "Castrelo de Miño",
+"postalCode": "32430",
+"province": "OURENSE",
+"provinceId": "32",
+"schedule": "L-S: 08:30-21:00",
+"sign": "REPSOL"
 },
 "11579": {
 "address": "CARRETERA GR4302  CIJUELA - CHIMENEAS, JUNTO A92 KM. 225",
@@ -38856,6 +38895,19 @@
 "schedule": "L-D: 24H",
 "sign": "E.S. MIRASIERRA"
 },
+"13958": {
+"address": "AVINGUDA VALL DE LAGUART, 5",
+"ccaaId": "10",
+"lat": 38.64575,
+"locality": "CALPE",
+"lon": 0.051139,
+"municipality": "Calpe/Calp",
+"postalCode": "03710",
+"province": "ALICANTE",
+"provinceId": "03",
+"schedule": "L-D: 24H",
+"sign": "AUTOFUEL LOW COST"
+},
 "13959": {
 "address": "CALLE PROGRESO, 4",
 "ccaaId": "09",
@@ -43535,19 +43587,6 @@
 "provinceId": "23",
 "schedule": "L-D: 24H",
 "sign": "URBAN OIL"
-},
-"14433": {
-"address": "CALLE RIO JARAMA, 51",
-"ccaaId": "07",
-"lat": 39.869028,
-"locality": "TOLEDO",
-"lon": -3.960583,
-"municipality": "Toledo",
-"postalCode": "45007",
-"province": "TOLEDO",
-"provinceId": "45",
-"schedule": "L-D: 24H",
-"sign": "NATURGY TOLEDO"
 },
 "14434": {
 "address": "AUTOVIA AUTOVIA DEL MEDITERRANEO KM. 606",
@@ -75280,7 +75319,7 @@
 "province": "BALEARS (ILLES)",
 "provinceId": "07",
 "schedule": "L-S: 06:30-21:00",
-"sign": "BP CA SESTRELLA"
+"sign": "BP"
 },
 "2413": {
 "address": "CARRETERA C-31 KM. 20",
@@ -75450,19 +75489,6 @@
 "provinceId": "48",
 "schedule": "L-S: 07:00-21:00; D: 08:00-21:00",
 "sign": "REPSOL"
-},
-"2430": {
-"address": "CALLE LLANÇÀ, S/N",
-"ccaaId": "09",
-"lat": 42.3345,
-"locality": "PORT DE LA SELVA (EL)",
-"lon": 3.1995,
-"municipality": "Port de la Selva (El)",
-"postalCode": "17489",
-"province": "GIRONA",
-"provinceId": "17",
-"schedule": "L-D: 08:00-20:00",
-"sign": "LA TRAMUNTANA"
 },
 "2431": {
 "address": "AVENIDA RHODE, S/N",
@@ -103320,7 +103346,7 @@
 "postalCode": "24400",
 "province": "LEÓN",
 "provinceId": "24",
-"schedule": "L-D: 07:00-23:00",
+"schedule": "L-V: 07:00-22:00; S: 08:00-13:00",
 "sign": "CEPSA"
 },
 "5": {
@@ -106350,6 +106376,19 @@
 "province": "GUADALAJARA",
 "provinceId": "19",
 "schedule": "L-D: 24H",
+"sign": "REPSOL"
+},
+"5281": {
+"address": "CARRETERA CM-2023 KM. 74,6",
+"ccaaId": "07",
+"lat": 40.450778,
+"locality": "PRIEGO",
+"lon": -2.316917,
+"municipality": "Priego",
+"postalCode": "16800",
+"province": "CUENCA",
+"provinceId": "16",
+"schedule": "L-D: 08:00-15:00 y 17:00-21:00",
 "sign": "REPSOL"
 },
 "5282": {
@@ -130232,6 +130271,19 @@
 "provinceId": "06",
 "schedule": "L-V: 06:00-22:00; S: 06:00-14:00",
 "sign": "REPSOL"
+},
+"7536": {
+"address": "CARRETERA C-713 KM. 4,5",
+"ccaaId": "11",
+"lat": 39.451833,
+"locality": "GUADALUPE",
+"lon": -5.331194,
+"municipality": "Guadalupe",
+"postalCode": "10140",
+"province": "CÁCERES",
+"provinceId": "10",
+"schedule": "L-D: 07:00-22:00",
+"sign": "GALP CHIPI"
 },
 "7537": {
 "address": "AVENIDA DE MERIDA, 9",
