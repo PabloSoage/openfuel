@@ -34,6 +34,7 @@ import ssl
 import sys
 import time
 import unicodedata
+import urllib.error
 import urllib.request
 
 OFFICIAL = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/"
@@ -53,6 +54,9 @@ PAUSE_S = 0.25
 
 def tls_context():
     ctx = ssl.create_default_context()
+    # The Ministry's server, at times, speaks only TLS 1.2 with RSA key exchange, which
+    # Python stopped offering in 3.10: it then resets the handshake (see snapshot.py).
+    ctx.set_ciphers("ECDHE+AESGCM:ECDHE+CHACHA20:AES256-GCM-SHA384:AES128-GCM-SHA256")
     if os.path.exists(INTERMEDIATE):
         ctx.load_verify_locations(cafile=INTERMEDIATE)
     return ctx
@@ -65,6 +69,27 @@ def get(url, timeout=60):
     req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=timeout, context=CTX) as resp:
         return json.loads(resp.read().decode("utf-8-sig"))
+
+
+# The station list is the one request the whole run depends on, so it gets about
+# 12 minutes of retries on top of the cipher fix above.
+OFFICIAL_RETRY_WAITS = (30, 60, 120, 240, 300)
+
+
+def get_official():
+    for attempt, wait in enumerate((*OFFICIAL_RETRY_WAITS, None), start=1):
+        try:
+            return get(OFFICIAL, timeout=180)
+        except urllib.error.HTTPError as e:
+            if e.code < 500 or wait is None:
+                raise
+            error = f"HTTP {e.code}"
+        except OSError as e:  # URLError, connection reset, timeout
+            if wait is None:
+                raise
+            error = str(getattr(e, "reason", e))
+        print(f"station list: attempt {attempt} failed ({error}), retrying in {wait} s", file=sys.stderr)
+        time.sleep(wait)
 
 
 def normalise(sign):
@@ -137,7 +162,7 @@ def main():
     classify, wrong_logo = load_brands()
     stations = [
         (s["IDEESS"].strip(), s.get("Rótulo") or "")
-        for s in get(OFFICIAL, timeout=180)["ListaEESSPrecio"] if (s.get("IDEESS") or "").strip()
+        for s in get_official()["ListaEESSPrecio"] if (s.get("IDEESS") or "").strip()
     ]
     if args.limit:
         stations = stations[: args.limit]

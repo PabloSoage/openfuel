@@ -25,3 +25,4 @@ android/release/
 
 # Python
 __pycache__/
+*.stackdump

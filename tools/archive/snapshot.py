@@ -8,6 +8,10 @@ compactly in a directory that is the checkout of the `archive` branch:
     stations.json                       {IDEESS: {sign, lat, lon, ...}}, rewritten only if it changed
     README.md                           written once
 
+Without --date it archives yesterday and any day of the last week still missing:
+the Ministry resets connections from GitHub's runners now and then, and a day
+lost that way is filled in by the next run.
+
 Standard library only. Output is deterministic (sorted keys, gzip mtime 0), so a
 re-run of the same day produces no diff.
 """
@@ -16,12 +20,34 @@ import datetime as dt
 import gzip
 import json
 import os
+import ssl
 import sys
+import time
+import urllib.error
 import urllib.request
 from zoneinfo import ZoneInfo
 
 BASE = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes"
 USER_AGENT = "openfuel-archive (+https://github.com/PabloSoage/openfuel)"
+CATCH_UP_DAYS = 7
+# Seconds between attempts, about 12 minutes in all, for whatever else goes wrong.
+RETRY_WAITS = (30, 60, 120, 240, 300)
+
+
+def tls_context():
+    """
+    Measured 2026-09-28: at times the Ministry's server speaks only TLS 1.2 with RSA key
+    exchange (AES256-GCM-SHA384). Python's default cipher list has no RSA key exchange
+    since 3.10, so the server resets the handshake: "Connection reset by peer", which
+    failed the archive on 26 and 27 September. curl and `openssl s_client` connect,
+    because OpenSSL's own default still offers them. ECDHE stays first.
+    """
+    ctx = ssl.create_default_context()
+    ctx.set_ciphers("ECDHE+AESGCM:ECDHE+CHACHA20:AES256-GCM-SHA384:AES128-GCM-SHA256")
+    return ctx
+
+
+CTX = tls_context()
 
 # Same names as core/.../model/Fuel.kt, so the app and the archive agree.
 FUELS = {
@@ -80,8 +106,21 @@ def number(raw):
 def fetch(day):
     url = f"{BASE}/EstacionesTerrestresHist/{day.strftime('%d-%m-%Y')}"
     req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        body = resp.read().decode("utf-8-sig")
+    for attempt, wait in enumerate((*RETRY_WAITS, None), start=1):
+        try:
+            with urllib.request.urlopen(req, timeout=120, context=CTX) as resp:
+                body = resp.read().decode("utf-8-sig")
+            break
+        except urllib.error.HTTPError as e:
+            if e.code < 500 or wait is None:
+                raise
+            error = f"HTTP {e.code}"
+        except OSError as e:  # URLError, connection reset, timeout
+            if wait is None:
+                raise
+            error = str(getattr(e, "reason", e))
+        print(f"{day}: attempt {attempt} failed ({error}), retrying in {wait} s", file=sys.stderr)
+        time.sleep(wait)
     data = json.loads(body)
     if data.get("ResultadoConsulta", "OK") != "OK":
         raise RuntimeError(f"ResultadoConsulta={data.get('ResultadoConsulta')}")
@@ -116,17 +155,48 @@ def write_if_changed(path, text):
     return True
 
 
+def price_path(out, day):
+    return os.path.join(out, "prices", f"{day:%Y}", f"{day:%m}", f"{day.isoformat()}.json.gz")
+
+
+def missing_days(out, yesterday):
+    """The days of the last week not archived yet (never before the first one), then yesterday."""
+    archived = sorted(
+        name[:10] for _, _, files in os.walk(os.path.join(out, "prices")) for name in files if name.endswith(".json.gz")
+    )
+    first = dt.date.fromisoformat(archived[0]) if archived else yesterday
+    days = [yesterday - dt.timedelta(days=n) for n in range(CATCH_UP_DAYS, 0, -1)]
+    return [d for d in days if d >= first and not os.path.exists(price_path(out, d))] + [yesterday]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--out", required=True, help="checkout of the archive branch")
-    parser.add_argument("--date", help="dd-mm-yyyy; default: yesterday in Europe/Madrid")
+    parser.add_argument("--date", help="dd-mm-yyyy; default: yesterday in Europe/Madrid, plus missing days")
     args = parser.parse_args()
 
     if args.date:
-        day = dt.datetime.strptime(args.date, "%d-%m-%Y").date()
+        days = [dt.datetime.strptime(args.date, "%d-%m-%Y").date()]
     else:
-        day = dt.datetime.now(ZoneInfo("Europe/Madrid")).date() - dt.timedelta(days=1)
+        days = missing_days(args.out, dt.datetime.now(ZoneInfo("Europe/Madrid")).date() - dt.timedelta(days=1))
 
+    # One day failing must not cost the others: write what can be written, then fail the run.
+    failed = []
+    for day in days:
+        try:
+            if archive(args.out, day, current=not args.date and day == days[-1]) != 0:
+                failed.append(day)
+        except Exception as e:  # reported below, and the run still fails
+            print(f"{day}: {e}", file=sys.stderr)
+            failed.append(day)
+    if failed:
+        print(f"not archived: {', '.join(d.isoformat() for d in failed)}", file=sys.stderr)
+        return 1
+    return 0
+
+
+def archive(out, day, current):
+    """Writes one day. Only the latest day (`current`) may rewrite stations.json."""
     data = fetch(day)
     fuels, stations = convert(data)
     if not stations:
@@ -137,22 +207,22 @@ def main():
         {"date": day.isoformat(), "published": data.get("Fecha"), "fuels": fuels},
         ensure_ascii=False, sort_keys=True, separators=(",", ":"),
     ).encode("utf-8")
-    price_path = os.path.join(args.out, "prices", f"{day:%Y}", f"{day:%m}", f"{day.isoformat()}.json.gz")
-    os.makedirs(os.path.dirname(price_path), exist_ok=True)
-    with open(price_path, "wb") as raw, gzip.GzipFile(fileobj=raw, mode="wb", mtime=0, filename="") as gz:
+    path = price_path(out, day)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "wb") as raw, gzip.GzipFile(fileobj=raw, mode="wb", mtime=0, filename="") as gz:
         gz.write(payload)
 
     # stations.json describes the stations as they are now: a back-filled old
-    # day (--date) must not roll it back, or the next daily run flips it again.
+    # day must not roll it back, or the next daily run flips it again.
     stations_changed = False
-    if not args.date:
+    if current:
         stations_changed = write_if_changed(
-            os.path.join(args.out, "stations.json"),
+            os.path.join(out, "stations.json"),
             json.dumps(stations, ensure_ascii=False, sort_keys=True, indent=0) + "\n",
         )
-    write_if_changed(os.path.join(args.out, "README.md"), README)
+    write_if_changed(os.path.join(out, "README.md"), README)
 
-    size = os.path.getsize(price_path)
+    size = os.path.getsize(path)
     print(f"{day}: {len(stations)} stations, {sum(len(v) for v in fuels.values())} prices, "
           f"{size} bytes gzipped, stations.json {'updated' if stations_changed else 'unchanged'}")
     return 0

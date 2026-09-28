@@ -3,8 +3,11 @@ name: archive
 # Phase 3: one compact snapshot per day of every station's prices, committed to
 # the orphan branch `archive`. See tools/archive/snapshot.py.
 #
-# Open risk: GitHub-hosted runners are outside Spain. If the Ministry's service
-# refuses them, change `runs-on` to a self-hosted runner (e.g. on the home swarm).
+# On 26 and 27 September 2026 the Ministry's server reset every connection: at
+# times it accepts only TLS 1.2 ciphers with RSA key exchange, which Python no
+# longer offers by default (see tls_context in snapshot.py). On top of that fix,
+# snapshot.py retries for about 12 minutes and fills in any day of the last week
+# that is missing.
 
 on:
   schedule:
@@ -58,7 +61,10 @@ jobs:
             python tools/archive/snapshot.py --out archive-wt
           fi
 
+      # Also after a failed snapshot: the days that did arrive are kept, and the run
+      # still shows red for the ones that did not (the next run retries them).
       - name: Commit and push
+        if: ${{ !cancelled() }}
         working-directory: archive-wt
         run: |
           git add -A
@@ -66,5 +72,6 @@ jobs:
             echo "Nothing new."
             exit 0
           fi
-          git commit --quiet -m "Prices of $(ls -t prices/*/*/*.json.gz | head -1 | xargs basename | cut -d. -f1)"
+          days=$(git diff --cached --name-only --diff-filter=AM -- prices | xargs -rn1 basename | cut -d. -f1 | sort | paste -sd, - | sed 's/,/, /g')
+          git commit --quiet -m "Prices of ${days:-no new day}"
           git push origin archive
