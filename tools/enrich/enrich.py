@@ -120,7 +120,15 @@ def spread(items, n):
     return items[::step][:n]
 
 
+# Past this, stations are no longer asked and keep last week's plans: the workflow
+# kills the job at 300 min, and a killed job writes nothing at all.
+DEADLINE = float("inf")
+SKIPPED = "skipped"
+
+
 def plans_of(station_id):
+    if time.monotonic() > DEADLINE:
+        return station_id, SKIPPED
     time.sleep(PAUSE_S)
     try:
         return station_id, get(f"{GEOPORTAL}/{station_id}/planesDescuentoEstacion", timeout=20)
@@ -157,7 +165,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--out", required=True, help="checkout of the enrichment branch")
     parser.add_argument("--limit", type=int, default=0, help="only the first N stations (testing)")
+    parser.add_argument("--budget-min", type=float, default=240,
+                        help="stop asking for plans after this many minutes and write what there is")
     args = parser.parse_args()
+    global DEADLINE
+    DEADLINE = time.monotonic() + args.budget_min * 60
 
     classify, wrong_logo = load_brands()
     stations = [
@@ -214,8 +226,14 @@ def main():
         print(f"brands with plans again: {', '.join(sorted(revived))}", flush=True)
         fetch([sid for b in revived for sid in by_brand[b] if sid not in results])
 
+    out_of_time = sum(r is SKIPPED for r in results.values())
+    if out_of_time:
+        print(f"out of time: {out_of_time} stations not asked, they keep last week's plans", flush=True)
+    results = {sid: r for sid, r in results.items() if r is not SKIPPED}
+    truncated = bool(args.limit or out_of_time)
+
     plans = dict(previous.get("plans", {}))
-    by_station = {}
+    by_station = {sid: ids for sid, ids in previous.get("stations", {}).items() if sid not in results} if out_of_time else {}
     failed = 0
     for station_id, result in results.items():
         if result is None:
@@ -257,7 +275,9 @@ def main():
             if os.path.exists(path):
                 os.remove(path)  # stored by an earlier version: it is another brand's logo
             continue
-        for sid in spread(ids, LOGO_ATTEMPTS):
+        # Logos get 20 minutes past the plans' deadline; a brand not tried keeps its old file.
+        attempts = spread(ids, LOGO_ATTEMPTS) if time.monotonic() < DEADLINE + 20 * 60 else []
+        for sid in attempts:
             png = logo_of(sid)
             if png:
                 with open(path, "wb") as f:
@@ -275,8 +295,8 @@ def main():
     payload = {
         "generated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         # Only a full run may decide which brands to skip next time.
-        "full": not args.limit,
-        "brandsWithoutPlans": without if not args.limit else sorted(skipped),
+        "full": not truncated,
+        "brandsWithoutPlans": without if not truncated else sorted(skipped),
         "plans": {k: v for k, v in sorted(plans.items(), key=lambda kv: int(kv[0])) if k in used},
         "stations": dict(sorted(by_station.items())),
     }

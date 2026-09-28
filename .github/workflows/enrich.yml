@@ -26,6 +26,8 @@ concurrency:
 jobs:
   enrich:
     runs-on: ubuntu-latest
+    # enrich.py stops asking at 240 min (--budget-min) and logos at 260, then writes
+    # what it has; the margin is for the commit. A killed job writes nothing.
     timeout-minutes: 300
     steps:
       - uses: actions/checkout@v5
