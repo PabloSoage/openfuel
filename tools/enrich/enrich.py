@@ -2,20 +2,22 @@
 """Discount plans and brand logos for the web version (openfuel).
 
 The geoportal answers browsers from other origins with 403, so the web cannot
-ask it for plans or logos the way the app does. This script does it once a week
+ask it for plans or logos the way the app does. This script does it every day
 and writes static files into a directory that is the checkout of the
 `enrichment` branch; the Pages workflow publishes them under data/:
 
-    plans.json          {"generated", "plans": {id: {...}}, "stations": {IDEESS: [planId, ...]}}
+    plans.json          {"generated", "covered", "total", "plans": {id: {...}}, "stations": {IDEESS: [planId, ...]}}
     logos/<brand>.png   one logo per brand, from the geoportal's imagenEESS
     logos/index.json    {brand: "geoportal"}
+    state.json          when each station last answered and how many plans it had (not published)
 
-Polite by design: three requests in flight, a pause after each, and a station
-whose request fails keeps the plans of the previous run. The geoportal slows a
-client down after a long run, so brands that had no plan at any station in the
-last full run (low-cost and independent stations, about 5,000 of 11,500) are
-only sampled, and asked in full again if the sample finds a plan. Standard
-library only.
+The geoportal throttles a client after a few thousand requests: on 28 September
+2026 a GitHub runner went from 1 s to 25 s per request after ~9,000 stations
+and the job was killed at 5 hours with nothing written. So each run asks one
+batch (2,500 by default), least recently asked first, and stops early when the
+latency climbs; about five days cover Spain. Brands whose every station has
+answered with no plan (low-cost ones) are only sampled. A station not asked, or
+whose request fails, keeps its last answer. Standard library only.
 
 The geoportal sends its certificate without the FNMT intermediate; curl and
 browsers cope, Python does not, so the intermediate ships next to this script
@@ -24,6 +26,7 @@ valid until 2028-06-24) and is added to the default trust store.
 """
 import argparse
 import base64
+import collections
 import concurrent.futures
 import datetime as dt
 import json
@@ -50,6 +53,10 @@ PROBE = 30
 SKIP_SAMPLE = 15
 WORKERS = 3
 PAUSE_S = 0.25
+BATCH = 2500
+# Stop when the last 60 requests average over 4 s (1 s is normal) or half of them fail.
+THROTTLE_WINDOW = 60
+THROTTLE_MEAN_S = 4.0
 
 
 def tls_context():
@@ -120,20 +127,29 @@ def spread(items, n):
     return items[::step][:n]
 
 
-# Past this, stations are no longer asked and keep last week's plans: the workflow
-# kills the job at 300 min, and a killed job writes nothing at all.
+# Stops asking: past the deadline, or once the geoportal is throttling this machine.
 DEADLINE = float("inf")
+STOP = []  # non-empty once throttling is detected; holds the reason
 SKIPPED = "skipped"
+LATENCIES = collections.deque(maxlen=THROTTLE_WINDOW)
 
 
 def plans_of(station_id):
-    if time.monotonic() > DEADLINE:
+    if STOP or time.monotonic() > DEADLINE:
         return station_id, SKIPPED
     time.sleep(PAUSE_S)
+    started = time.monotonic()
     try:
-        return station_id, get(f"{GEOPORTAL}/{station_id}/planesDescuentoEstacion", timeout=20)
+        result = get(f"{GEOPORTAL}/{station_id}/planesDescuentoEstacion", timeout=20)
     except Exception:
-        return station_id, None
+        result = None
+    LATENCIES.append((time.monotonic() - started, result is None))
+    if len(LATENCIES) == THROTTLE_WINDOW and not STOP:
+        mean = sum(t for t, _ in LATENCIES) / THROTTLE_WINDOW
+        failures = sum(f for _, f in LATENCIES)
+        if mean > THROTTLE_MEAN_S or failures > THROTTLE_WINDOW // 2:
+            STOP.append(f"last {THROTTLE_WINDOW} requests: {mean:.1f} s mean, {failures} failed")
+    return station_id, result
 
 
 def logo_of(station_id):
@@ -161,15 +177,24 @@ def plan_entry(p):
     }
 
 
+def load(path, default):
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    return default
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--out", required=True, help="checkout of the enrichment branch")
-    parser.add_argument("--limit", type=int, default=0, help="only the first N stations (testing)")
-    parser.add_argument("--budget-min", type=float, default=240,
+    parser.add_argument("--batch", type=int, default=BATCH, help="stations asked in this run, least recently asked first")
+    parser.add_argument("--limit", type=int, default=0, help="only the first N stations of the official list (testing)")
+    parser.add_argument("--budget-min", type=float, default=60,
                         help="stop asking for plans after this many minutes and write what there is")
     args = parser.parse_args()
     global DEADLINE
     DEADLINE = time.monotonic() + args.budget_min * 60
+    today = dt.date.today().isoformat()
 
     classify, wrong_logo = load_brands()
     stations = [
@@ -178,94 +203,91 @@ def main():
     ]
     if args.limit:
         stations = stations[: args.limit]
+    current = {sid for sid, _ in stations}
     brand_of = {sid: classify(sign) or INDEPENDENT for sid, sign in stations}
     by_brand = {}
     for sid, _ in stations:
         by_brand.setdefault(brand_of[sid], []).append(sid)
 
-    previous_path = os.path.join(args.out, "plans.json")
-    previous = {}
-    if os.path.exists(previous_path):
-        with open(previous_path, encoding="utf-8") as f:
-            previous = json.load(f)
+    plans_path = os.path.join(args.out, "plans.json")
+    state_path = os.path.join(args.out, "state.json")
+    previous = load(plans_path, {})
+    # {IDEESS: [date last answered, number of plans]}, and {brand: date its logo was last tried}.
+    state = load(state_path, {})
+    seen = {sid: v for sid, v in state.get("stations", {}).items() if sid in current}
+    logo_tried = state.get("logos", {})
 
-    # Brands with no plan anywhere in the last full run are only sampled this time.
-    skipped = set(previous.get("brandsWithoutPlans", [])) if previous.get("full") else set()
-    random.seed(dt.date.today().isoformat())
-    sample = {b: set(random.sample(by_brand.get(b, []), min(SKIP_SAMPLE, len(by_brand.get(b, []))))) for b in skipped}
-    wanted = [sid for sid, _ in stations if brand_of[sid] not in skipped or sid in sample[brand_of[sid]]]
-    print(f"{len(stations)} stations; {len(stations) - len(wanted)} skipped from brands without plans: "
-          f"{', '.join(sorted(skipped)) or 'none'}", flush=True)
+    # A brand whose every station has been asked, none with a plan, is only sampled.
+    without = sorted(
+        b for b, ids in by_brand.items()
+        if all(sid in seen for sid in ids) and not any(seen[sid][1] for sid in ids)
+    )
+    random.seed(today)
+    sample = {sid for b in without for sid in random.sample(by_brand[b], min(SKIP_SAMPLE, len(by_brand[b])))}
+    candidates = [sid for sid, _ in stations if brand_of[sid] not in without or sid in sample]
+    # Never asked first, then the oldest answers; ties in random order, so a batch
+    # is spread over Spain instead of following the Ministry's list.
+    order = {sid: random.random() for sid in candidates}
+    candidates.sort(key=lambda sid: (seen.get(sid, [""])[0], order[sid]))
+    wanted = candidates[: args.batch]
+    fresh = sum(1 for sid in current if sid in seen)
+    print(f"{len(stations)} stations, {fresh} asked before; this run asks {len(wanted)}, least recently asked first; "
+          f"sampled brands without plans: {', '.join(without) or 'none'}", flush=True)
 
-    # Probe first: if the geoportal does not answer this machine (it may refuse
-    # or slow down runners), say so in a minute instead of timing out in hours.
+    # Probe first: if the geoportal does not answer this machine, say so in a minute.
     started = time.monotonic()
     results = {}
     for sid in wanted[:PROBE]:
         results[sid] = plans_of(sid)[1]
-    probe = list(results.values())
+    probe = [r for r in results.values() if r is not SKIPPED]
     probe_failed = sum(r is None for r in probe)
     per_request = (time.monotonic() - started) / max(len(probe), 1)
     print(f"probe: {len(probe) - probe_failed}/{len(probe)} answered, {per_request:.2f} s per request", flush=True)
     if probe_failed > len(probe) // 2:
-        print("the geoportal does not answer this machine: nothing written", file=sys.stderr)
-        return 3
+        # A warning, not a failure: it runs daily, and tomorrow's batch picks these stations up.
+        print("::warning::the geoportal does not answer this machine today: nothing written", flush=True)
+        return 0
 
-    def fetch(ids):
-        with concurrent.futures.ThreadPoolExecutor(WORKERS) as pool:
-            for done, (station_id, result) in enumerate(pool.map(plans_of, ids), 1):
-                results[station_id] = result
-                if done % 1000 == 0:
-                    print(f"{done}/{len(ids)} stations, {time.monotonic() - started:.0f} s", flush=True)
+    rest = [sid for sid in wanted if sid not in results]
+    with concurrent.futures.ThreadPoolExecutor(WORKERS) as pool:
+        for done, (station_id, result) in enumerate(pool.map(plans_of, rest), 1):
+            results[station_id] = result
+            if done % 500 == 0:
+                print(f"{done}/{len(rest)} stations, {time.monotonic() - started:.0f} s", flush=True)
 
-    fetch([sid for sid in wanted if sid not in results])
-
-    # A sampled brand that turned out to have plans is asked in full.
-    revived = {b for b in skipped if any(results.get(sid) for sid in sample[b])}
-    if revived:
-        print(f"brands with plans again: {', '.join(sorted(revived))}", flush=True)
-        fetch([sid for b in revived for sid in by_brand[b] if sid not in results])
-
-    out_of_time = sum(r is SKIPPED for r in results.values())
-    if out_of_time:
-        print(f"out of time: {out_of_time} stations not asked, they keep last week's plans", flush=True)
+    not_asked = sum(r is SKIPPED for r in results.values())
+    if STOP:
+        print(f"the geoportal is slowing this machine down ({STOP[0]}): stopped", flush=True)
+    elif not_asked:
+        print("out of time: stopped", flush=True)
     results = {sid: r for sid, r in results.items() if r is not SKIPPED}
-    truncated = bool(args.limit or out_of_time)
 
+    # Everything not answered now keeps what the last answer said.
     plans = dict(previous.get("plans", {}))
-    by_station = {sid: ids for sid, ids in previous.get("stations", {}).items() if sid not in results} if out_of_time else {}
+    by_station = {sid: ids for sid, ids in previous.get("stations", {}).items() if sid in current}
     failed = 0
     for station_id, result in results.items():
         if result is None:
             failed += 1
-            if station_id in previous.get("stations", {}):
-                by_station[station_id] = previous["stations"][station_id]
             continue
-        ids = []
+        ids = sorted({p["id"] for p in result if isinstance(p, dict) and p.get("id") is not None})
         for p in result:
             if isinstance(p, dict) and p.get("id") is not None:
                 plans[str(p["id"])] = plan_entry(p)
-                ids.append(p["id"])
         if ids:
-            by_station[station_id] = sorted(set(ids))
+            by_station[station_id] = ids
+        else:
+            by_station.pop(station_id, None)
+        seen[station_id] = [today, len(ids)]
 
-    if failed > len(results) // 2:
+    if results and failed > len(results) // 2:
         print(f"{failed} of {len(results)} plan requests failed: not overwriting", file=sys.stderr)
         return 2
 
-    # Brands where every station asked answered with no plan: sampled next week.
-    asked = {}
-    for sid, result in results.items():
-        if result is not None:
-            b = brand_of[sid]
-            asked.setdefault(b, [0, 0])
-            asked[b][0] += 1
-            asked[b][1] += 1 if result else 0
-    without = sorted(b for b, (n, with_plans) in asked.items() if n and with_plans == 0)
-
-    # Logos: one per brand, from stations spread over the brand's list.
+    # Logos: brands with none stored, or not tried for a week; stations spread over the brand.
     logo_dir = os.path.join(args.out, "logos")
     os.makedirs(logo_dir, exist_ok=True)
+    week_ago = (dt.date.today() - dt.timedelta(days=7)).isoformat()
     index = {}
     for key, ids in sorted(by_brand.items()):
         path = os.path.join(logo_dir, f"{key}.png")
@@ -275,37 +297,42 @@ def main():
             if os.path.exists(path):
                 os.remove(path)  # stored by an earlier version: it is another brand's logo
             continue
-        # Logos get 20 minutes past the plans' deadline; a brand not tried keeps its old file.
-        attempts = spread(ids, LOGO_ATTEMPTS) if time.monotonic() < DEADLINE + 20 * 60 else []
-        for sid in attempts:
-            png = logo_of(sid)
-            if png:
-                with open(path, "wb") as f:
-                    f.write(png)
-                index[key] = "geoportal"
-                break
-        else:
-            if os.path.exists(path):
-                index[key] = "geoportal"  # kept from a previous run
+        due = not os.path.exists(path) or logo_tried.get(key, "") <= week_ago
+        if due and not STOP and time.monotonic() < DEADLINE + 10 * 60:
+            logo_tried[key] = today
+            for sid in spread(ids, LOGO_ATTEMPTS):
+                png = logo_of(sid)
+                if png:
+                    with open(path, "wb") as f:
+                        f.write(png)
+                    break
+        if os.path.exists(path):
+            index[key] = "geoportal"
     with open(os.path.join(logo_dir, "index.json"), "w", encoding="utf-8") as f:
         json.dump(index, f, sort_keys=True, indent=0)
         f.write("\n")
 
     used = {str(i) for ids in by_station.values() for i in ids}
+    covered = sum(1 for sid in current if sid in seen)
     payload = {
         "generated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
-        # Only a full run may decide which brands to skip next time.
-        "full": not truncated,
-        "brandsWithoutPlans": without if not truncated else sorted(skipped),
+        # Stations with an answer at some point; the rest have not been asked yet.
+        "covered": covered,
+        "total": len(current),
         "plans": {k: v for k, v in sorted(plans.items(), key=lambda kv: int(kv[0])) if k in used},
         "stations": dict(sorted(by_station.items())),
     }
-    with open(previous_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, sort_keys=False, separators=(",", ":"))
+    with open(plans_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
+        f.write("\n")
+    with open(state_path, "w", encoding="utf-8") as f:
+        json.dump({"stations": dict(sorted(seen.items())), "logos": dict(sorted(logo_tried.items()))},
+                  f, separators=(",", ":"))
         f.write("\n")
 
-    print(f"{len(results)} stations asked, {len(by_station)} with plans, {len(payload['plans'])} plans, "
-          f"{failed} failed, {len(index)} logos; without plans: {', '.join(without) or 'none'}")
+    print(f"{len(results)} stations asked, {failed} failed, {time.monotonic() - started:.0f} s; "
+          f"covered {covered}/{len(current)}; {len(by_station)} stations with plans, {len(payload['plans'])} plans, "
+          f"{len(index)} logos")
     return 0
 
 

@@ -46,6 +46,7 @@ jobs:
           if git ls-remote --exit-code --heads origin enrichment >/dev/null; then
             git fetch --depth 1 origin enrichment
             git archive FETCH_HEAD | tar -x -C web/data
+            rm -f web/data/state.json   # enrich's bookkeeping, not for the web
           fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

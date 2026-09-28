@@ -1,19 +1,21 @@
 name: enrich
 
 # Discount plans and brand logos for the web (the geoportal refuses browsers from
-# other origins). Weekly, into the orphan branch `enrichment`; the pages workflow
-# publishes it under data/. See tools/enrich/enrich.py.
+# other origins). Daily, one batch of stations, into the orphan branch
+# `enrichment`; the pages workflow publishes it under data/. See
+# tools/enrich/enrich.py.
 #
-# Same open risk as archive.yml: if the geoportal refuses runners outside Spain,
-# move `runs-on` to a self-hosted runner.
+# Not weekly and all at once: on 28 September 2026 the geoportal slowed a full
+# run from 1 s to 25 s per request after ~9,000 stations, and the job was killed
+# at 5 hours with nothing written. 2,500 stations a day stay well below that.
 
 on:
   schedule:
-    - cron: '41 3 * * 1'   # Mondays, about 05:41 in Spain
+    - cron: '41 3 * * *'   # every day, about 05:41 in Spain
   workflow_dispatch:
     inputs:
-      limit:
-        description: 'Only the first N stations (a quick test); empty for all'
+      batch:
+        description: 'Stations to ask, least recently asked first (default 2500)'
         required: false
 
 permissions:
@@ -26,9 +28,9 @@ concurrency:
 jobs:
   enrich:
     runs-on: ubuntu-latest
-    # enrich.py stops asking at 240 min (--budget-min) and logos at 260, then writes
-    # what it has; the margin is for the commit. A killed job writes nothing.
-    timeout-minutes: 300
+    # enrich.py stops asking at 60 min (--budget-min) and logos at 70, then writes
+    # what it has; a batch normally takes about 15. A killed job writes nothing.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v5
         with:
@@ -54,8 +56,8 @@ jobs:
 
       - name: Plans and logos
         env:
-          LIMIT: ${{ github.event.inputs.limit }}
-        run: python -u tools/enrich/enrich.py --out enrichment-wt ${LIMIT:+--limit "$LIMIT"}
+          BATCH: ${{ github.event.inputs.batch }}
+        run: python -u tools/enrich/enrich.py --out enrichment-wt ${BATCH:+--batch "$BATCH"}
 
       - name: Commit and push
         working-directory: enrichment-wt
@@ -65,5 +67,6 @@ jobs:
             echo "Nothing new."
             exit 0
           fi
-          git commit --quiet -m "Plans and logos of $(date -u +%F)"
+          covered=$(python -c 'import json; d = json.load(open("plans.json", encoding="utf-8")); print(d["covered"], d["total"], sep="/")')
+          git commit --quiet -m "Plans and logos of $(date -u +%F): $covered stations covered"
           git push origin enrichment
