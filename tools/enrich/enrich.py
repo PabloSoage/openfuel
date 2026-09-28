@@ -195,6 +195,8 @@ def main():
     global DEADLINE
     DEADLINE = time.monotonic() + args.budget_min * 60
     today = dt.date.today().isoformat()
+    # Minutes, not days: with 8 runs a day, a day would leave the order of today's answers to chance.
+    now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M")
 
     classify, wrong_logo = load_brands()
     stations = [
@@ -212,7 +214,7 @@ def main():
     plans_path = os.path.join(args.out, "plans.json")
     state_path = os.path.join(args.out, "state.json")
     previous = load(plans_path, {})
-    # {IDEESS: [date last answered, number of plans]}, and {brand: date its logo was last tried}.
+    # {IDEESS: [UTC time last answered, number of plans]}, and {brand: date its logo was last tried}.
     state = load(state_path, {})
     seen = {sid: v for sid, v in state.get("stations", {}).items() if sid in current}
     logo_tried = state.get("logos", {})
@@ -222,7 +224,7 @@ def main():
         b for b, ids in by_brand.items()
         if all(sid in seen for sid in ids) and not any(seen[sid][1] for sid in ids)
     )
-    random.seed(today)
+    random.seed(now)
     sample = {sid for b in without for sid in random.sample(by_brand[b], min(SKIP_SAMPLE, len(by_brand[b])))}
     candidates = [sid for sid, _ in stations if brand_of[sid] not in without or sid in sample]
     # Never asked first, then the oldest answers; ties in random order, so a batch
@@ -278,7 +280,7 @@ def main():
             by_station[station_id] = ids
         else:
             by_station.pop(station_id, None)
-        seen[station_id] = [today, len(ids)]
+        seen[station_id] = [now, len(ids)]
 
     if results and failed > len(results) // 2:
         print(f"{failed} of {len(results)} plan requests failed: not overwriting", file=sys.stderr)
