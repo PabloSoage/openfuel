@@ -1,17 +1,19 @@
 name: enrich
 
 # Discount plans and brand logos for the web (the geoportal refuses browsers from
-# other origins). Daily, one batch of stations, into the orphan branch
+# other origins). Every 3 hours, one batch of stations, into the orphan branch
 # `enrichment`; the pages workflow publishes it under data/. See
 # tools/enrich/enrich.py.
 #
 # Not weekly and all at once: on 28 September 2026 the geoportal slowed a full
 # run from 1 s to 25 s per request after ~9,000 stations, and the job was killed
-# at 5 hours with nothing written. 2,500 stations a day stay well below that.
+# at 5 hours with nothing written. A batch of 2,500 stays well below that.
 
 on:
   schedule:
-    - cron: '41 3 * * *'   # every day, about 05:41 in Spain
+    # Every 3 hours: 8 batches of 2,500 a day, so every station is refreshed within
+    # the day (fewer once the brands without plans are only sampled).
+    - cron: '41 */3 * * *'
   workflow_dispatch:
     inputs:
       batch:

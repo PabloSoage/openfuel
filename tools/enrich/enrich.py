@@ -2,7 +2,7 @@
 """Discount plans and brand logos for the web version (openfuel).
 
 The geoportal answers browsers from other origins with 403, so the web cannot
-ask it for plans or logos the way the app does. This script does it every day
+ask it for plans or logos the way the app does. This script does it every 3 hours
 and writes static files into a directory that is the checkout of the
 `enrichment` branch; the Pages workflow publishes them under data/:
 
@@ -15,7 +15,7 @@ The geoportal throttles a client after a few thousand requests: on 28 September
 2026 a GitHub runner went from 1 s to 25 s per request after ~9,000 stations
 and the job was killed at 5 hours with nothing written. So each run asks one
 batch (2,500 by default), least recently asked first, and stops early when the
-latency climbs; about five days cover Spain. Brands whose every station has
+latency climbs; 8 runs a day cover Spain within the day. Brands whose every station has
 answered with no plan (low-cost ones) are only sampled. A station not asked, or
 whose request fails, keeps its last answer. Standard library only.
 
@@ -244,7 +244,7 @@ def main():
     per_request = (time.monotonic() - started) / max(len(probe), 1)
     print(f"probe: {len(probe) - probe_failed}/{len(probe)} answered, {per_request:.2f} s per request", flush=True)
     if probe_failed > len(probe) // 2:
-        # A warning, not a failure: it runs daily, and tomorrow's batch picks these stations up.
+        # A warning, not a failure: the next run, 3 hours later, picks these stations up.
         print("::warning::the geoportal does not answer this machine today: nothing written", flush=True)
         return 0
 
