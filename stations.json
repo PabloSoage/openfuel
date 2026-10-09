@@ -30549,6 +30549,19 @@
 "schedule": "L-D: 24H",
 "sign": "AUTONETOIL"
 },
+"13152": {
+"address": "CALLE TORRENT D'EN BAIELL, 10",
+"ccaaId": "09",
+"lat": 41.614,
+"locality": "SENTMENAT",
+"lon": 2.144639,
+"municipality": "Sentmenat",
+"postalCode": "08181",
+"province": "BARCELONA",
+"provinceId": "08",
+"schedule": "L-D: 00:00-23:59",
+"sign": "GASUIR"
+},
 "13154": {
 "address": "CALLE CAMI FAITANAR, 6",
 "ccaaId": "10",
@@ -33304,6 +33317,19 @@
 "provinceId": "21",
 "schedule": "L-D: 24H",
 "sign": "LUXOIL"
+},
+"13403": {
+"address": "CARRETERA MONTERRRUBIO KM. S/N",
+"ccaaId": "11",
+"lat": 38.716,
+"locality": "CASTUERA",
+"lon": -5.546778,
+"municipality": "Castuera",
+"postalCode": "06420",
+"province": "BADAJOZ",
+"provinceId": "06",
+"schedule": "L-D: 24H",
+"sign": "UNIDAD SUMINISTRO COOPERATIVA GANADERA CASTUERA"
 },
 "13405": {
 "address": "CALLE CALLE COBALT, 190",
@@ -43796,6 +43822,19 @@
 "schedule": "L-D: 24H",
 "sign": "GRUPO BARAMBIO"
 },
+"14457": {
+"address": "CALLE ISAAC PERAL, 3",
+"ccaaId": "11",
+"lat": 38.964306,
+"locality": "DON BENITO",
+"lon": -5.870111,
+"municipality": "Don Benito",
+"postalCode": "06400",
+"province": "BADAJOZ",
+"provinceId": "06",
+"schedule": "L-D: 24H",
+"sign": "DONBEX"
+},
 "14458": {
 "address": "AVENIDA LUIS MATEOS  EN  ARANDA DE DUERO, 106",
 "ccaaId": "08",
@@ -44419,6 +44458,19 @@
 "provinceId": "26",
 "schedule": "L-D: 24H",
 "sign": "CARBURANTES RIOJA"
+},
+"14518": {
+"address": "AVENIDA PAIS VALENCIÀ, 40",
+"ccaaId": "10",
+"lat": 38.781611,
+"locality": "MURO DEL ALCOY",
+"lon": -0.430667,
+"municipality": "Muro de Alcoy",
+"postalCode": "03830",
+"province": "ALICANTE",
+"provinceId": "03",
+"schedule": "L-D: 24H",
+"sign": "PETRANOIL STATION"
 },
 "14519": {
 "address": "CARRETERA SAN MARTIN DE PUSA A SANTA OLALLA KM. 6",
@@ -59759,6 +59811,19 @@
 "provinceId": "30",
 "schedule": "L: 06:00-22:00",
 "sign": "BP"
+},
+"15941": {
+"address": "AUTOVIA AUTOVIA DEL ESTE KM. 224",
+"ccaaId": "07",
+"lat": 39.517361,
+"locality": "CASTILLEJO DE INIESTA",
+"lon": -1.753444,
+"municipality": "Castillejo de Iniesta",
+"postalCode": "16250",
+"province": "CUENCA",
+"provinceId": "16",
+"schedule": "L-D: 00:00-23:59",
+"sign": "MOLGAS"
 },
 "15942": {
 "address": "AUTOVIA AUTOVIA DE LAS RIAS BAJAS KM. 290",
@@ -76738,6 +76803,19 @@
 "schedule": "L-D: 24H",
 "sign": "REPSOL"
 },
+"2541": {
+"address": "CR C-55, 13,33",
+"ccaaId": "09",
+"lat": 41.609111,
+"locality": "MONISTROL DE MONTSERRAT",
+"lon": 1.844056,
+"municipality": "Monistrol de Montserrat",
+"postalCode": "08691",
+"province": "BARCELONA",
+"provinceId": "08",
+"schedule": "L-D: 07:00-22:00",
+"sign": "REPSOL"
+},
 "2544": {
 "address": "CR L-7042, 12",
 "ccaaId": "09",
@@ -90595,6 +90673,19 @@
 "provinceId": "46",
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
+},
+"3808": {
+"address": "CARRETERA CATADAU-BENIFAIO KM. 5,8",
+"ccaaId": "10",
+"lat": 39.289361,
+"locality": "ALFARP",
+"lon": -0.514444,
+"municipality": "Alfarp",
+"postalCode": "46197",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 24H",
+"sign": "BAR / E.S. ALTAMAR J.A."
 },
 "3809": {
 "address": "CALLE FERNANDO FURIO R, 4",
@@ -109602,6 +109693,19 @@
 "schedule": "L-D: 06:00-23:00",
 "sign": "E.S. Mª AUXILIADORA"
 },
+"5563": {
+"address": "CARRETERA CR. A-343 KM 10,7 KM. 10",
+"ccaaId": "01",
+"lat": 37.472417,
+"locality": "CABRA",
+"lon": -4.455389,
+"municipality": "Cabra",
+"postalCode": "14940",
+"province": "CÓRDOBA",
+"provinceId": "14",
+"schedule": "L-D: 06:00-22:00",
+"sign": "FC GO"
+},
 "5566": {
 "address": "AVENIDA DE PORTUGAL, 93",
 "ccaaId": "01",
@@ -110263,6 +110367,19 @@
 "province": "ALMERÍA",
 "provinceId": "04",
 "schedule": "L: 07:00-00:00",
+"sign": "CEPSA"
+},
+"5633": {
+"address": "AVENIDA ANDALUCIA, 62",
+"ccaaId": "01",
+"lat": 37.485,
+"locality": "ORIA",
+"lon": -2.287528,
+"municipality": "Oria",
+"postalCode": "04810",
+"province": "ALMERÍA",
+"provinceId": "04",
+"schedule": "L-D: 07:00-23:00",
 "sign": "CEPSA"
 },
 "5634": {
@@ -113267,6 +113384,19 @@
 "provinceId": "10",
 "schedule": "L-D: 07:00-23:00",
 "sign": "CAMPSA"
+},
+"5917": {
+"address": "AVENIDA LA PALMERA, 22",
+"ccaaId": "11",
+"lat": 39.169417,
+"locality": "HERRERA DEL DUQUE",
+"lon": -5.049861,
+"municipality": "Herrera del Duque",
+"postalCode": "06670",
+"province": "BADAJOZ",
+"provinceId": "06",
+"schedule": "L: 08:00-21:00",
+"sign": "MOEVE"
 },
 "5919": {
 "address": "AVENIDA BRADENTON, S/N",
@@ -119390,6 +119520,19 @@
 "provinceId": "14",
 "schedule": "L-D: 06:00-22:00",
 "sign": "MIRASIERRA"
+},
+"6494": {
+"address": "CARRETERA SE-135 KM. 0,35",
+"ccaaId": "01",
+"lat": 37.594389,
+"locality": "CAÑADA ROSAL",
+"lon": -5.201,
+"municipality": "Cañada Rosal",
+"postalCode": "41439",
+"province": "SEVILLA",
+"provinceId": "41",
+"schedule": "L-S: 07:00-21:00",
+"sign": "GASOLINERA CAÑADA ROSAL S.L."
 },
 "6496": {
 "address": "AUTOVIA A-92 KM. 377",
@@ -130063,19 +130206,6 @@
 "provinceId": "06",
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
-},
-"7503": {
-"address": "AVENIDA JUAN CARLOS 1, 19",
-"ccaaId": "11",
-"lat": 39.170833,
-"locality": "HERRERA DEL DUQUE",
-"lon": -5.047028,
-"municipality": "Herrera del Duque",
-"postalCode": "06670",
-"province": "BADAJOZ",
-"provinceId": "06",
-"schedule": "L: 07:00-22:00",
-"sign": "IBERDOEX"
 },
 "7504": {
 "address": "CR C-434, 36,5",
