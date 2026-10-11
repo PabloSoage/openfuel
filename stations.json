@@ -7240,6 +7240,19 @@
 "schedule": "L-D: 24H",
 "sign": "ZD URBAN VIC"
 },
+"10905": {
+"address": "AVENIDA REPUBLICA ARGENTINA, 86",
+"ccaaId": "05",
+"lat": 28.509639,
+"locality": "SAN CRISTOBAL",
+"lon": -16.308083,
+"municipality": "San Cristóbal de La Laguna",
+"postalCode": "38208",
+"province": "SANTA CRUZ DE TENERIFE",
+"provinceId": "38",
+"schedule": "L-S: 7:00-22:00",
+"sign": "BP E.S. LAS CANTERAS S.L."
+},
 "10906": {
 "address": "VARIANTE DE GEA",
 "ccaaId": "02",
@@ -7668,6 +7681,19 @@
 "provinceId": "25",
 "schedule": "L-D: 06:00-22:00",
 "sign": "MOEVE"
+},
+"10947": {
+"address": "AUTOVIA A-43 KM. 290",
+"ccaaId": "07",
+"lat": 39.005917,
+"locality": "TORRALBA DE CALATRAVA",
+"lon": -3.756389,
+"municipality": "Torralba de Calatrava",
+"postalCode": "13160",
+"province": "CIUDAD REAL",
+"provinceId": "13",
+"schedule": "L-D: 07:00-23:00",
+"sign": "CEPSA"
 },
 "10948": {
 "address": "AUTOPISTA AP-36 (MRG.DCHO.) KM. 34",
@@ -32914,6 +32940,19 @@
 "provinceId": "03",
 "schedule": "L-D: 24H",
 "sign": "MASOIL ALCOY"
+},
+"13371": {
+"address": "CALLE CAMINO DE VELEZ, S/N",
+"ccaaId": "01",
+"lat": 36.832083,
+"locality": "BENAMARGOSA",
+"lon": -4.193,
+"municipality": "Benamargosa",
+"postalCode": "29718",
+"province": "MÁLAGA",
+"provinceId": "29",
+"schedule": "L-V: 07:00-21:00; S-D: 09:00-22:00",
+"sign": "ASJILEIVA BNAMARGOSA"
 },
 "13372": {
 "address": "POLIGONO P. INDUSTRIAL BAYAS 146 PARCELAS 58, 146",
@@ -115738,19 +115777,6 @@
 "schedule": "L-D: 07:00-23:00",
 "sign": "CEPSA"
 },
-"6153": {
-"address": "CARRETERA ZAMORA-FERMOSELLE  CL 527 KM. 60,500",
-"ccaaId": "08",
-"lat": 41.321583,
-"locality": "FERMOSELLE",
-"lon": -6.377528,
-"municipality": "Fermoselle",
-"postalCode": "49220",
-"province": "ZAMORA",
-"provinceId": "49",
-"schedule": "L: 09:00-21:00",
-"sign": "CEPSA"
-},
 "6154": {
 "address": "CARRETERA LEDESMA KM. 9,5",
 "ccaaId": "08",
@@ -117831,6 +117857,19 @@
 "schedule": "L-S: 07:00-22:00",
 "sign": "REPSOL"
 },
+"6346": {
+"address": "CARRETERA N-620 KM. 76",
+"ccaaId": "08",
+"lat": 41.986639,
+"locality": "MAGAZ DE PISUERGA",
+"lon": -4.416639,
+"municipality": "Magaz de Pisuerga",
+"postalCode": "34220",
+"province": "PALENCIA",
+"provinceId": "34",
+"schedule": "L-V: 07:00-22:00; S: 08:00-22:00; D: 09:00-22:00",
+"sign": "REPSOL"
+},
 "6349": {
 "address": "AVENIDA ABUSEJO, 5",
 "ccaaId": "08",
@@ -118102,6 +118141,19 @@
 "province": "ZAMORA",
 "provinceId": "49",
 "schedule": "L-S: 07:00-21:00",
+"sign": "REPSOL"
+},
+"6376": {
+"address": "CARRETERA CL-619, KM 64, MARGEN IZQUIERDO KM. 64",
+"ccaaId": "08",
+"lat": 41.940083,
+"locality": "BALTANAS",
+"lon": -4.256528,
+"municipality": "Baltanás",
+"postalCode": "34240",
+"province": "PALENCIA",
+"provinceId": "34",
+"schedule": "L-V: 07:00-22:00",
 "sign": "REPSOL"
 },
 "6377": {
@@ -133821,19 +133873,6 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "DISA LOS SILOS"
 },
-"7828": {
-"address": "CARRETERA TF-822 KM. 50",
-"ccaaId": "05",
-"lat": 28.182528,
-"locality": "ARICO NUEVO",
-"lon": -16.480028,
-"municipality": "Arico",
-"postalCode": "38589",
-"province": "SANTA CRUZ DE TENERIFE",
-"provinceId": "38",
-"schedule": "L-V: 06:00-22:00; S-D: 07:00-20:00",
-"sign": "DISA"
-},
 "7829": {
 "address": "CARRETERA LAVERA LA MONTAÑA KM. 1",
 "ccaaId": "05",
@@ -133911,19 +133950,6 @@
 "provinceId": "38",
 "schedule": "L-D: 06:00-22:00",
 "sign": "DISA CANDELARIA"
-},
-"7835": {
-"address": "CARRETERA LOS ROQUES KM. 6,5",
-"ccaaId": "05",
-"lat": 28.236417,
-"locality": "FASNIA",
-"lon": -16.439583,
-"municipality": "Fasnia",
-"postalCode": "38570",
-"province": "SANTA CRUZ DE TENERIFE",
-"provinceId": "38",
-"schedule": "L-S: 06:00-22:00; D: 07:00-14:00",
-"sign": "DISA"
 },
 "7836": {
 "address": "AVENIDA LOS SAUCES, 40",
@@ -135276,19 +135302,6 @@
 "provinceId": "36",
 "schedule": "L-D: 07:00-23:00",
 "sign": "REPSOL"
-},
-"7979": {
-"address": "CAMINO CAMINO AZAGADOR, 2",
-"ccaaId": "10",
-"lat": 38.380861,
-"locality": "MONFORTE DEL CID",
-"lon": -0.723111,
-"municipality": "Monforte del Cid",
-"postalCode": "03670",
-"province": "ALICANTE",
-"provinceId": "03",
-"schedule": "L-D: 06:00-00:00",
-"sign": "COOPERATIVA V. AGRICOLA MONFORTE DEL CID"
 },
 "7982": {
 "address": "A-7 km 17",
