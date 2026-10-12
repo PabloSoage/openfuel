@@ -1819,19 +1819,6 @@
 "schedule": "L-D: 24H",
 "sign": "CEPSA"
 },
-"10214": {
-"address": "CARRETERA GENERAL DE PALO BLANCO Nº 77 KM. 1",
-"ccaaId": "05",
-"lat": 28.372556,
-"locality": "REALEJOS (LOS)",
-"lon": -16.575,
-"municipality": "Realejos (Los)",
-"postalCode": "38410",
-"province": "SANTA CRUZ DE TENERIFE",
-"provinceId": "38",
-"schedule": "L-D: 07:00-22:00",
-"sign": "CEPSA"
-},
 "10215": {
 "address": "CARRETERA A-333 KM. 6",
 "ccaaId": "01",
@@ -17003,6 +16990,19 @@
 "schedule": "L-D: 24H",
 "sign": "E.S. BARDENAS"
 },
+"11923": {
+"address": "CARRETERA TV-3401 KM. 1,210",
+"ccaaId": "09",
+"lat": 40.795333,
+"locality": "AMPOLLA (L')",
+"lon": 0.694833,
+"municipality": "Ampolla (L')",
+"postalCode": "43895",
+"province": "TARRAGONA",
+"provinceId": "43",
+"schedule": "L-D: 06:00-22:00",
+"sign": "AVIA"
+},
 "11925": {
 "address": "AVENIDA FUENTE ALAMO, 1",
 "ccaaId": "14",
@@ -19303,6 +19303,19 @@
 "provinceId": "19",
 "schedule": "L-D: 07:00-23:00",
 "sign": "MOEVE"
+},
+"12141": {
+"address": "CARRETERA A-139. SALIDA BENASQUE. CTRA. A CERLER. KM. 61,500",
+"ccaaId": "02",
+"lat": 42.614889,
+"locality": "BENASQUE",
+"lon": 0.532917,
+"municipality": "Benasque",
+"postalCode": "22440",
+"province": "HUESCA",
+"provinceId": "22",
+"schedule": "L-D: 24H",
+"sign": "SHOP AREA BENAS"
 },
 "12142": {
 "address": "AVENIDA GENERALITAT, S/N",
