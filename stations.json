@@ -8852,6 +8852,19 @@
 "schedule": "L-D: 24H",
 "sign": "SDAD.COOP.LIMT. DE HORNACHOS"
 },
+"11062": {
+"address": "CARRETERA C-13 KM. 14",
+"ccaaId": "09",
+"lat": 41.715556,
+"locality": "TERMENS",
+"lon": 0.762472,
+"municipality": "Térmens",
+"postalCode": "25670",
+"province": "LLEIDA",
+"provinceId": "25",
+"schedule": "L-D: 24H",
+"sign": "NO"
+},
 "11063": {
 "address": "CARRETERA A-305 KM. 60",
 "ccaaId": "01",
@@ -14701,19 +14714,6 @@
 "provinceId": "39",
 "schedule": "L-S: 06:00-22:00; D: 08:00-22:00",
 "sign": "MOEVE"
-},
-"11699": {
-"address": "CALLE CARRETERA DE RONDA, 0",
-"ccaaId": "02",
-"lat": 41.244944,
-"locality": "FAYON",
-"lon": 0.332444,
-"municipality": "Fayón",
-"postalCode": "50795",
-"province": "ZARAGOZA",
-"provinceId": "50",
-"schedule": "L-D: 24H",
-"sign": "NO TIENE"
 },
 "11701": {
 "address": "CAMINO OLIVO GORDO, S/N",
@@ -28572,6 +28572,19 @@
 "provinceId": "46",
 "schedule": "L-D: 24H",
 "sign": "SAN ANTONIO OIL"
+},
+"12979": {
+"address": "CARRER DIAGONAL, 7",
+"ccaaId": "09",
+"lat": 41.697778,
+"locality": "TORNABOUS",
+"lon": 1.054889,
+"municipality": "Tornabous",
+"postalCode": "25331",
+"province": "LLEIDA",
+"provinceId": "25",
+"schedule": "L-D: 24H",
+"sign": "LOW COST 24"
 },
 "12980": {
 "address": "CALLE ROSALIA DE CASTRO, 14",
@@ -93027,19 +93040,6 @@
 "schedule": "L-D: 24H",
 "sign": "PLENERGY"
 },
-"4036": {
-"address": "CALLE CLARIANO, 3",
-"ccaaId": "10",
-"lat": 39.47625,
-"locality": "VALENCIA",
-"lon": -0.352306,
-"municipality": "Valencia",
-"postalCode": "46021",
-"province": "VALENCIA / VALÈNCIA",
-"provinceId": "46",
-"schedule": "L-D: 06:00-22:00",
-"sign": "REPSOL"
-},
 "4037": {
 "address": "CARRETERA VALENCIA-ADEMUZ KM. 73,5",
 "ccaaId": "10",
@@ -125812,6 +125812,19 @@
 "provinceId": "36",
 "schedule": "L-V: 08:00-22:00; S-D: 09:00-22:00",
 "sign": "LOIMIL GAS"
+},
+"7081": {
+"address": "CR SE-162, 21,6",
+"ccaaId": "01",
+"lat": 38.034278,
+"locality": "ALANIS",
+"lon": -5.708417,
+"municipality": "Alanís",
+"postalCode": "41380",
+"province": "SEVILLA",
+"provinceId": "41",
+"schedule": "L: 06:00-22:00",
+"sign": "REPSOL"
 },
 "7082": {
 "address": "CARRETERA 433 KM. 34,100",
