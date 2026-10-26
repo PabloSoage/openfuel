@@ -2339,19 +2339,6 @@
 "schedule": "L-D: 07:00-23:00",
 "sign": "MOEVE"
 },
-"1029": {
-"address": "AVENIDA VICENTE TRUEBA, SN",
-"ccaaId": "06",
-"lat": 43.457083,
-"locality": "SANTANDER",
-"lon": -3.856917,
-"municipality": "Santander",
-"postalCode": "39011",
-"province": "CANTABRIA",
-"provinceId": "39",
-"schedule": "L-D: 07:00-23:00",
-"sign": "GASOLINERA ALISAL"
-},
 "10290": {
 "address": "CARRETERA NACIONAL 230 KM. 64,000",
 "ccaaId": "02",
@@ -10672,19 +10659,6 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "CEPSA"
 },
-"11272": {
-"address": "CALLE ARAGON, 18",
-"ccaaId": "13",
-"lat": 40.389444,
-"locality": "MEJORADA DEL CAMPO",
-"lon": -3.481083,
-"municipality": "Mejorada del Campo",
-"postalCode": "28840",
-"province": "MADRID",
-"provinceId": "28",
-"schedule": "L: 06:00-23:00",
-"sign": "SUPER OIL"
-},
 "11273": {
 "address": "CARRETERA M-856 (ENLACE N-V Y N-501) KM. 1",
 "ccaaId": "13",
@@ -11215,7 +11189,7 @@
 "postalCode": "14740",
 "province": "CÓRDOBA",
 "provinceId": "14",
-"schedule": "L: 06:00-21:30",
+"schedule": "L-D: 06:00-21:00",
 "sign": "MOEVE"
 },
 "11337": {
@@ -14298,6 +14272,19 @@
 "provinceId": "44",
 "schedule": "L-D: 24H",
 "sign": "MOEVE"
+},
+"11675": {
+"address": "CARRETERA CASTUERA KM. 194",
+"ccaaId": "11",
+"lat": 38.112806,
+"locality": "PALLARES",
+"lon": -6.150583,
+"municipality": "Montemolín",
+"postalCode": "06907",
+"province": "BADAJOZ",
+"provinceId": "06",
+"schedule": "L-D: 24H",
+"sign": "IBERDOEX"
 },
 "11676": {
 "address": "POLIGONO INDUSTRIAL BOADILLA PARCELAS 2-3-4, S/N",
@@ -17912,6 +17899,19 @@
 "provinceId": "30",
 "schedule": "L-S: 08:00-14:00 y 15:00-21:00",
 "sign": "E.S PETROGAZ"
+},
+"12034": {
+"address": "CARRETERA 601 KM. 0,700",
+"ccaaId": "07",
+"lat": 38.780917,
+"locality": "VALDEPEÑAS",
+"lon": -3.390306,
+"municipality": "Valdepeñas",
+"postalCode": "13300",
+"province": "CIUDAD REAL",
+"provinceId": "13",
+"schedule": "L-D: 06:00-23:30",
+"sign": "CEPSA"
 },
 "12035": {
 "address": "CALLE DUBLIN, 4",
@@ -53780,19 +53780,6 @@
 "schedule": "L-D: 24H",
 "sign": "ANDALUZA DE TRANSPORTES SCA"
 },
-"15462": {
-"address": "POLIGONO INDUSTRIAL LA REDONDA S/N, S/N",
-"ccaaId": "01",
-"lat": 36.785444,
-"locality": "EJIDO (EL)",
-"lon": -2.742972,
-"municipality": "Ejido (El)",
-"postalCode": "04710",
-"province": "ALMERÍA",
-"provinceId": "04",
-"schedule": "L-S: 07:30-23:30",
-"sign": "GASOLEOS VILOMORE,S.L."
-},
 "15465": {
 "address": "CARRETERA MATAGORDA - GUARDIAS VIEJAS S/N KM. S/N",
 "ccaaId": "01",
@@ -59175,19 +59162,6 @@
 "schedule": "L-D: 24H",
 "sign": "SUMINISTROS MAZO"
 },
-"15956": {
-"address": "CALLE REAL, 103",
-"ccaaId": "07",
-"lat": 39.942639,
-"locality": "BARGAS",
-"lon": -4.028167,
-"municipality": "Bargas",
-"postalCode": "45593",
-"province": "TOLEDO",
-"provinceId": "45",
-"schedule": "L-D: 24H",
-"sign": "FAST FUEL"
-},
 "15957": {
 "address": "POLIGONO INDUSTRIAL MIRCA, S/N",
 "ccaaId": "05",
@@ -59824,6 +59798,19 @@
 "provinceId": "08",
 "schedule": "L: 24H",
 "sign": "GM OIL HOSPITALET DE LLOBREGAT"
+},
+"16004": {
+"address": "CALLE ESTURÁNS (COIA), 1",
+"ccaaId": "12",
+"lat": 42.223722,
+"locality": "ABAD",
+"lon": -8.738972,
+"municipality": "Vigo",
+"postalCode": "36330",
+"province": "PONTEVEDRA",
+"provinceId": "36",
+"schedule": "L: 24H",
+"sign": "GALEA"
 },
 "16005": {
 "address": "CALLE AVEDNIDA DE LOS LLANOS ESQUINA ESCAÑUELA, S/N",
@@ -81314,19 +81301,6 @@
 "schedule": "L-D: 24H",
 "sign": "TAMOIL"
 },
-"3024": {
-"address": "CARRETERA C-17 KM. 32,2",
-"ccaaId": "09",
-"lat": 41.709028,
-"locality": "GARRIGA (LA)",
-"lon": 2.281083,
-"municipality": "Garriga (La)",
-"postalCode": "08530",
-"province": "BARCELONA",
-"provinceId": "08",
-"schedule": "L-D: 24H",
-"sign": "BENZINERA LA GARRIGA"
-},
 "3026": {
 "address": "AVENIDA FABREGADA, 55",
 "ccaaId": "09",
@@ -88632,19 +88606,6 @@
 "provinceId": "03",
 "schedule": "L-D: 07:00-23:00",
 "sign": "GALP"
-},
-"3713": {
-"address": "Alicante, 1 - P.I. Beniata",
-"ccaaId": "10",
-"lat": 38.695083,
-"locality": "ALCOY/ALCOI",
-"lon": -0.477972,
-"municipality": "Alcoy/Alcoi",
-"postalCode": "03800",
-"province": "ALICANTE",
-"provinceId": "03",
-"schedule": "L-D: 24H",
-"sign": "GASOLINERA ALCOY"
 },
 "3714": {
 "address": "AVENIDA AVENIDA DE ALICANTE, 104",
@@ -104763,7 +104724,7 @@
 "postalCode": "13210",
 "province": "CIUDAD REAL",
 "provinceId": "13",
-"schedule": "L-S: 08:00-15:00 y 16:30-21:30; D: 08:00-16:00",
+"schedule": "L-S: 08:00-20:00; D: 08:00-16:00",
 "sign": "REPSOL"
 },
 "5221": {
@@ -111887,7 +111848,7 @@
 "postalCode": "27720",
 "province": "LUGO",
 "provinceId": "27",
-"schedule": "L-D: 07:00-23:00",
+"schedule": "L-D: 07:00-22:00",
 "sign": "REPSOL"
 },
 "5910": {
@@ -115607,6 +115568,19 @@
 "provinceId": "42",
 "schedule": "L-V: 07:00-23:00; S: 07:00-21:00; D: 08:00-22:00",
 "sign": "REPSOL"
+},
+"6273": {
+"address": "CARRETERA SA 316 KM. 0,100",
+"ccaaId": "08",
+"lat": 41.236278,
+"locality": "TRABANCA",
+"lon": -6.382778,
+"municipality": "Trabanca",
+"postalCode": "37173",
+"province": "SALAMANCA",
+"provinceId": "37",
+"schedule": "L-D: 08:00-21:00",
+"sign": "COMBUSTIBLES TRABANCA"
 },
 "6275": {
 "address": "CR N-111, 190",
@@ -127022,19 +126996,6 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "CEPSA"
 },
-"7337": {
-"address": "CARRETERA PRUNA - OLVERA KM. 1,3",
-"ccaaId": "01",
-"lat": 36.963611,
-"locality": "PRUNA",
-"lon": -5.229806,
-"municipality": "Pruna",
-"postalCode": "41670",
-"province": "SEVILLA",
-"provinceId": "41",
-"schedule": "L: 07:00-23:00",
-"sign": "CEPSA"
-},
 "7340": {
 "address": "AUTOVIA A-92 KM. 24",
 "ccaaId": "01",
@@ -133912,6 +133873,19 @@
 "schedule": "L-S: 05:30-21:30; D: 07:00-21:30",
 "sign": "REPSOL"
 },
+"8003": {
+"address": "EX_118 NAVALMORAL-GUADALUPE km 51,32",
+"ccaaId": "11",
+"lat": 39.785778,
+"locality": "BOHONAL DE IBOR",
+"lon": -5.476694,
+"municipality": "Bohonal de Ibor",
+"postalCode": "10320",
+"province": "CÁCERES",
+"provinceId": "10",
+"schedule": "L: 07:00-22:00",
+"sign": "GASOLINERA LOS IBORES"
+},
 "8004": {
 "address": "CALLE NTRA SRA DE LA BREÑA, 0,4",
 "ccaaId": "11",
@@ -137029,7 +137003,7 @@
 "postalCode": "10005",
 "province": "CÁCERES",
 "provinceId": "10",
-"schedule": "L: 06:30-23:00",
+"schedule": "L: 07:00-22:00",
 "sign": "SHELL"
 },
 "8410": {
