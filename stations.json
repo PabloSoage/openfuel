@@ -4497,6 +4497,19 @@
 "schedule": "L-D: 24H",
 "sign": "MOEVE"
 },
+"10609": {
+"address": "AVENIDA PADRE CARLOS FERRIS, 109",
+"ccaaId": "10",
+"lat": 39.392333,
+"locality": "ALBAL",
+"lon": -0.407306,
+"municipality": "Albal",
+"postalCode": "46470",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 06:30-21:30",
+"sign": "CEPSA"
+},
 "10610": {
 "address": "AUTOPISTA AP-36 (MRG.DCHO.) KM. 84",
 "ccaaId": "07",
@@ -10123,7 +10136,7 @@
 "postalCode": "06210",
 "province": "BADAJOZ",
 "provinceId": "06",
-"schedule": "L-S: 06:00-21:30; D: 10:00-15:00",
+"schedule": "L: 11:00-13:00; M-S: 06:00-21:00; D: 10:00-15:00",
 "sign": "MORENO"
 },
 "11198": {
@@ -28495,6 +28508,19 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
 },
+"1300": {
+"address": "CARRETERA N-230 KM 48,300 KM. 48,300",
+"ccaaId": "02",
+"lat": 41.978278,
+"locality": "ESTOPIÑAN",
+"lon": 0.490083,
+"municipality": "Estopiñán del Castillo",
+"postalCode": "22589",
+"province": "HUESCA",
+"provinceId": "22",
+"schedule": "X-D: 07:00-15:00",
+"sign": "MOEVE (ANTERIORMENTE CEPSA) PENDIENTE DE CANVIAR TODA LA IMAGEN"
+},
 "13000": {
 "address": "CALLE POETA LLORENTE, 202",
 "ccaaId": "10",
@@ -28884,19 +28910,6 @@
 "provinceId": "07",
 "schedule": "L-D: 24H",
 "sign": "EROSKI"
-},
-"13029": {
-"address": "CALLE SANTANDER, 50",
-"ccaaId": "09",
-"lat": 41.427806,
-"locality": "BARCELONA",
-"lon": 2.202694,
-"municipality": "Barcelona",
-"postalCode": "08020",
-"province": "BARCELONA",
-"provinceId": "08",
-"schedule": "L-D: 24H",
-"sign": "PREMIUM ENERGY LA SAGRERA"
 },
 "13032": {
 "address": "AVENIDA PICASSO, 41",
@@ -32433,19 +32446,6 @@
 "provinceId": "06",
 "schedule": "L-D: 24H",
 "sign": "E.S TENTUDIA"
-},
-"13352": {
-"address": "AVINGUDA CONSTITUCION, 11",
-"ccaaId": "09",
-"lat": 41.287389,
-"locality": "CASTELLDEFELS",
-"lon": 1.989,
-"municipality": "Castelldefels",
-"postalCode": "08860",
-"province": "BARCELONA",
-"provinceId": "08",
-"schedule": "L-D: 24H",
-"sign": "PREMIUM ENERGY CASTELLDEFELS"
 },
 "13353": {
 "address": "CAMINO DE LA VILLA, 175",
@@ -41495,19 +41495,6 @@
 "schedule": "L-D: 24H",
 "sign": "SHELL"
 },
-"14277": {
-"address": "CALLE CASTAÑEDA, S/N",
-"ccaaId": "01",
-"lat": 37.37925,
-"locality": "TOMARES",
-"lon": -6.027417,
-"municipality": "Tomares",
-"postalCode": "41940",
-"province": "SEVILLA",
-"provinceId": "41",
-"schedule": "L-D: 24H",
-"sign": "KARLAVADO.COM"
-},
 "14278": {
 "address": "CALLE ALGECIRAS, 4",
 "ccaaId": "01",
@@ -42987,19 +42974,6 @@
 "postalCode": "15270",
 "province": "CORUÑA (A)",
 "provinceId": "15",
-"schedule": "L-D: 24H",
-"sign": "LOW COST REPOST"
-},
-"14426": {
-"address": "CALLE HILARIO HERRANZ ESTABLOS, 20",
-"ccaaId": "13",
-"lat": 40.372639,
-"locality": "MADRID",
-"lon": -3.729194,
-"municipality": "Madrid",
-"postalCode": "28054",
-"province": "MADRID",
-"provinceId": "28",
 "schedule": "L-D: 24H",
 "sign": "LOW COST REPOST"
 },
@@ -48995,19 +48969,6 @@
 "provinceId": "17",
 "schedule": "L-D: 24H",
 "sign": "SEROIL ENERGY"
-},
-"14973": {
-"address": "AVENIDA CERRO DEL RUBAL, 1",
-"ccaaId": "13",
-"lat": 40.237583,
-"locality": "PARLA",
-"lon": -3.757778,
-"municipality": "Parla",
-"postalCode": "28980",
-"province": "MADRID",
-"provinceId": "28",
-"schedule": "L-D: 24H",
-"sign": "G.P.S. OIL"
 },
 "14974": {
 "address": "CALLE CERRADA-VO  EN  VILLAOBISPO-VO-, 2",
@@ -66455,19 +66416,6 @@
 "schedule": "L: 24H",
 "sign": "SCLAS ENERGETICOS"
 },
-"16515": {
-"address": "CALLE SAN ISIDRO, 35",
-"ccaaId": "11",
-"lat": 38.720917,
-"locality": "SOLANA DE LOS BARROS",
-"lon": -6.540583,
-"municipality": "Solana de los Barros",
-"postalCode": "06209",
-"province": "BADAJOZ",
-"provinceId": "06",
-"schedule": "L-D: 07:00-23:00",
-"sign": "AGROSOLA"
-},
 "16516": {
 "address": "AVENIDA JUAN CARLOS RODRIGUEZ IBARRA, 245",
 "ccaaId": "11",
@@ -70510,19 +70458,6 @@
 "provinceId": "43",
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
-},
-"2027": {
-"address": "CARRETERA C-14 KM. 141,000",
-"ccaaId": "09",
-"lat": 42.064333,
-"locality": "OLIANA",
-"lon": 1.312917,
-"municipality": "Oliana",
-"postalCode": "25790",
-"province": "LLEIDA",
-"provinceId": "25",
-"schedule": "L-S: 06:30-22:00; D: 07:30-22:00",
-"sign": "ESTACIO SERVEI OLIANA"
 },
 "2028": {
 "address": "AVINGUDA TARRAGONA, 107",
@@ -78139,7 +78074,7 @@
 "postalCode": "07458",
 "province": "BALEARS (ILLES)",
 "provinceId": "07",
-"schedule": "L-V: 06:00-22:00; S: 06:30-22:00",
+"schedule": "L-S: 06:30-21:00",
 "sign": "REPSOL"
 },
 "27": {
@@ -80546,6 +80481,19 @@
 "provinceId": "36",
 "schedule": "L-D: 24H",
 "sign": "LA PARADA - VALCARCE"
+},
+"2910": {
+"address": "AVENIDA FERROCARRIL (DEL), 1",
+"ccaaId": "13",
+"lat": 40.242639,
+"locality": "TIELMES",
+"lon": -3.319472,
+"municipality": "Tielmes",
+"postalCode": "28550",
+"province": "MADRID",
+"provinceId": "28",
+"schedule": "L-V: 06:00-23:00; S-D: 07:00-22:59",
+"sign": "TIELMES S.L."
 },
 "2911": {
 "address": "PASEO EXTREMADURA, 300",
@@ -88542,6 +88490,19 @@
 "schedule": "L-V: 07:30-21:00; S: 08:00-15:00; D: 09:30-14:30",
 "sign": "REPSOL"
 },
+"3674": {
+"address": "CR CS-800, 32,3",
+"ccaaId": "10",
+"lat": 40.342611,
+"locality": "ALBOCASSER",
+"lon": -0.006333,
+"municipality": "Albocàsser",
+"postalCode": "12140",
+"province": "CASTELLÓN / CASTELLÓ",
+"provinceId": "12",
+"schedule": "L-S: 07:00-22:00; D: 08:00-22:00",
+"sign": "REPSOL"
+},
 "3675": {
 "address": "AVENIDA DE IBI, 46",
 "ccaaId": "10",
@@ -89842,6 +89803,19 @@
 "schedule": "L-V: 06:00-22:00; S: 08:00-14:30",
 "sign": "REPSOL"
 },
+"3797": {
+"address": "CARRETERA CV-81 KM. 14,3",
+"ccaaId": "10",
+"lat": 38.761667,
+"locality": "BOCAIRENT",
+"lon": -0.612972,
+"municipality": "Bocairent",
+"postalCode": "46880",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 06:00-22:00",
+"sign": "MOEVE"
+},
 "3798": {
 "address": "AVENIDA CASTILLA, 6",
 "ccaaId": "10",
@@ -90049,6 +90023,19 @@
 "provinceId": "46",
 "schedule": "L-D: 07:00-22:00",
 "sign": "GALP"
+},
+"3821": {
+"address": "CARRETERA A7 KM. 406",
+"ccaaId": "10",
+"lat": 38.941611,
+"locality": "CANALS",
+"lon": -0.56425,
+"municipality": "Canals",
+"postalCode": "46650",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-V: 06:00-22:00; S-D: 10:00-18:00",
+"sign": "MOEVE"
 },
 "3823": {
 "address": "CALLE OLLER, 1",
@@ -91194,6 +91181,19 @@
 "schedule": "L-S: 06:00-22:00",
 "sign": "AUTOIL BENIFAIÓ"
 },
+"3923": {
+"address": "AUTOVIA N3 MADRID-VALENCIA KM. 345",
+"ccaaId": "10",
+"lat": 39.473333,
+"locality": "QUART DE POBLET",
+"lon": -0.489806,
+"municipality": "Quart de Poblet",
+"postalCode": "46930",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-V: 06:00-22:00",
+"sign": "CEPSA"
+},
 "3924": {
 "address": "AUTOVIA A-3 MADRID-VALENCIA KM. 345",
 "ccaaId": "10",
@@ -92286,6 +92286,19 @@
 "schedule": "L-D: 24H",
 "sign": "PLENERGY"
 },
+"4037": {
+"address": "CARRETERA VALENCIA-ADEMUZ KM. 73,5",
+"ccaaId": "10",
+"lat": 39.773694,
+"locality": "TUEJAR",
+"lon": -1.039528,
+"municipality": "Tuéjar",
+"postalCode": "46177",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-V: 06:30-21:30; S: 08:00-14:00",
+"sign": "CEPSA"
+},
 "4038": {
 "address": "CR VL-502  DE MIRA, 1,1",
 "ccaaId": "10",
@@ -92402,6 +92415,19 @@
 "provinceId": "37",
 "schedule": "L-D: 24H",
 "sign": "MONTE LA REINA"
+},
+"4050": {
+"address": "CARRETERA A-35 KM. 655,6",
+"ccaaId": "10",
+"lat": 39.089806,
+"locality": "ALBERIC",
+"lon": -0.537639,
+"municipality": "Alberic",
+"postalCode": "46260",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 06:00-22:00",
+"sign": "CEPSA"
 },
 "4051": {
 "address": "CARRETERA CALLE OLIVA KM. 2",
@@ -92987,6 +93013,32 @@
 "provinceId": "33",
 "schedule": "L-D: 24H",
 "sign": "PETRONOR"
+},
+"4100": {
+"address": "AUTOVIA A-3 (MRG.DCHO.) KM. 283",
+"ccaaId": "10",
+"lat": 39.523722,
+"locality": "REQUENA",
+"lon": -1.145222,
+"municipality": "Requena",
+"postalCode": "46340",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 06:00-22:00",
+"sign": "CEPSA"
+},
+"4101": {
+"address": "AUTOVIA A-3 (MRG.IZDO.) KM. 283",
+"ccaaId": "10",
+"lat": 39.5265,
+"locality": "REQUENA",
+"lon": -1.14325,
+"municipality": "Requena",
+"postalCode": "46340",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 24H",
+"sign": "MOEVE"
 },
 "4102": {
 "address": "CARRETERA N-332 KM. 204,6",
@@ -100593,19 +100645,6 @@
 "schedule": "L-D: 07:00-21:30",
 "sign": "CEPSA"
 },
-"4795": {
-"address": "CALLE ALMANSA, 2",
-"ccaaId": "07",
-"lat": 38.984139,
-"locality": "ALBACETE",
-"lon": -1.847083,
-"municipality": "Albacete",
-"postalCode": "02006",
-"province": "ALBACETE",
-"provinceId": "02",
-"schedule": "L-D: 06:00-23:00",
-"sign": "CEPSA"
-},
 "4796": {
 "address": "CARRETERA DE HELLIN KM. 42",
 "ccaaId": "07",
@@ -102880,19 +102919,6 @@
 "provinceId": "24",
 "schedule": "L-D: 07:00-22:00",
 "sign": "CEPSA"
-},
-"5015": {
-"address": "N-VI km 101,3",
-"ccaaId": "08",
-"lat": 40.876056,
-"locality": "SANCHIDRIAN",
-"lon": -4.572917,
-"municipality": "Sanchidrián",
-"postalCode": "05290",
-"province": "ÁVILA",
-"provinceId": "05",
-"schedule": "L-D: 24H",
-"sign": "REPOSTAR"
 },
 "5017": {
 "address": "CARRETERA BENAVENTE KM. 0,4",
@@ -117219,6 +117245,19 @@
 "provinceId": "34",
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
+},
+"6391": {
+"address": "CARRETERA PALENCIA-SANTANDER KM. 90",
+"ccaaId": "08",
+"lat": 42.665861,
+"locality": "ALAR DEL REY",
+"lon": -4.31525,
+"municipality": "Alar del Rey",
+"postalCode": "34480",
+"province": "PALENCIA",
+"provinceId": "34",
+"schedule": "L-D: 07:00-22:00",
+"sign": "MOEVE"
 },
 "6393": {
 "address": "CARRETERA N-VI KM. 72",
@@ -134016,19 +134055,6 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "DISA HERMIGUA"
 },
-"7948": {
-"address": "AVENIDA CORONEL GORRIN, 37",
-"ccaaId": "05",
-"lat": 28.270194,
-"locality": "TAMAIMO",
-"lon": -16.819028,
-"municipality": "Santiago del Teide",
-"postalCode": "38684",
-"province": "SANTA CRUZ DE TENERIFE",
-"provinceId": "38",
-"schedule": "L-S: 06:00-22:00; D: 07:00-22:00",
-"sign": "DISA"
-},
 "795": {
 "address": "AVDA. PONTEVEDRA, 47 (N-640 km 236,7)",
 "ccaaId": "12",
@@ -135108,19 +135134,6 @@
 "schedule": "L-D: 07:00-23:00",
 "sign": "AGLA PETROLEROS MIJAS"
 },
-"8116": {
-"address": "P.I. LORQUÍ, C/B-4",
-"ccaaId": "14",
-"lat": 38.100296,
-"locality": "LORQUI",
-"lon": -1.235303,
-"municipality": "Lorquí",
-"postalCode": "30564",
-"province": "MURCIA",
-"provinceId": "30",
-"schedule": "L-D: 06:00-22:00",
-"sign": "E.S. PAPA ALI"
-},
 "8118": {
 "address": "CTRA. SAN JAVIER km 1,3",
 "ccaaId": "14",
@@ -136069,6 +136082,19 @@
 "provinceId": "13",
 "schedule": "L-D: 07:00-22:30",
 "sign": "LIBRE"
+},
+"8265": {
+"address": "AVENIDA DEL TEXTIL, S/N",
+"ccaaId": "10",
+"lat": 38.827194,
+"locality": "ONTINYENT",
+"lon": -0.607,
+"municipality": "Ontinyent",
+"postalCode": "46870",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 06:00-22:00",
+"sign": "MOEVE"
 },
 "8266": {
 "address": "CARRETERA N-630 KM. 436,4",
