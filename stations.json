@@ -10214,7 +10214,7 @@
 "postalCode": "06210",
 "province": "BADAJOZ",
 "provinceId": "06",
-"schedule": "L: 11:00-13:00; M-S: 06:00-21:00; D: 10:00-15:00",
+"schedule": "L-S: 06:00-19:00; D: 10:00-15:00",
 "sign": "MORENO"
 },
 "11198": {
@@ -10500,7 +10500,7 @@
 "postalCode": "11620",
 "province": "CÁDIZ",
 "provinceId": "11",
-"schedule": "L-V: 06:00-21:00; S: 07:00-21:00; D: 09:00-19:00",
+"schedule": "L-V: 06:00-21:00; S: 08:00-15:00; D: 09:00-15:00",
 "sign": "ESTACION DE SERVICIOS JEDULA"
 },
 "11244": {
@@ -14543,7 +14543,7 @@
 "postalCode": "11600",
 "province": "CÁDIZ",
 "provinceId": "11",
-"schedule": "L-D: 06:30-22:30",
+"schedule": "L-D: 06:30-22:00",
 "sign": "BP"
 },
 "11690": {
@@ -23747,7 +23747,7 @@
 "postalCode": "07184",
 "province": "BALEARS (ILLES)",
 "provinceId": "07",
-"schedule": "L-V: 09:00-16:00; S: 08:30-13:30",
+"schedule": "L-V: 09:00-13:00 y 15:00-18:00; S: 08:30-13:30",
 "sign": "REPSOL BUTANO"
 },
 "12579": {
@@ -32824,19 +32824,6 @@
 "schedule": "L-D: 24H",
 "sign": "GASOELECTRIC LOW COST"
 },
-"13375": {
-"address": "AUTOVIA A-23 KM. 160",
-"ccaaId": "02",
-"lat": 40.702417,
-"locality": "VILLAFRANCA DEL CAMPO",
-"lon": -1.317556,
-"municipality": "Villafranca del Campo",
-"postalCode": "44394",
-"province": "TERUEL",
-"provinceId": "44",
-"schedule": "L-D: 24H",
-"sign": "VALCARCE"
-},
 "13376": {
 "address": "AUTOVIA A-67 KM. 116,600",
 "ccaaId": "08",
@@ -36229,19 +36216,6 @@
 "provinceId": "46",
 "schedule": "L-D: 24H",
 "sign": "BALLENOIL"
-},
-"13693": {
-"address": "CARRETERA A-139 KM. 51,4",
-"ccaaId": "02",
-"lat": 42.552167,
-"locality": "VILLANOVA",
-"lon": 0.464639,
-"municipality": "Villanova",
-"postalCode": "22467",
-"province": "HUESCA",
-"provinceId": "22",
-"schedule": "L: 07:00-22:00",
-"sign": "E.S.SIBIERRE"
 },
 "13694": {
 "address": "CARRETERA A LOS ABRIGOS KM. 4,5",
@@ -49906,19 +49880,6 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
 },
-"15034": {
-"address": "DISEMINADO EL ROBLEDO, S/N",
-"ccaaId": "11",
-"lat": 40.080528,
-"locality": "LOSAR DE LA VERA",
-"lon": -5.534944,
-"municipality": "Losar de la Vera",
-"postalCode": "10460",
-"province": "CÁCERES",
-"provinceId": "10",
-"schedule": "L-D: 24H",
-"sign": "CARBURANTES COOLOSAR"
-},
 "15035": {
 "address": "AVENIDA GASPAR AGUILAR, 96",
 "ccaaId": "10",
@@ -53831,19 +53792,6 @@
 "provinceId": "20",
 "schedule": "L-D: 08:00-22:00",
 "sign": "NEUMATICOS Y SERVICIOS BEHOBIA, S.A."
-},
-"15413": {
-"address": "CALLE CALZADA AUXILIAR BLAS INF, 1",
-"ccaaId": "01",
-"lat": 37.364,
-"locality": "MAIRENA DEL ALCOR",
-"lon": -5.757139,
-"municipality": "Mairena del Alcor",
-"postalCode": "41510",
-"province": "SEVILLA",
-"provinceId": "41",
-"schedule": "L-D: 24H",
-"sign": "A2D"
 },
 "15415": {
 "address": "CALLE ALARIFES, 3",
@@ -77099,7 +77047,7 @@
 "postalCode": "07660",
 "province": "BALEARS (ILLES)",
 "provinceId": "07",
-"schedule": "L-D: 07:30-21:00",
+"schedule": "L-S: 07:30-20:00; D: 08:00-14:00",
 "sign": "REPSOL"
 },
 "259": {
@@ -80638,19 +80586,6 @@
 "schedule": "L-D: 24H",
 "sign": "MOEVE"
 },
-"2885": {
-"address": "CARRETERA C-16 KM. 113,5",
-"ccaaId": "09",
-"lat": 42.223528,
-"locality": "GUARDIOLA DE BERGUEDA",
-"lon": 1.872722,
-"municipality": "Guardiola de Berguedà",
-"postalCode": "08694",
-"province": "BARCELONA",
-"provinceId": "08",
-"schedule": "L-D: 06:00-22:00",
-"sign": "CEPSA"
-},
 "2887": {
 "address": "AVENIDA EDUARD TOLDRA, 68",
 "ccaaId": "09",
@@ -83536,6 +83471,19 @@
 "provinceId": "28",
 "schedule": "L-D: 24H",
 "sign": "REPSOL"
+},
+"3162": {
+"address": "CR M-311, 4,9",
+"ccaaId": "13",
+"lat": 40.245167,
+"locality": "MORATA DE TAJUÑA",
+"lon": -3.480556,
+"municipality": "Morata de Tajuña",
+"postalCode": "28530",
+"province": "MADRID",
+"provinceId": "28",
+"schedule": "L-S: 06:00-22:00; D: 08:00-22:00",
+"sign": "PETRONOR"
 },
 "3163": {
 "address": "CALLE INMACULADA, 43",
@@ -99069,7 +99017,7 @@
 "postalCode": "15689",
 "province": "CORUÑA (A)",
 "provinceId": "15",
-"schedule": "L-S: 07:00-22:00; D: 08:00-22:00",
+"schedule": "L-S: 07:00-22:00; D: 08:00-16:00",
 "sign": "VALCARCE"
 },
 "4600": {
@@ -119169,6 +119117,19 @@
 "provinceId": "21",
 "schedule": "L-V: 06:00-20:00; S: 07:00-14:00",
 "sign": "CEPSA"
+},
+"6502": {
+"address": "CARRETERA COMARCAL 527 KM. 29",
+"ccaaId": "01",
+"lat": 37.948722,
+"locality": "LOPERA",
+"lon": -4.219722,
+"municipality": "Lopera",
+"postalCode": "23780",
+"province": "JAÉN",
+"provinceId": "23",
+"schedule": "L-D: 06:00-22:00",
+"sign": "E.S. LA LOPERANA"
 },
 "6503": {
 "address": "AUTOVIA A-4 KM. 259",
