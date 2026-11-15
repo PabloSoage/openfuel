@@ -25752,19 +25752,6 @@
 "schedule": "L-D: 24H",
 "sign": "BEROIL"
 },
-"12748": {
-"address": "CARRETERA EX-104 VILLANUEVA DE LA SERENA-ANDUJAR KM. 19",
-"ccaaId": "11",
-"lat": 38.871944,
-"locality": "CAMPANARIO",
-"lon": -5.628472,
-"municipality": "Campanario",
-"postalCode": "06460",
-"province": "BADAJOZ",
-"provinceId": "06",
-"schedule": "L-D: 24H",
-"sign": "LAENCINA SODAD COOP LIMITADA"
-},
 "12749": {
 "address": "CARRETERA CASALAREINA KM. 111",
 "ccaaId": "17",
@@ -29066,19 +29053,6 @@
 "provinceId": "04",
 "schedule": "L-D: 07:00-21:30",
 "sign": "SECTOROIL"
-},
-"13024": {
-"address": "CALLE VIANA, 2",
-"ccaaId": "01",
-"lat": 37.296111,
-"locality": "ESTEPA",
-"lon": -4.884,
-"municipality": "Estepa",
-"postalCode": "41560",
-"province": "SEVILLA",
-"provinceId": "41",
-"schedule": "L-D: 24H",
-"sign": "MERCAOIL ENERGY"
 },
 "13025": {
 "address": "CARRETERA N-135 KM. 41",
@@ -56717,19 +56691,6 @@
 "provinceId": "28",
 "schedule": "L-D: 24H",
 "sign": "REDEXIS"
-},
-"15709": {
-"address": "AVENIDA NUSTRA SEÑORA DE LOS DOLORES, 22",
-"ccaaId": "01",
-"lat": 37.20925,
-"locality": "MARACENA",
-"lon": -3.62725,
-"municipality": "Maracena",
-"postalCode": "18200",
-"province": "GRANADA",
-"provinceId": "18",
-"schedule": "L-D: 24H",
-"sign": "E.S. VILLASOL"
 },
 "1571": {
 "address": "CTRA. ANDORRA, S/N (C1412 km 23,42)",
@@ -99865,6 +99826,19 @@
 "schedule": "L-D: 24H",
 "sign": "MOEVE"
 },
+"4647": {
+"address": "CALLE PRIMAVERA, 94",
+"ccaaId": "13",
+"lat": 40.654778,
+"locality": "ALPEDRETE",
+"lon": -4.02225,
+"municipality": "Alpedrete",
+"postalCode": "28430",
+"province": "MADRID",
+"provinceId": "28",
+"schedule": "L-D: 06:30-22:30",
+"sign": "CEPSA"
+},
 "4648": {
 "address": "PASEO MOLINO DEL REY, 4",
 "ccaaId": "13",
@@ -106118,6 +106092,19 @@
 "schedule": "L-D: 07:00-23:00",
 "sign": "PETRONOR"
 },
+"5241": {
+"address": "CR N-322 276,5",
+"ccaaId": "07",
+"lat": 38.673111,
+"locality": "ALCARAZ",
+"lon": -2.492222,
+"municipality": "Alcaraz",
+"postalCode": "02300",
+"province": "ALBACETE",
+"provinceId": "02",
+"schedule": "L-D: 07:00-22:00",
+"sign": "REPSOL"
+},
 "5242": {
 "address": "CALLE TOLEDO, 50",
 "ccaaId": "07",
@@ -106558,19 +106545,6 @@
 "province": "GUADALAJARA",
 "provinceId": "19",
 "schedule": "L-D: 24H",
-"sign": "REPSOL"
-},
-"5281": {
-"address": "CARRETERA CM-2023 KM. 74,6",
-"ccaaId": "07",
-"lat": 40.450778,
-"locality": "PRIEGO",
-"lon": -2.316917,
-"municipality": "Priego",
-"postalCode": "16800",
-"province": "CUENCA",
-"provinceId": "16",
-"schedule": "L-D: 08:00-15:00 y 17:00-21:00",
 "sign": "REPSOL"
 },
 "5282": {
@@ -144038,19 +144012,6 @@
 "provinceId": "25",
 "schedule": "L-V: 09:00-14:00",
 "sign": "TOTAL"
-},
-"9297": {
-"address": "CTRA. TORTOSA, 5",
-"ccaaId": "09",
-"lat": 40.735972,
-"locality": "MAS DE BARBERANS",
-"lon": 0.374528,
-"municipality": "Mas de Barberans",
-"postalCode": "43514",
-"province": "TARRAGONA",
-"provinceId": "43",
-"schedule": "L-D: 24H",
-"sign": "COOP. AGRICOLA SANT ISIDRE"
 },
 "9298": {
 "address": "CALLE ALICANTE, 62",
