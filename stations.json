@@ -53063,7 +53063,7 @@
 "province": "GRANADA",
 "provinceId": "18",
 "schedule": "L: 07:00-23:00",
-"sign": "AUONETOIL"
+"sign": "AUTONETOIL"
 },
 "15270": {
 "address": "POLIGONO 2 CM DELS PARES S/N, 0",
@@ -80921,8 +80921,8 @@
 "postalCode": "08240",
 "province": "BARCELONA",
 "provinceId": "08",
-"schedule": "L-V: 06:00-22:00",
-"sign": "CEPSA"
+"schedule": "L-D: 24H",
+"sign": "BALLENOIL"
 },
 "2858": {
 "address": "CARRETERA C-55 KM. 24,9",
@@ -81730,19 +81730,6 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
 },
-"294": {
-"address": "CARRETERA C-535 KM. 55,000",
-"ccaaId": "12",
-"lat": 42.805139,
-"locality": "PORTOMARIN",
-"lon": -7.618056,
-"municipality": "Portomarín",
-"postalCode": "27170",
-"province": "LUGO",
-"provinceId": "27",
-"schedule": "L-S: 08:00-14:00 y 16:00-22:00",
-"sign": "CAMPA"
-},
 "2941": {
 "address": "CARRETERA C-13 KM. 94,5",
 "ccaaId": "09",
@@ -82546,7 +82533,7 @@
 "postalCode": "32710",
 "province": "OURENSE",
 "provinceId": "32",
-"schedule": "L: 24H",
+"schedule": "L-D: 24H",
 "sign": "J.L E HIJOS"
 },
 "3020": {
@@ -123472,19 +123459,6 @@
 "provinceId": "18",
 "schedule": "L: 07:00-23:00",
 "sign": "BP LA RIOLA"
-},
-"6845": {
-"address": "AVENIDA DE GRANADA, 50",
-"ccaaId": "01",
-"lat": 37.809028,
-"locality": "HUESCAR",
-"lon": -2.541972,
-"municipality": "Huéscar",
-"postalCode": "18830",
-"province": "GRANADA",
-"provinceId": "18",
-"schedule": "L-D: 07:00-22:00",
-"sign": "BP OIL ESPAÑA"
 },
 "6846": {
 "address": "CL CAMINO ALBOLOTE, S.N.",
