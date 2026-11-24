@@ -4406,6 +4406,19 @@
 "schedule": "L-D: 24H",
 "sign": "BALLENOIL"
 },
+"10591": {
+"address": "CARRETERA CARRETERA DEL NORTE KM. 43,60",
+"ccaaId": "05",
+"lat": 28.393083,
+"locality": "REALEJOS (LOS)",
+"lon": -16.618222,
+"municipality": "Realejos (Los)",
+"postalCode": "38419",
+"province": "SANTA CRUZ DE TENERIFE",
+"provinceId": "38",
+"schedule": "L-D: 24H",
+"sign": "ESTACION DE SERVICIOS EL MIRADOR"
+},
 "10592": {
 "address": "CARRETERA VALDEHORNILLOS, S/N KM. S/N",
 "ccaaId": "11",
@@ -10437,6 +10450,19 @@
 "provinceId": "30",
 "schedule": "L-D: 07:00-21:00",
 "sign": "BP"
+},
+"11220": {
+"address": "CARRETERA DE GORAFE km 105",
+"ccaaId": "01",
+"lat": 37.555444,
+"locality": "VILLANUEVA DE LAS TORRES",
+"lon": -3.092333,
+"municipality": "Villanueva de las Torres",
+"postalCode": "18539",
+"province": "GRANADA",
+"provinceId": "18",
+"schedule": "L-D: 08:00-20:00",
+"sign": "E.S JESMAR"
 },
 "11223": {
 "address": "CARRETERA PERALTA KM. 128",
@@ -43900,6 +43926,19 @@
 "schedule": "L-D: 24H",
 "sign": "GRUPO BARAMBIO"
 },
+"14457": {
+"address": "CALLE ISAAC PERAL, 3",
+"ccaaId": "11",
+"lat": 38.964306,
+"locality": "DON BENITO",
+"lon": -5.870111,
+"municipality": "Don Benito",
+"postalCode": "06400",
+"province": "BADAJOZ",
+"provinceId": "06",
+"schedule": "L-D: 24H",
+"sign": "DONBEX"
+},
 "14458": {
 "address": "AVENIDA LUIS MATEOS  EN  ARANDA DE DUERO, 106",
 "ccaaId": "08",
@@ -53104,6 +53143,19 @@
 "schedule": "L-D: 08:00-10:00",
 "sign": "VCC OROPESA"
 },
+"15275": {
+"address": "CARRETERA A-7203 KM. 11,2",
+"ccaaId": "01",
+"lat": 36.995861,
+"locality": "VILLANUEVA DEL ROSARIO",
+"lon": -4.376389,
+"municipality": "Villanueva del Rosario",
+"postalCode": "29312",
+"province": "MÁLAGA",
+"provinceId": "29",
+"schedule": "L-D: 06:30-22:30",
+"sign": "ADISADI VILLANUEVA DEL ROSARIO"
+},
 "15277": {
 "address": "PARATGE MAS FERREROS, S",
 "ccaaId": "09",
@@ -60539,6 +60591,19 @@
 "provinceId": "18",
 "schedule": "L-D: 24H",
 "sign": "AREA DE SERVICIO DE LA PEZA"
+},
+"15993": {
+"address": "AVENIDA DE LOS EMIGRANTES, 1",
+"ccaaId": "07",
+"lat": 38.568361,
+"locality": "PUEBLA DEL PRINCIPE",
+"lon": -2.926611,
+"municipality": "Puebla del Príncipe",
+"postalCode": "13342",
+"province": "CIUDAD REAL",
+"provinceId": "13",
+"schedule": "L-D: 24H",
+"sign": "E.S. LOGAFUELL"
 },
 "15994": {
 "address": "CARRETERA A1075 KM. 1",
@@ -78725,7 +78790,7 @@
 "province": "BALEARS (ILLES)",
 "provinceId": "07",
 "schedule": "L-S: 07:00-21:00",
-"sign": "BP MUNAR CAPO"
+"sign": "BP"
 },
 "2677": {
 "address": "CALLE MANUELA DE LOS HERREROS, 15",
@@ -89426,32 +89491,6 @@
 "schedule": "L-V: 06:00-23:00; S-D: 07:00-23:00",
 "sign": "CAMPELLO - GOTETA II"
 },
-"3666": {
-"address": "CARRETERA N-340 KM. 963,7",
-"ccaaId": "10",
-"lat": 39.897861,
-"locality": "ALQUERIAS DEL NIÑO PERDIDO",
-"lon": -0.120778,
-"municipality": "Alquerías del Niño Perdido",
-"postalCode": "12539",
-"province": "CASTELLÓN / CASTELLÓ",
-"provinceId": "12",
-"schedule": "L-V: 07:00-21:00; S-D: 08:00-20:00",
-"sign": "CEPSA"
-},
-"3667": {
-"address": "CARRETERA N-340 KM. 963,7",
-"ccaaId": "10",
-"lat": 39.897667,
-"locality": "ALQUERIAS DEL NIÑO PERDIDO",
-"lon": -0.121306,
-"municipality": "Alquerías del Niño Perdido",
-"postalCode": "12539",
-"province": "CASTELLÓN / CASTELLÓ",
-"provinceId": "12",
-"schedule": "L-V: 06:00-20:00",
-"sign": "CEPSA"
-},
 "3668": {
 "address": "CARRETERA NACIONAL 340 KM. 707,1",
 "ccaaId": "10",
@@ -93287,6 +93326,19 @@
 "schedule": "L-D: 24H",
 "sign": "FULL & GO"
 },
+"4029": {
+"address": "CL AVENIDA JORGE DE AUSTRIA, 7",
+"ccaaId": "10",
+"lat": 39.732722,
+"locality": "VILLAR DEL ARZOBISPO",
+"lon": -0.821778,
+"municipality": "Villar del Arzobispo",
+"postalCode": "46170",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-S: 06:00-22:00; D: 10:00-13:30",
+"sign": "ESTACION DE SERVICIO PORTER, S.L."
+},
 "4030": {
 "address": "CR VV-6112, 0,4",
 "ccaaId": "10",
@@ -93481,6 +93533,19 @@
 "provinceId": "46",
 "schedule": "L-D: 24H",
 "sign": "PLENERGY"
+},
+"4049": {
+"address": "CARRETERA CV-35 KM. 67,5",
+"ccaaId": "10",
+"lat": 39.749694,
+"locality": "CHELVA",
+"lon": -0.992167,
+"municipality": "Chelva",
+"postalCode": "46176",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 24H",
+"sign": "E.S.CHELVA"
 },
 "405": {
 "address": "CARRETERA CAÑIZAL PIEDRAHITA KM. 38,20",
@@ -103089,6 +103154,19 @@
 "schedule": "L-D: 07:00-23:00",
 "sign": "CEPSA"
 },
+"4919": {
+"address": "CARRETERA NACIONAL 110 KM. 335,2",
+"ccaaId": "08",
+"lat": 40.3585,
+"locality": "BARCO DE AVILA (EL)",
+"lon": -5.516528,
+"municipality": "Barco de Ávila (El)",
+"postalCode": "05600",
+"province": "ÁVILA",
+"provinceId": "05",
+"schedule": "L-D: 07:00-23:00",
+"sign": "BELLAVISTA S.L."
+},
 "492": {
 "address": "CR N-640 138,5",
 "ccaaId": "12",
@@ -106573,19 +106651,6 @@
 "schedule": "L-D: 24H",
 "sign": "REPSOL"
 },
-"5246": {
-"address": "AVENIDA DE LA CONSTITUCION, 46",
-"ccaaId": "07",
-"lat": 39.406639,
-"locality": "PEDRO MUÑOZ",
-"lon": -2.950889,
-"municipality": "Pedro Muñoz",
-"postalCode": "13620",
-"province": "CIUDAD REAL",
-"provinceId": "13",
-"schedule": "L-D: 07:00-22:00",
-"sign": "REPSOL"
-},
 "5248": {
 "address": "CARRETERA CM-412 KM. 11",
 "ccaaId": "07",
@@ -107456,6 +107521,19 @@
 "provinceId": "19",
 "schedule": "L-D: 24H",
 "sign": "AREA DE SERVICIO A2 BP CABANILLAS 365"
+},
+"5327": {
+"address": "AVENIDA REYES CATÓLICOS, 108",
+"ccaaId": "07",
+"lat": 39.272056,
+"locality": "VILLARROBLEDO",
+"lon": -2.594111,
+"municipality": "Villarrobledo",
+"postalCode": "02600",
+"province": "ALBACETE",
+"provinceId": "02",
+"schedule": "L-D: 24H",
+"sign": "BALLENOIL"
 },
 "5328": {
 "address": "CALLE FERMIN CABALLERO, 19",
@@ -112983,17 +113061,17 @@
 "sign": "CARREFOUR"
 },
 "5858": {
-"address": "CARRETERA EX205 KM. 16,800",
+"address": "CALLE EL CERCADO, 48",
 "ccaaId": "11",
-"lat": 40.214444,
+"lat": 40.214417,
 "locality": "VALVERDE DEL FRESNO",
-"lon": -6.874639,
+"lon": -6.874528,
 "municipality": "Valverde del Fresno",
 "postalCode": "10890",
 "province": "CÁCERES",
 "provinceId": "10",
 "schedule": "L: 07:00-22:00",
-"sign": "MEROIL"
+"sign": "BASADIGA"
 },
 "5859": {
 "address": "AVENIDA EXTREMADURA, 67",
@@ -113162,6 +113240,19 @@
 "province": "CÁCERES",
 "provinceId": "10",
 "schedule": "L-D: 07:00-23:00",
+"sign": "CEPSA"
+},
+"5875": {
+"address": "CARRETERA CACERES- CASAR DE CACERES KM. 8,3",
+"ccaaId": "11",
+"lat": 39.546833,
+"locality": "CASAR DE CACERES",
+"lon": -6.41175,
+"municipality": "Casar de Cáceres",
+"postalCode": "10190",
+"province": "CÁCERES",
+"provinceId": "10",
+"schedule": "L-D: 07:00-22:00",
 "sign": "CEPSA"
 },
 "5876": {
@@ -118105,7 +118196,7 @@
 "sign": "ENI"
 },
 "6350": {
-"address": "CL AVENIDA RAIMUNDO BORGOÑA, 48  I",
+"address": "AVENIDA RAIMUNDO DE BORGOÑA 42,",
 "ccaaId": "08",
 "lat": 40.978389,
 "locality": "SALAMANCA",
@@ -129154,19 +129245,6 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
 },
-"7374": {
-"address": "CARRETERA SE-700 KM. 9,200",
-"ccaaId": "01",
-"lat": 37.355361,
-"locality": "LANTEJUELA (LA)",
-"lon": -5.224639,
-"municipality": "Lantejuela (La)",
-"postalCode": "41630",
-"province": "SEVILLA",
-"provinceId": "41",
-"schedule": "L-S: 07:00-21:00",
-"sign": "REPSOL"
-},
 "7375": {
 "address": "CALLE COLON, 9",
 "ccaaId": "01",
@@ -136393,7 +136471,7 @@
 "province": "JAÉN",
 "provinceId": "23",
 "schedule": "L-D: 24H",
-"sign": "MEROIL"
+"sign": "EXPLOTACIONES JAME S.L."
 },
 "8095": {
 "address": "AVDA. 1º MAYO S/N",
@@ -146613,6 +146691,19 @@
 "schedule": "L-D: 24H",
 "sign": "AN ENERGETICOS - LERIN"
 },
+"9525": {
+"address": "CALLE GLORIETA, S/N",
+"ccaaId": "09",
+"lat": 41.182944,
+"locality": "POBLA DE MASSALUCA (LA)",
+"lon": 0.353528,
+"municipality": "Pobla de Massaluca (La)",
+"postalCode": "43783",
+"province": "TARRAGONA",
+"provinceId": "43",
+"schedule": "L-D: 24H",
+"sign": "CATERRA"
+},
 "9527": {
 "address": "CARRETERA LITOS-STA.CRISTINA KM. 23",
 "ccaaId": "08",
@@ -149810,6 +149901,19 @@
 "provinceId": "39",
 "schedule": "L: 06:00-23:00",
 "sign": "REPSOL"
+},
+"9940": {
+"address": "AVENIDA MONARES, 1",
+"ccaaId": "02",
+"lat": 41.519417,
+"locality": "CALATORAO",
+"lon": -1.350722,
+"municipality": "Calatorao",
+"postalCode": "50280",
+"province": "ZARAGOZA",
+"provinceId": "50",
+"schedule": "L-D: 24H",
+"sign": "BODEGA SANTO CRISTO"
 },
 "9941": {
 "address": "CAMINO CAMINO HONDO RONDA SUR, 1",
