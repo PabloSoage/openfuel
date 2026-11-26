@@ -1790,7 +1790,7 @@
 "postalCode": "36680",
 "province": "PONTEVEDRA",
 "provinceId": "36",
-"schedule": "L-D: 24H",
+"schedule": "L-D: 07:00-23:00",
 "sign": "BP"
 },
 "10213": {
@@ -7409,6 +7409,19 @@
 "schedule": "L-D: 06:00-00:00",
 "sign": "STAROIL"
 },
+"10919": {
+"address": "CARRETERA C-321, PJE.CAÑADA DE NAVARRO KM 000000 KM. 162",
+"ccaaId": "01",
+"lat": 37.678111,
+"locality": "VELEZ-BLANCO",
+"lon": -2.090333,
+"municipality": "Vélez-Blanco",
+"postalCode": "04830",
+"province": "ALMERÍA",
+"provinceId": "04",
+"schedule": "L-S: 07:00-23:00",
+"sign": "ANROROIL"
+},
 "1092": {
 "address": "CARRETERA E-70/N-634 KM. 270",
 "ccaaId": "06",
@@ -9657,19 +9670,6 @@
 "provinceId": "13",
 "schedule": "L-D: 06:30-22:30",
 "sign": "GALP"
-},
-"1114": {
-"address": "MALVASIA, 5",
-"ccaaId": "15",
-"lat": 42.568333,
-"locality": "ARCOS (LOS)",
-"lon": -2.191722,
-"municipality": "Arcos (Los)",
-"postalCode": "31210",
-"province": "NAVARRA",
-"provinceId": "31",
-"schedule": "L-V: 07:00-22:00; S: 10:00-14:00 y 16:00-22:00",
-"sign": "AVIA"
 },
 "11140": {
 "address": "CARRETERA N-332 KM. 52,1",
@@ -13570,6 +13570,19 @@
 "provinceId": "18",
 "schedule": "L-D: 24H",
 "sign": "COMBUSTIBLES CHT CIJUELA"
+},
+"1158": {
+"address": "CARRETERA PAMPLONA-S.SEBASTIAN KM. 15",
+"ccaaId": "15",
+"lat": 42.892,
+"locality": "SARASATE",
+"lon": -1.777806,
+"municipality": "Iza",
+"postalCode": "31892",
+"province": "NAVARRA",
+"provinceId": "31",
+"schedule": "L-D: 24H",
+"sign": "SARASATE"
 },
 "11580": {
 "address": "CALLE SEGUNDA, 9",
@@ -19980,19 +19993,6 @@
 "schedule": "L-D: 07:00-23:00",
 "sign": "DISA MUELLE GOMERA"
 },
-"12197": {
-"address": "CALLE ALFONSO XII, 20",
-"ccaaId": "13",
-"lat": 40.314472,
-"locality": "MOSTOLES",
-"lon": -3.868556,
-"municipality": "Móstoles",
-"postalCode": "28938",
-"province": "MADRID",
-"provinceId": "28",
-"schedule": "L-D: 24H",
-"sign": "BALLENOIL"
-},
 "12198": {
 "address": "CARRETERA CV 190A KM. 3,5",
 "ccaaId": "10",
@@ -20798,6 +20798,19 @@
 "provinceId": "08",
 "schedule": "L-D: 24H",
 "sign": "PETRO7 - PETROLIS INDEPENDENTS"
+},
+"12282": {
+"address": "CARRETERA CV618 KM. 1,2",
+"ccaaId": "10",
+"lat": 38.838667,
+"locality": "ATZENETA D'ALBAIDA",
+"lon": -0.496167,
+"municipality": "Atzeneta d'Albaida",
+"postalCode": "46869",
+"province": "VALENCIA / VALÈNCIA",
+"provinceId": "46",
+"schedule": "L-D: 24H",
+"sign": "INFINITY OIL"
 },
 "12283": {
 "address": "CALLE FORTUNY, S/N",
@@ -24034,6 +24047,19 @@
 "province": "PONTEVEDRA",
 "provinceId": "36",
 "schedule": "L-V: 09:00-13:30 y 15:30-18:00",
+"sign": "REPSOL BUTANO"
+},
+"12588": {
+"address": "CARRETERA DE MANRESA AL XUP KM. S/N",
+"ccaaId": "09",
+"lat": 41.7155,
+"locality": "MANRESA",
+"lon": 1.81375,
+"municipality": "Manresa",
+"postalCode": "08241",
+"province": "BARCELONA",
+"provinceId": "08",
+"schedule": "L-V: 08:00-15:00",
 "sign": "REPSOL BUTANO"
 },
 "1259": {
@@ -31394,6 +31420,19 @@
 "schedule": "L-D: 24H",
 "sign": "GRUPO TRANSLOGISTICA"
 },
+"13221": {
+"address": "AVENIDA CONSTITUCION, S/N",
+"ccaaId": "07",
+"lat": 38.608194,
+"locality": "TERRINCHES",
+"lon": -2.840083,
+"municipality": "Terrinches",
+"postalCode": "13341",
+"province": "CIUDAD REAL",
+"provinceId": "13",
+"schedule": "L-D: 24H",
+"sign": "E.S.STO.DOMINGO DE GUZMAN"
+},
 "13222": {
 "address": "CALLE JARDINERIA, 1",
 "ccaaId": "01",
@@ -32721,13 +32760,13 @@
 "sign": "SHELL"
 },
 "13332": {
-"address": "CALLE REFRADIGAS, 1",
+"address": "CALLE refradigas, 0",
 "ccaaId": "16",
-"lat": 43.349972,
-"locality": "BILBAO",
-"lon": -3.07225,
-"municipality": "Bilbao",
-"postalCode": "48001",
+"lat": 43.350167,
+"locality": "EL PUERTO",
+"lon": -3.072611,
+"municipality": "Zierbena",
+"postalCode": "48508",
 "province": "BIZKAIA",
 "provinceId": "48",
 "schedule": "L-D: 24H",
@@ -36801,19 +36840,6 @@
 "provinceId": "41",
 "schedule": "L: 06:30-22:30",
 "sign": "E.S. RODALABOTA"
-},
-"13716": {
-"address": "CARRETERA HIGUERA DE VARGAS KM. 1,3",
-"ccaaId": "11",
-"lat": 38.336056,
-"locality": "ZAHINOS",
-"lon": -6.957583,
-"municipality": "Zahínos",
-"postalCode": "06129",
-"province": "BADAJOZ",
-"provinceId": "06",
-"schedule": "L: 06:30-22:30",
-"sign": "13344"
 },
 "13717": {
 "address": "AVENIDA ENRIQUE SALGADO TORRES, 9",
@@ -67157,19 +67183,6 @@
 "schedule": "L-D: 24H",
 "sign": "BALLENOIL"
 },
-"16513": {
-"address": "CARRERA CAMINO DEL PORTASAGO, S/N",
-"ccaaId": "07",
-"lat": 40.224139,
-"locality": "CASARRUBIOS DEL MONTE",
-"lon": -4.051528,
-"municipality": "Casarrubios del Monte",
-"postalCode": "45950",
-"province": "TOLEDO",
-"provinceId": "45",
-"schedule": "L: 24H",
-"sign": "EURONOR ENERGY"
-},
 "16514": {
 "address": "CALLE BARRANCO SOTO, 2",
 "ccaaId": "02",
@@ -67728,6 +67741,19 @@
 "provinceId": "17",
 "schedule": "L-S: 08:00-21:00; D: 09:00-13:00",
 "sign": "GECKOIL SANT PONÇ"
+},
+"16562": {
+"address": "POLIGONO PARCELA 439 POLIGONO 1, 1",
+"ccaaId": "08",
+"lat": 41.359556,
+"locality": "CORRALES DEL VINO",
+"lon": -5.715583,
+"municipality": "Corrales",
+"postalCode": "49030",
+"province": "ZAMORA",
+"provinceId": "49",
+"schedule": "L-D: 06:00-22:00",
+"sign": "MOEVE"
 },
 "1657": {
 "address": "CTRA. N-II, PK km 650,7",
@@ -71795,7 +71821,7 @@
 "postalCode": "17244",
 "province": "GIRONA",
 "provinceId": "17",
-"schedule": "L-V: 06:00-22:00; S: 07:00-22:00; D: 08:00-22:00",
+"schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
 },
 "2069": {
@@ -72373,9 +72399,9 @@
 "2115": {
 "address": "AUTOVIA RM12 KM. 0",
 "ccaaId": "14",
-"lat": 0.0,
+"lat": 37.65425,
 "locality": "ALGAR (EL)",
-"lon": 0.0,
+"lon": -0.890611,
 "municipality": "Cartagena",
 "postalCode": "30366",
 "province": "MURCIA",
@@ -74293,19 +74319,6 @@
 "provinceId": "08",
 "schedule": "L-D: 06:00-22:00",
 "sign": "REPSOL"
-},
-"2293": {
-"address": "CALLE SAN FELIU, S/N",
-"ccaaId": "09",
-"lat": 42.5045,
-"locality": "BARRUERA",
-"lon": 0.80275,
-"municipality": "Vall de Boí (La)",
-"postalCode": "25527",
-"province": "LLEIDA",
-"provinceId": "25",
-"schedule": "L-D: 08:00-20:00",
-"sign": "PETRONOR"
 },
 "2294": {
 "address": "CARRETERA DE BERGA KM. S/N",
@@ -77074,6 +77087,19 @@
 "province": "GIRONA",
 "provinceId": "17",
 "schedule": "L: 07:00-21:00",
+"sign": "REPSOL"
+},
+"2534": {
+"address": "AVENIDA CORONEL ESTRADA, 136",
+"ccaaId": "09",
+"lat": 41.745944,
+"locality": "HOSTALRIC",
+"lon": 2.627472,
+"municipality": "Hostalric",
+"postalCode": "17450",
+"province": "GIRONA",
+"provinceId": "17",
+"schedule": "L-S: 06:30-21:00",
 "sign": "REPSOL"
 },
 "2535": {
@@ -86930,6 +86956,19 @@
 "schedule": "L-D: 24H",
 "sign": "MOEVE"
 },
+"3426": {
+"address": "CALLE FRANCESC NIOLAU MIRA MIRALLES, S/N",
+"ccaaId": "10",
+"lat": 38.534028,
+"locality": "XIXONA",
+"lon": -0.505083,
+"municipality": "Jijona/Xixona",
+"postalCode": "03100",
+"province": "ALICANTE",
+"provinceId": "03",
+"schedule": "L-D: 06:00-22:00",
+"sign": "CEPSA"
+},
 "3427": {
 "address": "AUTOVIA A-31 KM. 204,600",
 "ccaaId": "10",
@@ -89399,6 +89438,32 @@
 "provinceId": "03",
 "schedule": "L-V: 06:00-23:00; S-D: 07:00-23:00",
 "sign": "CAMPELLO - GOTETA II"
+},
+"3666": {
+"address": "CARRETERA N-340 KM. 963,7",
+"ccaaId": "10",
+"lat": 39.897861,
+"locality": "ALQUERIAS DEL NIÑO PERDIDO",
+"lon": -0.120778,
+"municipality": "Alquerías del Niño Perdido",
+"postalCode": "12539",
+"province": "CASTELLÓN / CASTELLÓ",
+"provinceId": "12",
+"schedule": "L-V: 07:00-21:00; S-D: 08:00-20:00",
+"sign": "CEPSA"
+},
+"3667": {
+"address": "CARRETERA N-340 KM. 963,7",
+"ccaaId": "10",
+"lat": 39.897667,
+"locality": "ALQUERIAS DEL NIÑO PERDIDO",
+"lon": -0.121306,
+"municipality": "Alquerías del Niño Perdido",
+"postalCode": "12539",
+"province": "CASTELLÓN / CASTELLÓ",
+"provinceId": "12",
+"schedule": "L-V: 06:00-20:00",
+"sign": "CEPSA"
 },
 "3668": {
 "address": "CARRETERA NACIONAL 340 KM. 707,1",
@@ -97343,19 +97408,6 @@
 "schedule": "L-D: 06:00-22:00",
 "sign": "NAVAMUEL"
 },
-"4382": {
-"address": "CARRETERA TORRIJOS A BEHOJAR KM. 53",
-"ccaaId": "07",
-"lat": 39.692639,
-"locality": "SAN MARTIN DE MONTALBAN",
-"lon": -4.38225,
-"municipality": "San Martín de Montalbán",
-"postalCode": "45165",
-"province": "TOLEDO",
-"provinceId": "45",
-"schedule": "L-D: 24H",
-"sign": "SIS CARBURANTES"
-},
 "4383": {
 "address": "AUTOVIA A-31 KM. 140",
 "ccaaId": "07",
@@ -97641,19 +97693,6 @@
 "provinceId": "45",
 "schedule": "L-D: 24H",
 "sign": "BP ALCAUDETE DE LA JARA"
-},
-"4413": {
-"address": "POLIGONO CAMPOLLANO AVENIDA -0-, 69",
-"ccaaId": "07",
-"lat": 39.021972,
-"locality": "ALBACETE",
-"lon": -1.879639,
-"municipality": "Albacete",
-"postalCode": "02007",
-"province": "ALBACETE",
-"provinceId": "02",
-"schedule": "L-V: 07:00-21:00; S-D: 09:00-14:00",
-"sign": "CSM COMBUSTIBLES"
 },
 "4414": {
 "address": "CARRETERA A CERVERA DE LOS MONTES KM. 1",
@@ -101217,19 +101256,6 @@
 "schedule": "L-S: 08:00-22:00",
 "sign": "REPSOL"
 },
-"4730": {
-"address": "CALLE BERLIN, S/N, S/N",
-"ccaaId": "13",
-"lat": 40.441222,
-"locality": "MADRID",
-"lon": -3.664333,
-"municipality": "Madrid",
-"postalCode": "28028",
-"province": "MADRID",
-"provinceId": "28",
-"schedule": "L-D: 07:00-21:30",
-"sign": "CEPSA"
-},
 "4731": {
 "address": "CALLE ARTURO SORIA, 29",
 "ccaaId": "13",
@@ -103907,19 +103933,6 @@
 "provinceId": "05",
 "schedule": "L-D: 05:00-23:00",
 "sign": "MOEVE"
-},
-"4999": {
-"address": "AVDA. DE LA PLATA, 2 (N-VIA km 383,5)",
-"ccaaId": "08",
-"lat": 42.547361,
-"locality": "PONFERRADA",
-"lon": -6.605778,
-"municipality": "Ponferrada",
-"postalCode": "24400",
-"province": "LEÓN",
-"provinceId": "24",
-"schedule": "L-V: 07:00-22:00; S: 08:00-13:00",
-"sign": "CEPSA"
 },
 "5": {
 "address": "AVENIDA GARAY, 23",
@@ -112735,6 +112748,19 @@
 "schedule": "L-D: 24H",
 "sign": "IBERDOEX"
 },
+"5836": {
+"address": "CARRETERA LA MORERA KM. 0,450",
+"ccaaId": "11",
+"lat": 38.523944,
+"locality": "PARRA (LA)",
+"lon": -6.622139,
+"municipality": "Parra (La)",
+"postalCode": "06176",
+"province": "BADAJOZ",
+"provinceId": "06",
+"schedule": "L-D: 06:00-22:00",
+"sign": "REPSOL"
+},
 "5837": {
 "address": "CTRA. NOGALES S/N",
 "ccaaId": "11",
@@ -113487,6 +113513,19 @@
 "province": "CÁCERES",
 "provinceId": "10",
 "schedule": "L-V: 09:00-20:00; S: 09:00-14:00",
+"sign": "REPSOL"
+},
+"5908": {
+"address": "CARRETERA NACIONAL 432, KM. 57 KM. 57",
+"ccaaId": "11",
+"lat": 38.517944,
+"locality": "FERIA",
+"lon": -6.533306,
+"municipality": "Feria",
+"postalCode": "06390",
+"province": "BADAJOZ",
+"provinceId": "06",
+"schedule": "L-D: 07:00-23:00",
 "sign": "REPSOL"
 },
 "5909": {
@@ -114787,6 +114826,19 @@
 "province": "LEÓN",
 "provinceId": "24",
 "schedule": "L-D: 06:45-22:45",
+"sign": "REPSOL"
+},
+"6028": {
+"address": "CR BU-619, 26,1",
+"ccaaId": "08",
+"lat": 41.781611,
+"locality": "OLMEDILLO DE ROA",
+"lon": -3.929972,
+"municipality": "Olmedillo de Roa",
+"postalCode": "09311",
+"province": "BURGOS",
+"provinceId": "09",
+"schedule": "L-V: 07:00-22:00; S: 08:00-22:00; D: 09:00-22:00",
 "sign": "REPSOL"
 },
 "6029": {
@@ -116947,6 +116999,19 @@
 "schedule": "L-D: 24H",
 "sign": "REPSOL"
 },
+"6239": {
+"address": "AVENIDA BURGOS, 34",
+"ccaaId": "08",
+"lat": 41.664139,
+"locality": "VALLADOLID",
+"lon": -4.73075,
+"municipality": "Valladolid",
+"postalCode": "47009",
+"province": "VALLADOLID",
+"provinceId": "47",
+"schedule": "L-D: 07:00-22:00",
+"sign": "BALLENOIL"
+},
 "6240": {
 "address": "AVENIDA RONDA, 11",
 "ccaaId": "08",
@@ -116957,7 +117022,7 @@
 "postalCode": "34800",
 "province": "PALENCIA",
 "provinceId": "34",
-"schedule": "L: 08:00-22:00",
+"schedule": "L-D: 07:00-22:00",
 "sign": "REPSOL"
 },
 "6241": {
@@ -117947,6 +118012,19 @@
 "provinceId": "37",
 "schedule": "L-D: 24H",
 "sign": "REPSOL"
+},
+"6335": {
+"address": "CARRETERA CTRA.SA-812 KM 27,I KM. 28",
+"ccaaId": "08",
+"lat": 41.083944,
+"locality": "VILLAFLORES",
+"lon": -5.229333,
+"municipality": "Villaflores",
+"postalCode": "37406",
+"province": "SALAMANCA",
+"provinceId": "37",
+"schedule": "L-D: 24H",
+"sign": "GASOLINERA VILLAFLORES"
 },
 "6336": {
 "address": "CARRETERA CN 620 KM. 203",
@@ -123447,6 +123525,19 @@
 "schedule": "L: 07:00-23:00",
 "sign": "BP LA RIOLA"
 },
+"6845": {
+"address": "AVENIDA DE GRANADA, 50",
+"ccaaId": "01",
+"lat": 37.809028,
+"locality": "HUESCAR",
+"lon": -2.541972,
+"municipality": "Huéscar",
+"postalCode": "18830",
+"province": "GRANADA",
+"provinceId": "18",
+"schedule": "L-D: 07:00-22:00",
+"sign": "BP OIL ESPAÑA"
+},
 "6846": {
 "address": "CL CAMINO ALBOLOTE, S.N.",
 "ccaaId": "01",
@@ -124369,6 +124460,19 @@
 "provinceId": "15",
 "schedule": "L-S: 07:00-23:00; D: 08:00-23:00",
 "sign": "GALP"
+},
+"6922": {
+"address": "CR  N-433, 86,3- ARACENA (N-433 km 86,5)",
+"ccaaId": "01",
+"lat": 37.889528,
+"locality": "ARACENA",
+"lon": -6.555917,
+"municipality": "Aracena",
+"postalCode": "21200",
+"province": "HUELVA",
+"provinceId": "21",
+"schedule": "L-D: 06:00-22:00",
+"sign": "REPSOL"
 },
 "6923": {
 "address": "CR A-315, 76",
@@ -128465,19 +128569,6 @@
 "schedule": "L-D: 24H",
 "sign": "CEPSA"
 },
-"7307": {
-"address": "CARRETERA CTRA A 431 KM. 132,5",
-"ccaaId": "01",
-"lat": 37.479389,
-"locality": "ALGABA (LA)",
-"lon": -6.007861,
-"municipality": "Algaba (La)",
-"postalCode": "41980",
-"province": "SEVILLA",
-"provinceId": "41",
-"schedule": "L: 06:00-22:00",
-"sign": "OROIL"
-},
 "7308": {
 "address": "CARRETERA A-431 KM. 133,9",
 "ccaaId": "01",
@@ -130297,6 +130388,19 @@
 "provinceId": "06",
 "schedule": "L-D: 06:00-22:00",
 "sign": "SEA"
+},
+"7488": {
+"address": "CARRETERA EX-101 KM. 4",
+"ccaaId": "11",
+"lat": 38.431972,
+"locality": "ZAFRA",
+"lon": -6.396722,
+"municipality": "Zafra",
+"postalCode": "06300",
+"province": "BADAJOZ",
+"provinceId": "06",
+"schedule": "L-D: 06:00-22:00",
+"sign": "REPSOL"
 },
 "7489": {
 "address": "CARRETERA CARRETERA N-630 KM. 678,5",
@@ -133715,7 +133819,7 @@
 "province": "PALMAS (LAS)",
 "provinceId": "35",
 "schedule": "L-D: 06:00-22:00",
-"sign": "BP ALTAVISTA"
+"sign": "H2EXAGON ALTAVISTA"
 },
 "7797": {
 "address": "CALLE DIEGO VEGA SARMIENTO, 70",
@@ -135589,6 +135693,19 @@
 "schedule": "L-V: 09:00-17:00",
 "sign": "CEPSA"
 },
+"7985": {
+"address": "CARRETERA A-317 KM. 161",
+"ccaaId": "01",
+"lat": 37.681861,
+"locality": "VELEZ-BLANCO",
+"lon": -2.095889,
+"municipality": "Vélez-Blanco",
+"postalCode": "04830",
+"province": "ALMERÍA",
+"provinceId": "04",
+"schedule": "L: 07:00-22:00",
+"sign": "ANROROIL"
+},
 "799": {
 "address": "CALLE CONSTITUCION, S/N",
 "ccaaId": "12",
@@ -136875,6 +136992,19 @@
 "provinceId": "43",
 "schedule": "L-D: 24H",
 "sign": "GM FUEL STATIONS"
+},
+"8165": {
+"address": "CARRETERA DIPUTACION KM. 2,45",
+"ccaaId": "09",
+"lat": 40.690806,
+"locality": "SANT JAUME D'ENVEJA",
+"lon": 0.721694,
+"municipality": "Sant Jaume d'Enveja",
+"postalCode": "43877",
+"province": "TARRAGONA",
+"provinceId": "43",
+"schedule": "L-D: 24H",
+"sign": "MONTSIA"
 },
 "8169": {
 "address": "AUTOVIA V-31 (PISTA DE SILLA) km 11,275",
@@ -142323,6 +142453,19 @@
 "schedule": "L-D: 24H",
 "sign": "COOPERATIVA SAN ATILANO"
 },
+"9014": {
+"address": "CARRETERA TV-3408 KM. 0,8",
+"ccaaId": "09",
+"lat": 40.703389,
+"locality": "AMPOSTA",
+"lon": 0.587722,
+"municipality": "Amposta",
+"postalCode": "43870",
+"province": "TARRAGONA",
+"provinceId": "43",
+"schedule": "L: 24H",
+"sign": "MONTSIA"
+},
 "9016": {
 "address": "CALLE EXTRAMUROS, 0",
 "ccaaId": "02",
@@ -145442,6 +145585,19 @@
 "provinceId": "11",
 "schedule": "L-D: 24H",
 "sign": "CODES"
+},
+"9408": {
+"address": "PARTIDA OLIVARETS, 0",
+"ccaaId": "02",
+"lat": 40.880194,
+"locality": "PORTELLADA (LA)",
+"lon": 0.054083,
+"municipality": "Portellada (La)",
+"postalCode": "44589",
+"province": "TERUEL",
+"provinceId": "44",
+"schedule": "L-D: 24H",
+"sign": "SERAGAS"
 },
 "9409": {
 "address": "CARRETERA C-236, KM.0,30 KM.",
