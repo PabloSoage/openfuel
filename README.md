@@ -9,6 +9,49 @@ history of the last days. Offline-first, no keys, no accounts, no trackers.
 
 > **Status:** Beta v0.2.0. Releases: [GitHub](https://github.com/PabloSoage/openfuel/releases).
 
+## Screenshots
+
+All of Spain downloaded (11,321 stations, diesel), prices of 26/11/2026.
+
+**Android app**
+
+<table>
+<tr>
+<td align="center"><img src="screenshots/app-map-spain.png" width="216" alt="Map of all of Spain"><br><sub>All of Spain: where labels collide, the cheaper station wins</sub></td>
+<td align="center"><img src="screenshots/app-map-sevilla.png" width="216" alt="Map of Sevilla"><br><sub>Sevilla: brand logos, prices coloured cheap / middle / dear</sub></td>
+<td align="center"><img src="screenshots/app-list.png" width="216" alt="List sorted by price"><br><sub>List sorted by price: the cheapest diesel in Spain</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="screenshots/app-repsol.png" width="216" alt="Repsol station sheet"><br><sub>Repsol: what the brand says about <i>Diesel e+ Neotech</i>, and what a litre is made of</sub></td>
+<td align="center"><img src="screenshots/app-repsol-plans.png" width="216" alt="Repsol discount plans and history"><br><sub>Same station: published discount plans and the last 30 days</sub></td>
+<td align="center"><img src="screenshots/app-moeve.png" width="216" alt="Moeve (Cepsa) station sheet"><br><sub>Moeve (Cepsa): claims for <i>Diésel MAX</i>, formerly <i>Óptima</i></sub></td>
+</tr>
+<tr>
+<td align="center"><img src="screenshots/app-shell.png" width="216" alt="Shell station sheet"><br><sub>Shell: <i>FuelSave</i> and <i>V-Power</i></sub></td>
+<td align="center"><img src="screenshots/app-petroprix.png" width="216" alt="Petroprix station sheet"><br><sub>Petroprix: margin over the cheapest station within 10 km</sub></td>
+<td align="center"><img src="screenshots/app-search.png" width="216" alt="Search"><br><sub>Search answers from the downloaded stations, offline</sub></td>
+</tr>
+</table>
+
+**Web version** ([pablosoage.github.io/openfuel](https://pablosoage.github.io/openfuel/))
+
+<img src="screenshots/web-spain.png" alt="Web: all of Spain">
+
+<table>
+<tr>
+<td><img src="screenshots/web-repsol.png" alt="Web: Repsol station in Sevilla"></td>
+<td><img src="screenshots/web-moeve.png" alt="Web: Moeve (Cepsa) station in Sevilla"></td>
+</tr>
+<tr>
+<td><img src="screenshots/web-shell.png" alt="Web: Shell station in Sevilla"></td>
+<td><img src="screenshots/web-petroprix.png" alt="Web: Petroprix station in Sevilla, scrolled to the breakdown and history"></td>
+</tr>
+</table>
+
+The red *could not be confirmed* line is deliberate: the schedule's period from October 2026
+onwards is not marked as confirmed yet
+([`tax-schedule.json`](core/src/main/resources/tax-schedule.json)), and the app says so.
+
 ## What it does
 
 - **Map of your region** — download one or more communities or provinces (0.2–2 MB), or
